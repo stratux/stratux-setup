@@ -39,8 +39,8 @@ wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
 unzip hostapd-2.2.rtl871xdrv.zip
 mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
 mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd-2.2.rtl871xdrv
-chmod +x !$
-ln -s !$ /usr/sbin/hostapd
+chmod +x /usr/sbin/hostapd-2.2.rtl871xdrv
+ln -s /usr/sbin/hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
 
 mkdir -p /etc/ssh/authorized_keys
 mv -f ./root /etc/ssh/authorized_keys/root
