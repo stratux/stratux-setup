@@ -35,8 +35,9 @@ apt-get install -y libtool
 
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
+rm -rf hostapd-*
 wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
-unzip hostapd-2.2.rtl871xdrv.zip
+gunzip hostapd-2.2.rtl871xdrv.zip
 mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
 mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd-2.2.rtl871xdrv
 chmod +x /usr/sbin/hostapd-2.2.rtl871xdrv
