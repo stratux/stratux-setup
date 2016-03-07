@@ -21,13 +21,16 @@ ntpd -q -g
 #disable serial console
 #sed -i boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
+apt-get install -y git
+git config --global http.sslVerify false
+
 apt-get install -y wget
 apt-get install -y screen
 apt-get install -y hostapd isc-dhcp-server
 apt-get install -y tcpdump
-apt-get install -y git cmake libusb-1.0-0.dev build-essential
+apt-get install -y cmake libusb-1.0-0.dev build-essential
 apt-get install -y mercurial
-apt-get install -y autoconf fftw3 fftw3-dev
+apt-get install -y autoconf libfftw3 libfftw3-dev
 apt-get install -y libtool
 
 mkdir -p /etc/ssh/authorized_keys
@@ -35,15 +38,15 @@ mv -f ./root /etc/ssh/authorized_keys/root
 chown root.root /etc/ssh/authorized_keys/root
 chmod 644 /etc/ssh/authorized_keys/root
 
-mv -f ./dhcpd.conf /etc/dhcp/dhcpd.conf
-mv -f ./hostapd.conf /etc/hostapd/hostapd.conf
-mv -f ./interfaces /etc/network/interfaces
-mv -f ./isc-dhcp-server /etc/default/isc-dhcp-server
-mv -f ./sshd_config /etc/ssh/sshd_config
-mv -f ./wifi_watch.sh /usr/sbin/wifi_watch.sh
+cp -f ./dhcpd.conf /etc/dhcp/dhcpd.conf
+cp -f ./hostapd.conf /etc/hostapd/hostapd.conf
+cp -f ./interfaces /etc/network/interfaces
+cp -f ./isc-dhcp-server /etc/default/isc-dhcp-server
+cp -f ./sshd_config /etc/ssh/sshd_config
+cp -f ./wifi_watch.sh /usr/sbin/wifi_watch.sh
 chmod +x /usr/sbin/wifi_watch.sh
-mv -f ./rc.local /etc/rc.local
-rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+cp -f ./rc.local /etc/rc.local
+cp -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" >/etc/default/hostapd
 
@@ -54,8 +57,6 @@ echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
 echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
 
-
-git config --global http.sslVerify false
 
 cd /root
 
