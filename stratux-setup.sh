@@ -161,3 +161,4 @@ update-rc.d ntp disable
 update-rc.d stratux enable
 
 echo "**** END STRATUX SETUP *****"
+echo "**** Don't forget to reboot! *****"
