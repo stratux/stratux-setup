@@ -27,3 +27,7 @@ Commands
   compiler. 
 
 TODO - get it working on RPi3 and ODROID-C2 
+
+
+Note, most of the contents of stratux-setup.sh was pulled from
+https://github.com/cyoung/stratux/blob/master/image/spindle/wheezy-stage4
