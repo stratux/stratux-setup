@@ -94,8 +94,8 @@ source /root/.bashrc
 #rm go1.6.src.tar.gz
 
 # make.bash skips the post build tests, all.bash doesn't
-cd go/src
-bash ./make.bash
+#cd go/src
+#bash ./make.bash
 
 
 echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
