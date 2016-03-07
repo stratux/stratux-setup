@@ -22,6 +22,8 @@ Commands
 - if you use a lite image (e.g. Raspbian Jessie Lite) 
   you'll need to increase its size
 - for RPi3, there are two parts in the stratux-setup.sh
-  file that will (most likely) need to change, there
+  file that will (most likely) need to change, the
   "RPi2 specific hostapd installation" part and the Go
   compiler. 
+
+TODO - get it working on RPi3 and ODROID-C2 
