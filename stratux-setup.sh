@@ -71,7 +71,7 @@ rm -f go1.5.3.linux-arm.tar.gz
 
 mkdir -p /root/gopath
 echo export GOROOT_BOOTSTRAP=/root/go1.5.3 >>/root/.bashrc
-echo export PATH=/root/go/bin:/root/gopath/bin:\$\{PATH\} >>/root/.bashrc
+echo export PATH=$PATH:/root/go/bin:/root/gopath/bin >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 
