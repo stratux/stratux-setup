@@ -1,23 +1,27 @@
+First cut stratux setup script to allow the use of stock/default OS image 
 
 Commands
 
     login via command line, user: pi  pwd: raspberry
-    sudo su -
-    cd /root
+    # sudo su -
+    # cd /root
     
-    apt-get update
-    apt-get upgrade
+    # apt-get update
+    # apt-get upgrade
 
-    apt-get install git
-    git config --global http.sslVerify false
+    # apt-get install git
+    # git config --global http.sslVerify false
 
-    git clone https://github.com/jpoirier/stratux-setup
-    cd stratux-setup
+    # git clone https://github.com/jpoirier/stratux-setup
+    # cd stratux-setup
 
-    screen
-    bash stratux-setup.sh
+    # bash stratux-setup.sh
 
-- 
+- quickly tested on RPi2, Raspbian Jessie Lite
 - requires an ethernet connection
-- if you use a *lite image (e.g. Raspbian Jessie Lite) 
+- if you use a lite image (e.g. Raspbian Jessie Lite) 
   you'll need to increase its size
+- for RPi3, there are two parts in the stratux-setup.sh
+  file that will (most likely) need to change, there
+  "RPi2 specific hostapd installation" part and the Go
+  compiler. 
