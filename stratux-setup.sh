@@ -44,7 +44,7 @@ chmod +x /usr/sbin/hostapd-2.2.rtl871xdrv
 ln -s /usr/sbin/hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
 
 mkdir -p /etc/ssh/authorized_keys
-mv -f ./root /etc/ssh/authorized_keys/root
+cp -f ./root /etc/ssh/authorized_keys/root
 chown root.root /etc/ssh/authorized_keys/root
 chmod 644 /etc/ssh/authorized_keys/root
 
