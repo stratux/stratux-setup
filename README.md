@@ -4,6 +4,10 @@ Commands
     login via command line, user: pi  pwd: raspberry
     sudo su -
     cd /root
+    
+    apt-get update
+    apt-get upgrade
+
     apt-get install git
     git config --global http.sslVerify false
 
@@ -13,6 +17,7 @@ Commands
     screen
     bash stratux-setup.sh
 
+- 
 - requires an ethernet connection
 - if you use a *lite image (e.g. Raspbian Jessie Lite) 
   you'll need to increase its size

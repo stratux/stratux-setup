@@ -26,12 +26,21 @@ git config --global http.sslVerify false
 
 apt-get install -y wget
 apt-get install -y screen
-apt-get install -y hostapd isc-dhcp-server
+apt-get install -y isc-dhcp-server
 apt-get install -y tcpdump
 apt-get install -y cmake libusb-1.0-0.dev build-essential
 apt-get install -y mercurial
 apt-get install -y autoconf libfftw3 libfftw3-dev
 apt-get install -y libtool
+
+# RPi2 specific hostapd binary
+echo "**** RPi2 specific hostapd installation *****"
+wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
+unzip hostapd-2.2.rtl871xdrv.zip
+mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
+mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd-2.2.rtl871xdrv
+chmod +x !$
+ln -s !$ /usr/sbin/hostapd
 
 mkdir -p /etc/ssh/authorized_keys
 mv -f ./root /etc/ssh/authorized_keys/root
@@ -46,7 +55,7 @@ cp -f ./sshd_config /etc/ssh/sshd_config
 cp -f ./wifi_watch.sh /usr/sbin/wifi_watch.sh
 chmod +x /usr/sbin/wifi_watch.sh
 cp -f ./rc.local /etc/rc.local
-cp -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" >/etc/default/hostapd
 
