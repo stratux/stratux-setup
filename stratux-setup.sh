@@ -1,0 +1,151 @@
+#!/bin/sh
+
+# Assumes you're logged in as root and the folder
+# is sitting in your root directory.
+
+# to execute the script $ bash stratux-setup.sh
+
+echo "**** STRATUX SETUP *****"
+
+ntpd -q -g
+
+#mkdir boot
+#echo "max_usb_current=1" >>boot/config.txt
+#echo "dtparam=i2c1=on" >>boot/config.txt
+#echo "dtparam=i2c1_baudrate=400000" >>boot/config.txt
+#echo "dtparam=i2c_arm_baudrate=400000" >>boot/config.txt
+#echo "arm_freq=900" >>boot/config.txt
+#echo "sdram_freq=450" >>boot/config.txt
+#echo "core_freq=450" >>boot/config.txt
+
+#disable serial console
+#sed -i boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
+
+apt-get install -y wget
+apt-get install -y screen
+apt-get install -y hostapd isc-dhcp-server
+apt-get install -y tcpdump
+apt-get install -y git cmake libusb-1.0-0.dev build-essential
+apt-get install -y mercurial
+apt-get install -y autoconf fftw3 fftw3-dev
+apt-get install -y libtool
+
+mkdir -p /etc/ssh/authorized_keys
+mv -f ./root /etc/ssh/authorized_keys/root
+chown root.root /etc/ssh/authorized_keys/root
+chmod 644 /etc/ssh/authorized_keys/root
+
+mv -f ./dhcpd.conf /etc/dhcp/dhcpd.conf
+mv -f ./hostapd.conf /etc/hostapd/hostapd.conf
+mv -f ./interfaces /etc/network/interfaces
+mv -f ./isc-dhcp-server /etc/default/isc-dhcp-server
+mv -f ./sshd_config /etc/ssh/sshd_config
+mv -f ./wifi_watch.sh /usr/sbin/wifi_watch.sh
+chmod +x /usr/sbin/wifi_watch.sh
+mv -f ./rc.local /etc/rc.local
+rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+
+echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" >/etc/default/hostapd
+
+echo blacklist dvb_usb_rtl28xxu >>/etc/modprobe.d/rtl-sdr-blacklist.conf
+echo blacklist e4000 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
+echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
+
+echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
+echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
+
+
+git config --global http.sslVerify false
+
+cd /root
+
+rm -rf go
+rm -rf go1.5.3
+
+#get and set up the Go bootstrap compiler
+wget http://dave.cheney.net/paste/go1.5.3.linux-arm.tar.gz
+tar -zxvf go1.5.3.linux-arm.tar.gz
+mv go go1.5.3
+rm -f go1.5.3.linux-arm.tar.gz
+
+mkdir -p /root/gopath
+echo export GOROOT_BOOTSTRAP=/root/go1.5.3 >>/root/.bashrc
+echo export PATH=/root/go/bin:/root/gopath/bin:\$\{PATH\} >>/root/.bashrc
+echo export GOROOT=/root/go >>/root/.bashrc
+echo export GOPATH=/root/gopath >>/root/.bashrc
+
+source /root/.bashrc
+
+# get and build the latest go compiler
+wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
+tar -zxvf go1.6.src.tar.gz
+rm go1.6.src.tar.gz
+
+# make.bash skips the post build tests, all.bash doesn't
+cd go/src
+bash ./make.bash
+
+
+echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
+echo " - RTL-SDR tools"
+
+cd /root
+
+rm -rf librtlsdr
+git clone https://github.com/jpoirier/librtlsdr
+cd librtlsdr
+mkdir build
+cd build
+cmake ../
+make
+make install
+ldconfig
+
+
+echo "*** Stratux ***"
+
+cd /root
+
+rm -rf stratux
+git clone https://github.com/cyoung/stratux --recursive
+cd stratux
+make all
+make install
+
+#i2c
+echo "i2c-bcm2708" >>/etc/modules
+echo "i2c-dev" >>/etc/modules
+
+
+##### sysctl tweaks
+echo "net.core.rmem_max = 167772160" >>/etc/sysctl.conf
+echo "net.core.rmem_default = 167772160" >>/etc/sysctl.conf
+echo "net.core.wmem_max = 167772160" >>/etc/sysctl.conf
+echo "net.core.wmem_default = 167772160" >>/etc/sysctl.conf
+
+
+##### kalibrate-rl
+cd /root
+
+git clone https://github.com/steve-m/kalibrate-rtl
+cd kalibrate-rtl
+./bootstrap
+./configure
+make
+make install
+
+##### disable serial console
+sed -i /etc/inittab -e "s|^.*:.*:respawn:.*ttyAMA0|#&|"
+
+##### Set the keyboard layout to US.
+sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
+
+
+#wifi startup
+update-rc.d hostapd enable
+update-rc.d isc-dhcp-server enable
+#disable ntpd autostart
+update-rc.d ntp disable
+update-rc.d stratux enable
+
+echo "**** END STRATUX SETUP *****"
