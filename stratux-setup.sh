@@ -90,7 +90,7 @@ rm -rf go1.5.3
 wget http://dave.cheney.net/paste/go1.5.3.linux-arm.tar.gz
 tar -zxvf go1.5.3.linux-arm.tar.gz
 rm -f go1.5.3*
-#mv go go1.5.3
+mv go go1.5.3
 
 
 mkdir -p /root/gopath
@@ -102,13 +102,13 @@ echo export GOPATH=/root/gopath >>/root/.bashrc
 source /root/.bashrc
 
 # get and build the latest go compiler
-#wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
-#tar -zxvf go1.6.src.tar.gz
-#rm go1.6.src.tar.gz
+wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
+tar -zxvf go1.6.src.tar.gz
+rm go1.6.src.tar.gz
 
 # make.bash skips the post build tests, all.bash doesn't
-#cd go/src
-#bash ./make.bash
+cd go/src
+bash ./make.bash
 
 
 echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
