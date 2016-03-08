@@ -32,6 +32,13 @@ apt-get install -y cmake libusb-1.0-0.dev build-essential
 apt-get install -y mercurial
 apt-get install -y autoconf libfftw3 libfftw3-dev
 apt-get install -y libtool
+apt-get install -y lighttpd
+
+#http server
+ln -s /var/log /var/www/logs
+echo 'dir-listing.activate = "enable"' >> /etc/lighttpd/lighttpd.conf
+echo 'server.follow-symlink = "enable"' >> /etc/lighttpd/lighttpd.conf
+update-rc.d lighttpd enable
 
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
@@ -154,6 +161,7 @@ sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
 
 
 #wifi startup
+update-rc.d lighttpd enable
 update-rc.d hostapd enable
 update-rc.d isc-dhcp-server enable
 #disable ntpd autostart
