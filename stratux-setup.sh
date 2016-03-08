@@ -136,7 +136,7 @@ fi
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export GOROOT_BOOTSTRAP=/root/go1.5.3 >>/root/.bashrc
-echo export PATH=$PATH$XPATH >>/root/.bashrc
+echo export PATH=\$PATH$XPATH >>/root/.bashrc
 
 
 source /root/.bashrc
