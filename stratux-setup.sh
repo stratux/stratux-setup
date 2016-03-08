@@ -35,13 +35,20 @@ apt-get install -y libtool
 
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
-rm -rf hostapd-*
-wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
-gunzip hostapd-2.2.rtl871xdrv.gz
 mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
-mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd-2.2.rtl871xdrv
-chmod +x /usr/sbin/hostapd-2.2.rtl871xdrv
-ln -s /usr/sbin/hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
+# rm -rf hostapd-*
+# wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
+# gunzip hostapd-2.2.rtl871xdrv.gz
+# mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd-2.2.rtl871xdrv
+# chmod +x /usr/sbin/hostapd-2.2.rtl871xdrv
+# ln -s /usr/sbin/hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
+cd ./wpa_supplicant_hostapd/hostapd
+make
+mv ./hostapd /usr/sbin/hostapd
+chmod +x /usr/sbin/hostapd
+make clean
+
+cd ../../
 
 mkdir -p /etc/ssh/authorized_keys
 cp -f ./root /etc/ssh/authorized_keys/root
