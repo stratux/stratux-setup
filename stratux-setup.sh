@@ -36,24 +36,24 @@ apt-get install -y libtool
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
 mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
-rm -rf hostapd-*
-wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
-gunzip hostapd-2.2.rtl871xdrv.gz
-mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
-chmod +x /usr/sbin/hostapd
-# ln -s /usr/sbin/hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
 
-#cd ./wpa_supplicant_hostapd/hostapd
-#make
-#if [ ! -f ./hostapd ]
-#then
-#    echo "ERROR - hostapd doesn't exist, exiting..."
-#    exit 0
-#fi
-#mv ./hostapd /usr/sbin/hostapd
+#rm -rf hostapd-*
+#wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
+#gunzip hostapd-2.2.rtl871xdrv.gz
+#mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
 #chmod +x /usr/sbin/hostapd
-#make clean
 
+# http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
+cd ./wpa_supplicant_hostapd/hostapd
+make
+if [ ! -f ./hostapd ]
+then
+   echo "ERROR - hostapd doesn't exist, exiting..."
+   exit 0
+fi
+mv ./hostapd /usr/sbin/hostapd
+chmod +x /usr/sbin/hostapd
+make clean
 cd ../../
 
 mkdir -p /etc/ssh/authorized_keys
