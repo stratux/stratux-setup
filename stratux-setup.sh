@@ -44,6 +44,11 @@ mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
 # ln -s /usr/sbin/hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
 cd ./wpa_supplicant_hostapd/hostapd
 make
+if [ ! -f ./hostapd ]
+then
+    echo "ERROR - hostapd doesn't exist, exiting..."
+    exit 0
+fi
 mv ./hostapd /usr/sbin/hostapd
 chmod +x /usr/sbin/hostapd
 make clean
