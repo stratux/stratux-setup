@@ -94,10 +94,50 @@ mv go go1.5.3
 
 
 mkdir -p /root/gopath
-echo export GOROOT_BOOTSTRAP=/root/go1.5.3 >>/root/.bashrc
-echo export PATH=$PATH:/root/go/bin:/root/gopath/bin >>/root/.bashrc
-echo export GOROOT=/root/go >>/root/.bashrc
+
+
+# if the environment variables is set in .bashrc delete it
+
+if grep -q "export GOROOT_BOOTSTRAP=" "/home/root/.bashrc";
+ then
+    line=$(grep -n 'GOROOT_BOOTSTRAP=' /home/root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /home/root/.bashrc
+fi
+
+if grep -q "export GOROOT=" "/home/root/.bashrc";
+ then
+    line=$(grep -n 'GOROOT=' /home/root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /home/root/.bashrc
+fi
+
+if grep -q "export GOPATH=" "/home/root/.bashrc";
+ then
+    line=$(grep -n 'GOPATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /home/root/.bashrc
+fi
+
+if grep -q "export PATH=" "/home/root/.bashrc";
+ then
+    line=$(grep -n 'PATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /home/root/.bashrc
+fi
+
+
+# only add new paths
+XPATH=
+if [[ ! "$PATH" =~ "/root/go/bin" ]]; then
+    XPATH+=:/root/go/bin
+fi
+
+if [[ ! "$PATH" =~ "/root/gopath/bin" ]]; then
+    XPATH+=:/root/gopath/bin
+fi
+
 echo export GOPATH=/root/gopath >>/root/.bashrc
+echo export GOROOT=/root/go >>/root/.bashrc
+echo export GOROOT_BOOTSTRAP=/root/go1.5.3 >>/root/.bashrc
+echo export PATH=$PATH$XPATH >>/root/.bashrc
+
 
 source /root/.bashrc
 
