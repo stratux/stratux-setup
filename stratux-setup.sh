@@ -3,7 +3,8 @@
 # Assumes you're logged in as root and the folder
 # is sitting in your root directory.
 
-# to execute the script $ bash stratux-setup.sh
+# to execute the script: # bash stratux-setup.sh 2.2|src|[default]
+# default hostapd is used when no option is passed
 
 echo "**** STRATUX SETUP *****"
 
