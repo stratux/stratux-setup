@@ -41,7 +41,7 @@ rm -f /usr/sbin/hostapd
 if [ "$1" == "2.2" ]; then
     echo "hostapd http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz"
     rm -rf hostapd-*
-    wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
+    #wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
     gunzip hostapd-2.2.rtl871xdrv.gz
     mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
