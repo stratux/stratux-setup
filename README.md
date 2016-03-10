@@ -13,7 +13,8 @@ Commands
     # git clone https://github.com/jpoirier/stratux-setup
     # cd stratux-setup
 
-    # bash stratux-setup.sh
+    # bash stratux-setup.sh 2.2|src|[default]
+    *the default hostapd is used when no option is passed
 
 Note, versions prior to ~March 9th, 2016, polluted PATH and
 .bashrc with redundant info and you should manually edit to
