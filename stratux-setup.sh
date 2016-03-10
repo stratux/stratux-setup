@@ -59,7 +59,6 @@ apt-get install -y libtool
 
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
-mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
 rm -f /usr/sbin/hostapd
 
 if [ "$1" == "2.2" ]; then
@@ -129,7 +128,7 @@ tar -zxvf go1.5.3.linux-arm.tar.gz
 rm -f go1.5.3*
 mv go go1.5.3
 
-
+rm -rf /root/gopath
 mkdir -p /root/gopath
 
 
@@ -229,6 +228,7 @@ echo "net.core.wmem_default = 167772160" >>/etc/sysctl.conf
 ##### kalibrate-rl
 cd /root
 
+rm -rf kalibrate-rtl
 git clone https://github.com/steve-m/kalibrate-rtl
 cd kalibrate-rtl
 ./bootstrap
