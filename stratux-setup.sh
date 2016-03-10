@@ -240,7 +240,10 @@ make
 make install
 
 ##### disable serial console
-sed -i /etc/inittab -e "s|^.*:.*:respawn:.*ttyAMA0|#&|"
+if [ -f /etc/inittab ]; then
+    sed -i /etc/inittab -e "s|^.*:.*:respawn:.*ttyAMA0|#&|"
+fi
+
 
 ##### Set the keyboard layout to US.
 sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
