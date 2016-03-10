@@ -10,17 +10,40 @@ echo "**** STRATUX SETUP *****"
 
 ntpd -q -g
 
-#mkdir boot
-#echo "max_usb_current=1" >>boot/config.txt
-#echo "dtparam=i2c1=on" >>boot/config.txt
-#echo "dtparam=i2c1_baudrate=400000" >>boot/config.txt
-#echo "dtparam=i2c_arm_baudrate=400000" >>boot/config.txt
+if grep -q "max_usb_current=1" "/boot/config.txt";
+ then
+    echo "max_usb_current=1 found in boot/config.txt"
+ else
+    echo "max_usb_current=1" >>/boot/config.txt
+fi
+
+if grep -q "dtparam=i2c1=on" "/boot/config.txt";
+ then
+    echo "dtparam=i2c1=on found in boot/config.txt"
+ else
+    echo "dtparam=i2c1=on" >>/boot/config.txt
+fi
+
+if grep -q "dtparam=i2c1_baudrate=400000" "/boot/config.txt";
+ then
+    echo "dtparam=i2c1_baudrate=400000 found in boot/config.txt"
+ else
+    echo "dtparam=i2c1_baudrate=400000" >>/boot/config.txt
+fi
+
+if grep -q "dtparam=i2c_arm_baudrate=400000" "/boot/config.txt";
+ then
+    echo "dtparam=i2c_arm_baudrate=400000 found in boot/config.txt"
+ else
+    echo "dtparam=i2c_arm_baudrate=400000" >>/boot/config.txt
+fi
+
 #echo "arm_freq=900" >>boot/config.txt
 #echo "sdram_freq=450" >>boot/config.txt
 #echo "core_freq=450" >>boot/config.txt
 
 #disable serial console
-#sed -i boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
+sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
 apt-get install -y git
 git config --global http.sslVerify false
