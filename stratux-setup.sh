@@ -72,7 +72,8 @@ elif [ "$1" == "src" ]; then
     echo "hostapd edimax source"
     # http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
     # Realtek downloads page http://152.104.125.41/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&ProdID=27...
-    cd ./wpa_supplicant_hostapd/hostapd
+    tar -xvzf wpa_supplicant_hostapd.tgz
+    cd wpa_supplicant_hostapd/hostapd
     make
 
     if [ ! -f ./hostapd ]; then
@@ -82,8 +83,9 @@ elif [ "$1" == "src" ]; then
 
     mv ./hostapd /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
-    make clean
+    # make clean
     cd ../../
+    rm -rf wpa_supplicant_hostapd/
 else
     echo "hostapd stratux default"
     unzup hostapd.zip
