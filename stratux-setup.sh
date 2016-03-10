@@ -56,6 +56,7 @@ apt-get install -y cmake libusb-1.0-0.dev build-essential
 apt-get install -y mercurial
 apt-get install -y autoconf libfftw3 libfftw3-dev
 apt-get install -y libtool
+apt-get install -y automake
 
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
