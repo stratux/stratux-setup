@@ -54,7 +54,7 @@ apt-get install -y isc-dhcp-server
 apt-get install -y tcpdump
 apt-get install -y cmake libusb-1.0-0.dev build-essential
 apt-get install -y mercurial
-apt-get install -y autoconf libfftw3 libfftw3-dev
+apt-get install -y autoconf fftw3 fftw3-dev
 apt-get install -y libtool
 apt-get install -y automake
 
