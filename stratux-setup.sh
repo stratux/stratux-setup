@@ -278,7 +278,9 @@ sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
 update-rc.d hostapd enable
 update-rc.d isc-dhcp-server enable
 #disable ntpd autostart
-update-rc.d ntp disable
+if which ntp >/dev/null; then
+    update-rc.d ntp disable
+fi
 update-rc.d stratux enable
 
 echo "**** END STRATUX SETUP *****"
