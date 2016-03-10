@@ -1,11 +1,9 @@
-First cut stratux setup script to allow the use of stock/default OS image 
-
 Commands
 
     login via command line, user: pi  pwd: raspberry
     # sudo su -
     # cd /root
-    
+
     # apt-get update
     # apt-get upgrade
 
@@ -17,17 +15,26 @@ Commands
 
     # bash stratux-setup.sh
 
+Note, versions prior to ~March 9th, 2016, polluted PATH and
+.bashrc with redundant info and you should manually edit to
+clean-up said items.
+
 - quickly tested on RPi2, Raspbian Jessie Lite
 - requires an ethernet connection
-- if you use a lite image (e.g. Raspbian Jessie Lite) 
+- if you use a lite image (e.g. Raspbian Jessie Lite)
   you'll need to increase its size
 - for RPi3, there are two parts in the stratux-setup.sh
   file that will (most likely) need to change, the
-  "RPi2 specific hostapd installation" part and the Go
-  compiler. 
+  RPi2 specific hostapd installation and the dhcp config,
+  see below.
 
-TODO - get it working on RPi3 and ODROID-C2 
+TODO - get it working on RPi3 and ODROID-C2
 
+Concerning RPi3, reddit.com/user/ldc2010 commented here
+https://www.reddit.com/r/stratux/comments/490qpk/is_raspberry_pi_3_compatible_with_stratux_image/
+pointing to the following link for driver changes
+https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostapd/
 
 Note, most of the contents of stratux-setup.sh was pulled from
 https://github.com/cyoung/stratux/blob/master/image/spindle/wheezy-stage4
+
