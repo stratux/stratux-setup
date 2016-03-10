@@ -136,31 +136,29 @@ mkdir -p /root/gopath
 
 
 # if any of the following environment variables are set in .bashrc delete them
-
-if grep -q "export GOROOT_BOOTSTRAP=" "/home/root/.bashrc";
- then
+value=$( grep -q "export GOROOT_BOOTSTRAP=" "/home/root/.bashrc" )
+if [ $value -eq 1 ]; then
     line=$(grep -n 'GOROOT_BOOTSTRAP=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 
-if grep -q "export GOROOT=" "/home/root/.bashrc";
- then
+value=$( grep -q "export GOROOT=" "/home/root/.bashrc" )
+if [ $value -eq 1 ]; then
     line=$(grep -n 'GOROOT=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 
-if grep -q "export GOPATH=" "/home/root/.bashrc";
- then
+value=$( grep -q "export GOPATH=" "/home/root/.bashrc" )
+if [ $value -eq 1 ]; then
     line=$(grep -n 'GOPATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 
-if grep -q "export PATH=" "/home/root/.bashrc";
- then
+value=$( grep -q "export PATH=" "/home/root/.bashrc" )
+if [ $value -eq 1 ]; then
     line=$(grep -n 'PATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
-
 
 # only add new paths
 XPATH=
@@ -217,11 +215,38 @@ make all
 make install
 
 #i2c
-echo "i2c-bcm2708" >>/etc/modules
-echo "i2c-dev" >>/etc/modules
+value=$( grep -q "i2c-bcm2708" "/etc/modules" )
+if [ $value -eq 0 ]; then
+    echo "i2c-bcm2708" >>/etc/modules
+fi
+
+value=$( grep -q "i2c-dev" "/etc/modules" )
+if [ $value -eq 0 ]; then
+    echo "i2c-dev" >>/etc/modules
+fi
+
 
 
 ##### sysctl tweaks
+if grep -q "net.core.rmem_max" "/etc/sysctl.conf"; then
+    line=$(grep -n 'net.core.rmem_max' /etc/sysctl.conf | awk -F':' '{print $1}')d
+    sed -i $line /etc/sysctl.conf
+fi
+
+if grep -q "net.core.rmem_default" "/etc/sysctl.conf"; then
+    line=$(grep -n 'net.core.rmem_default' /etc/sysctl.conf | awk -F':' '{print $1}')d
+    sed -i $line /etc/sysctl.conf
+fi
+
+if grep -q "net.core.wmem_max" "/etc/sysctl.conf"; then
+    line=$(grep -n 'net.core.wmem_max' /etc/sysctl.conf | awk -F':' '{print $1}')d
+    sed -i $line /etc/sysctl.conf
+fi
+
+if grep -q "net.core.wmem_default" "/etc/sysctl.conf"; then
+    line=$(grep -n 'net.core.wmem_default' /etc/sysctl.conf | awk -F':' '{print $1}')d
+    sed -i $line /etc/sysctl.conf
+fi
 echo "net.core.rmem_max = 167772160" >>/etc/sysctl.conf
 echo "net.core.rmem_default = 167772160" >>/etc/sysctl.conf
 echo "net.core.wmem_max = 167772160" >>/etc/sysctl.conf
