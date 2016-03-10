@@ -25,8 +25,7 @@ clean-up said items.
   you'll need to increase its size
 - for RPi3, there are two parts in the stratux-setup.sh
   file that will (most likely) need to change, the
-  RPi2 specific hostapd installation and the dhcp config,
-  see below.
+  RPi2 specific hostapd installation, see below.
 
 TODO - get it working on RPi3 and ODROID-C2
 
@@ -34,6 +33,8 @@ Concerning RPi3, reddit.com/user/ldc2010 commented here
 https://www.reddit.com/r/stratux/comments/490qpk/is_raspberry_pi_3_compatible_with_stratux_image/
 pointing to the following link for driver changes
 https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostapd/
+
+RPi3 uses nl80211 WiFi driver
 
 Note, most of the contents of stratux-setup.sh was pulled from
 https://github.com/cyoung/stratux/blob/master/image/spindle/wheezy-stage4
