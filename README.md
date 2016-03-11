@@ -1,4 +1,4 @@
-Tested on RPi2, Raspbian Jessie Lite (requires image resize)
+Tested on RPi2, Raspbian Jessie and Jessie Lite (requires image resize)
 
 Commands
 
@@ -27,8 +27,6 @@ Note, versions prior to ~March 9th, 2016, polluted PATH and
 clean-up said items.
 
 - requires an ethernet connection
-- if you use a lite image (e.g. Raspbian Jessie Lite)
-  you'll need to increase its size
 - for RPi3, there are two parts in the stratux-setup.sh
   file that will (most likely) need to change, the
   RPi2 specific hostapd installation, see below.
