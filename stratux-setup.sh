@@ -57,6 +57,8 @@ apt-get install -y mercurial
 apt-get install -y autoconf fftw3 fftw3-dev
 apt-get install -y libtool
 apt-get install -y automake
+# install hostapd for the side effects
+apt-get install -y hostapd
 
 # RPi2 specific hostapd binary
 echo "**** RPi2 specific hostapd installation *****"
