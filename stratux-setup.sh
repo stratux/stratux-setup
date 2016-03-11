@@ -111,14 +111,40 @@ chmod +x /usr/sbin/wifi_watch.sh
 cp -f ./rc.local /etc/rc.local
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
+
+value=$( grep -q "DAEMON_CONF=" "/etc/default/hostapd" )
+if [ $value -eq 1 ]; then
+    line=$(grep -n 'DAEMON_CONF=' etc/default/hostapd | awk -F':' '{print $1}')d
+    sed -i $line /home/root/.bashrc
+fi
 echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" >/etc/default/hostapd
 
-echo blacklist dvb_usb_rtl28xxu >>/etc/modprobe.d/rtl-sdr-blacklist.conf
-echo blacklist e4000 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
-echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 
-echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
-echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
+value=$( grep -q "blacklist dvb_usb_rtl28xxu" "/etc/modprobe.d/rtl-sdr-blacklist.conf" )
+if [ $value -eq 0 ]; then
+    echo blacklist dvb_usb_rtl28xxu >>/etc/modprobe.d/rtl-sdr-blacklist.conf
+fi
+
+value=$( grep -q "blacklist e4000" "/etc/modprobe.d/rtl-sdr-blacklist.conf" )
+if [ $value -eq 0 ]; then
+    echo blacklist e4000 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
+fi
+
+value=$( grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf" )
+if [ $value -eq 0 ]; then
+    echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
+fi
+
+value=$( grep -q "# prevent power down of wireless when idle" "/etc/modprobe.d/8192cu.conf" )
+if [ $value -eq 0 ]; then
+    echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
+fi
+
+value=$( grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf" )
+if [ $value -eq 0 ]; then
+    echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
+fi
+
 
 
 cd /root
@@ -227,7 +253,6 @@ if [ $value -eq 0 ]; then
 fi
 
 
-
 ##### sysctl tweaks
 if grep -q "net.core.rmem_max" "/etc/sysctl.conf"; then
     line=$(grep -n 'net.core.rmem_max' /etc/sysctl.conf | awk -F':' '{print $1}')d
@@ -272,7 +297,9 @@ fi
 
 
 ##### Set the keyboard layout to US.
-sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
+if [ -f /etc/default/keyboard ]; then
+    sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
+fi
 
 # allow starting services
 if [ -f /usr/sbin/policy-rc.d ]; then

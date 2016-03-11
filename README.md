@@ -21,14 +21,14 @@ Commands
 
     # bash stratux-setup.sh
 
-Note, versions prior to ~March 9th, 2016, polluted PATH and
-.bashrc with redundant info and you should manually edit to
-clean-up said items.
-
 - requires an ethernet connection
 - for RPi3, there are two parts in the stratux-setup.sh
   file that will (most likely) need to change, the
   RPi2 specific hostapd installation, see below.
+
+Note, older versions polluted files with redundant info (e.g.
+.bashrc and other files that have values echoed to them) when
+stratux-setup was run multiple times.
 
 TODO - get it working on RPi3 and ODROID-C2 and others?
 
