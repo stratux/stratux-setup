@@ -1,10 +1,9 @@
 Tested on RPi2, Raspbian Jessie Lite (requires image resize)
 
-(WiFi problems were encountered with the standard Jessie image)
-
 Commands
 
     login via command line, user: pi  pwd: raspberry
+
     # sudo su -
     # raspi-config
         select option 1 - expand filesystem
