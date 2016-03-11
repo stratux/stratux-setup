@@ -273,6 +273,8 @@ fi
 ##### Set the keyboard layout to US.
 sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
 
+# allow starting services
+rm /usr/sbin/policy-rc.d
 
 #wifi startup
 update-rc.d hostapd enable
