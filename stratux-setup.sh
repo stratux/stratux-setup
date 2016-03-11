@@ -276,7 +276,10 @@ fi
 sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
 
 # allow starting services
-rm /usr/sbin/policy-rc.d
+if [ -f /usr/sbin/policy-rc.d ]; then
+    rm /usr/sbin/policy-rc.d
+fi
+
 
 #wifi startup
 update-rc.d hostapd enable
