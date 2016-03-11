@@ -1,4 +1,4 @@
-Tested on RPi2, Raspbian Jessie and Jessie Lite (requires image resize)
+Tested on RPi2, Raspbian Jessie and *Jessie Lite (requires image resize)
 
 Commands
 
@@ -19,8 +19,7 @@ Commands
     # git clone https://github.com/jpoirier/stratux-setup
     # cd stratux-setup
 
-    # bash stratux-setup.sh 2.2|src|[default]
-        *the default hostapd is used when no option is passed
+    # bash stratux-setup.sh
 
 Note, versions prior to ~March 9th, 2016, polluted PATH and
 .bashrc with redundant info and you should manually edit to
@@ -31,7 +30,7 @@ clean-up said items.
   file that will (most likely) need to change, the
   RPi2 specific hostapd installation, see below.
 
-TODO - get it working on RPi3 and ODROID-C2
+TODO - get it working on RPi3 and ODROID-C2 and others?
 
 Concerning RPi3, reddit.com/user/ldc2010 commented here
 https://www.reddit.com/r/stratux/comments/490qpk/is_raspberry_pi_3_compatible_with_stratux_image/
