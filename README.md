@@ -1,12 +1,19 @@
+Tested on RPi2, Raspbian Jessie Lite (requires image resize)
+
+(WiFi problems were encountered with the standard Jessie image)
+
 Commands
 
     login via command line, user: pi  pwd: raspberry
     # sudo su -
-    # cd /root
+    # raspi-config
+        select option 1 - expand filesystem
 
     # apt-get update
     # apt-get upgrade
+        reboot and log back in as root
 
+    # cd /root
     # apt-get install git
     # git config --global http.sslVerify false
 
@@ -14,13 +21,12 @@ Commands
     # cd stratux-setup
 
     # bash stratux-setup.sh 2.2|src|[default]
-    *the default hostapd is used when no option is passed
+        *the default hostapd is used when no option is passed
 
 Note, versions prior to ~March 9th, 2016, polluted PATH and
 .bashrc with redundant info and you should manually edit to
 clean-up said items.
 
-- quickly tested on RPi2, Raspbian Jessie Lite
 - requires an ethernet connection
 - if you use a lite image (e.g. Raspbian Jessie Lite)
   you'll need to increase its size
@@ -40,3 +46,5 @@ RPi3 uses nl80211 WiFi driver
 Note, most of the contents of stratux-setup.sh was pulled from
 https://github.com/cyoung/stratux/blob/master/image/spindle/wheezy-stage4
 
+
+Minimal xserver installation https://www.raspberrypi.org/forums/viewtopic.php?p=890408#p890408
