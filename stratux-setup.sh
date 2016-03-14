@@ -102,7 +102,7 @@ rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 if grep -q "DAEMON_CONF=" "/etc/default/hostapd"; then
     line=$(grep -n 'DAEMON_CONF=' etc/default/hostapd | awk -F':' '{print $1}')d
-    sed -i $line /home/root/.bashrc
+    sed -i $line /root/.bashrc
 fi
 echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" >/etc/default/hostapd
 
@@ -144,24 +144,24 @@ mkdir -p /root/gopath
 
 
 # if any of the following environment variables are set in .bashrc delete them
-if grep -q "export GOROOT_BOOTSTRAP=" "/home/root/.bashrc"; then
-    line=$(grep -n 'GOROOT_BOOTSTRAP=' /home/root/.bashrc | awk -F':' '{print $1}')d
-    sed -i $line /home/root/.bashrc
+if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
+    line=$(grep -n 'GOROOT_BOOTSTRAP=' /root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /root/.bashrc
 fi
 
-if grep -q "export GOROOT=" "/home/root/.bashrc"; then
-    line=$(grep -n 'GOROOT=' /home/root/.bashrc | awk -F':' '{print $1}')d
-    sed -i $line /home/root/.bashrc
+if grep -q "export GOROOT=" "/root/.bashrc"; then
+    line=$(grep -n 'GOROOT=' root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /root/.bashrc
 fi
 
-if grep -q "export GOPATH=" "/home/root/.bashrc"; then
-    line=$(grep -n 'GOPATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
-    sed -i $line /home/root/.bashrc
+if grep -q "export GOPATH=" "/root/.bashrc"; then
+    line=$(grep -n 'GOPATH=' /root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /root/.bashrc
 fi
 
-if grep -q "export PATH=" "/home/root/.bashrc"; then
-    line=$(grep -n 'PATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
-    sed -i $line /home/root/.bashrc
+if grep -q "export PATH=" "/root/.bashrc"; then
+    line=$(grep -n 'PATH=' /root/.bashrc | awk -F':' '{print $1}')d
+    sed -i $line /root/.bashrc
 fi
 
 # only add new paths
