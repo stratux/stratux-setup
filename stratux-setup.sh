@@ -9,19 +9,19 @@ echo "**** STRATUX SETUP *****"
 
 ntpd -q -g
 
-if ! grep -q "max_usb_current=1" "/boot/config.txt";
+if ! grep -q "max_usb_current=1" "/boot/config.txt"; then
     echo "max_usb_current=1" >>/boot/config.txt
 fi
 
-if ! grep -q "dtparam=i2c1=on" "/boot/config.txt";
+if ! grep -q "dtparam=i2c1=on" "/boot/config.txt"; then
     echo "dtparam=i2c1=on" >>/boot/config.txt
 fi
 
-if ! grep -q "dtparam=i2c1_baudrate=400000" "/boot/config.txt";
+if ! grep -q "dtparam=i2c1_baudrate=400000" "/boot/config.txt"; then
     echo "dtparam=i2c1_baudrate=400000" >>/boot/config.txt
 fi
 
-if ! grep -q "dtparam=i2c_arm_baudrate=400000" "/boot/config.txt";
+if ! grep -q "dtparam=i2c_arm_baudrate=400000" "/boot/config.txt"; then
     echo "dtparam=i2c_arm_baudrate=400000" >>/boot/config.txt
 fi
 
@@ -159,7 +159,6 @@ if grep -q "export GOPATH=" "/home/root/.bashrc"; then
     sed -i $line /home/root/.bashrc
 fi
 
-value=$( grep -q "export PATH=" "/home/root/.bashrc" )
 if grep -q "export PATH=" "/home/root/.bashrc"; then
     line=$(grep -n 'PATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
@@ -220,13 +219,11 @@ make all
 make install
 
 #i2c
-value=$( grep -q "i2c-bcm2708" "/etc/modules" )
-if [ $value -eq 0 ]; then
+if ! grep -q "i2c-bcm2708" "/etc/modules"; then
     echo "i2c-bcm2708" >>/etc/modules
 fi
 
-value=$( grep -q "i2c-dev" "/etc/modules" )
-if [ $value -eq 0 ]; then
+if ! grep -q "i2c-dev" "/etc/modules"; then
     echo "i2c-dev" >>/etc/modules
 fi
 
