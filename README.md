@@ -19,12 +19,12 @@ Commands
     # git clone https://github.com/jpoirier/stratux-setup
     # cd stratux-setup
 
-    # bash stratux-setup.sh
+    # bash stratux-setup.sh [3]
+    Pass 3 as an option if running on an RPi3 to bypass
+    installing the edimax wifi specific hostapd binary
+
 
 - requires an ethernet connection
-- for RPi3, there are two parts in the stratux-setup.sh
-  file that will (most likely) need to change, the
-  RPi2 specific hostapd installation, see below.
 
 Note, older versions polluted files with redundant info (e.g.
 .bashrc and other files that have values echoed to them) when

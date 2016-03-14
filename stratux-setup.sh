@@ -3,7 +3,8 @@
 # Assumes you're logged in as root and the folder
 # is sitting in your root directory.
 
-# to execute the script: # bash stratux-setup.sh
+# to execute the script: # bash stratux-setup.sh [3]
+# pass 3 as an option if running on an RPi3
 
 echo "**** STRATUX SETUP *****"
 
@@ -47,42 +48,43 @@ apt-get install -y automake
 # install hostapd for the side effects
 apt-get install -y hostapd
 
-# RPi2 specific hostapd binary
-echo "**** RPi2 specific hostapd installation *****"
-rm -f /usr/sbin/hostapd
+if [ "$1" != "3" ]; then
+    # RPi2 specific hostapd binary
+    echo "**** RPi2 specific hostapd installation *****"
+    rm -f /usr/sbin/hostapd
 
-# if [ "$1" == "2.2" ]; then
-#     echo "hostapd http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz"
-#     rm -rf hostapd-*
-#     #wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
-#     gunzip hostapd-2.2.rtl871xdrv.gz
-#     mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
-#     chmod +x /usr/sbin/hostapd
-# elif [ "$1" == "src" ]; then
-echo "hostapd edimax source"
-# http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
-# Realtek downloads page http://152.104.125.41/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&ProdID=27...
-unzip wpa_supplicant_hostapd.zip
-cd wpa_supplicant_hostapd/hostapd
-make
+    # if [ "$1" == "2.2" ]; then
+    #     echo "hostapd http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz"
+    #     rm -rf hostapd-*
+    #     #wget http://www.juergenkeil.de/download/hostapd-2.2.rtl871xdrv.gz
+    #     gunzip hostapd-2.2.rtl871xdrv.gz
+    #     mv hostapd-2.2.rtl871xdrv /usr/sbin/hostapd
+    #     chmod +x /usr/sbin/hostapd
+    # elif [ "$1" == "src" ]; then
+    echo "hostapd edimax source"
+    # http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
+    # Realtek downloads page http://152.104.125.41/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&ProdID=27...
+    unzip wpa_supplicant_hostapd.zip
+    cd wpa_supplicant_hostapd/hostapd
+    make
 
-if [ ! -f ./hostapd ]; then
-    echo "ERROR - hostapd doesn't exist, exiting..."
-    exit 0
+    if [ ! -f ./hostapd ]; then
+        echo "ERROR - hostapd doesn't exist, exiting..."
+        exit 0
+    fi
+
+    mv ./hostapd /usr/sbin/hostapd
+    chmod +x /usr/sbin/hostapd
+    # make clean
+    cd ../../
+    rm -rf wpa_supplicant_hostapd/
+    # else
+    #     echo "hostapd stratux default"
+    #     unzup hostapd.zip
+    #     mv ./hostapd /usr/sbin/hostapd
+    #     chmod +x /usr/sbin/hostapd
+    # fi
 fi
-
-mv ./hostapd /usr/sbin/hostapd
-chmod +x /usr/sbin/hostapd
-# make clean
-cd ../../
-rm -rf wpa_supplicant_hostapd/
-# else
-#     echo "hostapd stratux default"
-#     unzup hostapd.zip
-#     mv ./hostapd /usr/sbin/hostapd
-#     chmod +x /usr/sbin/hostapd
-# fi
-
 
 mkdir -p /etc/ssh/authorized_keys
 cp -f ./root /etc/ssh/authorized_keys/root
