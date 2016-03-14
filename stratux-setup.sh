@@ -136,8 +136,8 @@ rm -rf go1.5.3
 #get and set up the Go bootstrap compiler
 wget http://dave.cheney.net/paste/go1.5.3.linux-arm.tar.gz
 tar -zxvf go1.5.3.linux-arm.tar.gz
-rm -f go1.5.3*
 mv go go1.5.3
+rm -f go1.5.3*
 
 rm -rf /root/gopath
 mkdir -p /root/gopath
