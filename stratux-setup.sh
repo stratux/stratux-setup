@@ -71,6 +71,10 @@ if [ "$1" != "3" ]; then
     cd ../../
     rm -rf wpa_supplicant_hostapd/
     cp -f ./hostapd.conf /etc/hostapd/hostapd.conf
+
+    if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
+        echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
+    fi
 else
     cp -f ./hostapdRPi3.conf /etc/hostapd/hostapd.conf
 fi
@@ -113,16 +117,11 @@ if ! grep -q "# prevent power down of wireless when idle" "/etc/modprobe.d/8192c
     echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
 fi
 
-if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
-    echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
-fi
-
-
 
 cd /root
 
 rm -rf go
-rm -rf go1.5.3*
+rm -rf gobootstrap
 
 # get and set up the Go bootstrap compiler
 wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
@@ -178,7 +177,7 @@ source /root/.bashrc
 # to compiling from source?
 wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
 tar -zxvf go1.6.src.tar.gz
-rm go1.6.src.tar.gz
+rm go1.6.src*
 
 # make.bash skips the post build tests, all.bash doesn't
 cd go/src
