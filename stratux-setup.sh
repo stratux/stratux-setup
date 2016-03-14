@@ -9,31 +9,19 @@ echo "**** STRATUX SETUP *****"
 
 ntpd -q -g
 
-if grep -q "max_usb_current=1" "/boot/config.txt";
- then
-    echo "max_usb_current=1 found in boot/config.txt"
- else
+if ! grep -q "max_usb_current=1" "/boot/config.txt";
     echo "max_usb_current=1" >>/boot/config.txt
 fi
 
-if grep -q "dtparam=i2c1=on" "/boot/config.txt";
- then
-    echo "dtparam=i2c1=on found in boot/config.txt"
- else
+if ! grep -q "dtparam=i2c1=on" "/boot/config.txt";
     echo "dtparam=i2c1=on" >>/boot/config.txt
 fi
 
-if grep -q "dtparam=i2c1_baudrate=400000" "/boot/config.txt";
- then
-    echo "dtparam=i2c1_baudrate=400000 found in boot/config.txt"
- else
+if ! grep -q "dtparam=i2c1_baudrate=400000" "/boot/config.txt";
     echo "dtparam=i2c1_baudrate=400000" >>/boot/config.txt
 fi
 
-if grep -q "dtparam=i2c_arm_baudrate=400000" "/boot/config.txt";
- then
-    echo "dtparam=i2c_arm_baudrate=400000 found in boot/config.txt"
- else
+if ! grep -q "dtparam=i2c_arm_baudrate=400000" "/boot/config.txt";
     echo "dtparam=i2c_arm_baudrate=400000" >>/boot/config.txt
 fi
 
@@ -112,36 +100,29 @@ cp -f ./rc.local /etc/rc.local
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 
-value=$( grep -q "DAEMON_CONF=" "/etc/default/hostapd" )
-if [ $value -eq 1 ]; then
+if grep -q "DAEMON_CONF=" "/etc/default/hostapd"; then
     line=$(grep -n 'DAEMON_CONF=' etc/default/hostapd | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" >/etc/default/hostapd
 
-
-value=$( grep -q "blacklist dvb_usb_rtl28xxu" "/etc/modprobe.d/rtl-sdr-blacklist.conf" )
-if [ $value -eq 0 ]; then
+if ! grep -q "blacklist dvb_usb_rtl28xxu" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist dvb_usb_rtl28xxu >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-value=$( grep -q "blacklist e4000" "/etc/modprobe.d/rtl-sdr-blacklist.conf" )
-if [ $value -eq 0 ]; then
+if ! grep -q "blacklist e4000" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist e4000 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-value=$( grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf" )
-if [ $value -eq 0 ]; then
+if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-value=$( grep -q "# prevent power down of wireless when idle" "/etc/modprobe.d/8192cu.conf" )
-if [ $value -eq 0 ]; then
+if ! grep -q "# prevent power down of wireless when idle" "/etc/modprobe.d/8192cu.conf"; then
     echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
 fi
 
-value=$( grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf" )
-if [ $value -eq 0 ]; then
+if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
     echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
 fi
 
@@ -163,26 +144,23 @@ mkdir -p /root/gopath
 
 
 # if any of the following environment variables are set in .bashrc delete them
-value=$( grep -q "export GOROOT_BOOTSTRAP=" "/home/root/.bashrc" )
-if [ $value -eq 1 ]; then
+if grep -q "export GOROOT_BOOTSTRAP=" "/home/root/.bashrc"; then
     line=$(grep -n 'GOROOT_BOOTSTRAP=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 
-value=$( grep -q "export GOROOT=" "/home/root/.bashrc" )
-if [ $value -eq 1 ]; then
+if grep -q "export GOROOT=" "/home/root/.bashrc"; then
     line=$(grep -n 'GOROOT=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 
-value=$( grep -q "export GOPATH=" "/home/root/.bashrc" )
-if [ $value -eq 1 ]; then
+if grep -q "export GOPATH=" "/home/root/.bashrc"; then
     line=$(grep -n 'GOPATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
 
 value=$( grep -q "export PATH=" "/home/root/.bashrc" )
-if [ $value -eq 1 ]; then
+if grep -q "export PATH=" "/home/root/.bashrc"; then
     line=$(grep -n 'PATH=' /home/root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /home/root/.bashrc
 fi
