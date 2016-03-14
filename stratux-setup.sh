@@ -71,7 +71,7 @@ if [ "$1" != "3" ]; then
     cd ../../
     rm -rf wpa_supplicant_hostapd/
     cp -f ./hostapd.conf /etc/hostapd/hostapd.conf
-  else
+else
     cp -f ./hostapdRPi3.conf /etc/hostapd/hostapd.conf
 fi
 
