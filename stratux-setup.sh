@@ -124,11 +124,11 @@ cd /root
 rm -rf go
 rm -rf go1.5.3*
 
-#get and set up the Go bootstrap compiler
-wget http://dave.cheney.net/paste/go1.5.3.linux-arm.tar.gz
-tar -zxvf go1.5.3.linux-arm.tar.gz
-mv go go1.5.3
-rm -f go1.5.3.linux-arm.tar.gz
+# get and set up the Go bootstrap compiler
+wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
+tar -zxvf go1.6.linux-armv6l.tar.gz
+mv go gobootstrap
+rm -f go1.6.linux-armv6l.tar.gz
 
 rm -rf /root/gopath
 mkdir -p /root/gopath
@@ -165,15 +165,17 @@ if [[ ! "$PATH" =~ "/root/gopath/bin" ]]; then
     XPATH+=:/root/gopath/bin
 fi
 
+echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
-echo export GOROOT_BOOTSTRAP=/root/go1.5.3 >>/root/.bashrc
 echo export PATH=\$PATH$XPATH >>/root/.bashrc
 
 
 source /root/.bashrc
 
 # get and build the latest go compiler
+# As far as RPi-2/3, is there any real advantage
+# to compiling from source?
 wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
 tar -zxvf go1.6.src.tar.gz
 rm go1.6.src.tar.gz
@@ -182,11 +184,15 @@ rm go1.6.src.tar.gz
 cd go/src
 bash ./make.bash
 
+cd /root
+
+rm -rf gobootstrap/
+
+
 
 echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
 echo " - RTL-SDR tools"
 
-cd /root
 
 rm -rf librtlsdr
 git clone https://github.com/jpoirier/librtlsdr
