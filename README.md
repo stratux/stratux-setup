@@ -1,5 +1,8 @@
 Tested on RPi2, Raspbian Jessie and *Jessie Lite (requires image resize)
 
+This script checkouts the revision that corresponds to the latest stratux
+release, if want to run tip comment out, e.g. git checkout v0.8r1
+
 Commands
 
     login via command line, user: pi  pwd: raspberry

@@ -211,6 +211,8 @@ cd /root
 rm -rf stratux
 git clone https://github.com/cyoung/stratux --recursive
 cd stratux
+# checkout the latest release
+git checkout v0.8r1
 make all
 make install
 
