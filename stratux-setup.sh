@@ -45,7 +45,7 @@ apt-get install -y mercurial
 apt-get install -y autoconf fftw3 fftw3-dev
 apt-get install -y libtool
 apt-get install -y automake
-# install hostapd for the side effects
+# install hostapd for side effects
 apt-get install -y hostapd
 
 if [ "$1" != "3" ]; then
@@ -65,33 +65,34 @@ if [ "$1" != "3" ]; then
         exit 0
     fi
 
+    # install the binary
     mv ./hostapd /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
-    # make clean
+
     cd ../../
     rm -rf wpa_supplicant_hostapd/
-    cp -f ./hostapd.conf /etc/hostapd/hostapd.conf
+    cp -f ./files/hostapd.conf /etc/hostapd/hostapd.conf
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
 else
-    cp -f ./hostapdRPi3.conf /etc/hostapd/hostapd.conf
+    cp -f ./files/hostapdRPi3.conf /etc/hostapd/hostapd.conf
 fi
 
 mkdir -p /etc/ssh/authorized_keys
-cp -f ./root /etc/ssh/authorized_keys/root
+cp -f ./files/root /etc/ssh/authorized_keys/root
 chown root.root /etc/ssh/authorized_keys/root
 chmod 644 /etc/ssh/authorized_keys/root
 
-cp -f ./dhcpd.conf /etc/dhcp/dhcpd.conf
+cp -f ./files/dhcpd.conf /etc/dhcp/dhcpd.conf
 
-cp -f ./interfaces /etc/network/interfaces
-cp -f ./isc-dhcp-server /etc/default/isc-dhcp-server
-cp -f ./sshd_config /etc/ssh/sshd_config
-cp -f ./wifi_watch.sh /usr/sbin/wifi_watch.sh
+cp -f ./files/interfaces /etc/network/interfaces
+cp -f ./files/isc-dhcp-server /etc/default/isc-dhcp-server
+cp -f ./files/sshd_config /etc/ssh/sshd_config
+cp -f ./files/wifi_watch.sh /usr/sbin/wifi_watch.sh
 chmod +x /usr/sbin/wifi_watch.sh
-cp -f ./rc.local /etc/rc.local
+cp -f ./files/rc.local /etc/rc.local
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 
@@ -117,22 +118,7 @@ if ! grep -q "# prevent power down of wireless when idle" "/etc/modprobe.d/8192c
     echo "# prevent power down of wireless when idle" >>/etc/modprobe.d/8192cu.conf
 fi
 
-
-cd /root
-
-rm -rf go
-rm -rf gobootstrap
-
-# get and set up the Go bootstrap compiler
-wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
-tar -zxvf go1.6.linux-armv6l.tar.gz
-mv go gobootstrap
-rm -f go1.6.linux-armv6l.tar.gz
-
-rm -rf /root/gopath
-mkdir -p /root/gopath
-
-
+# Go environment setup
 # if any of the following environment variables are set in .bashrc delete them
 if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
     line=$(grep -n 'GOROOT_BOOTSTRAP=' /root/.bashrc | awk -F':' '{print $1}')d
@@ -171,6 +157,21 @@ echo export PATH=\$PATH$XPATH >>/root/.bashrc
 
 
 source /root/.bashrc
+
+# Go compiler installation
+cd /root
+
+rm -rf go/
+rm -rf gobootstrap/
+
+# get and set up the Go bootstrap compiler
+wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
+tar -zxvf go1.6.linux-armv6l.tar.gz
+mv go gobootstrap
+rm -f go1.6.linux-armv6l.tar.gz
+
+rm -rf /root/gopath
+mkdir -p /root/gopath
 
 # get and build the latest go compiler
 # As far as RPi-2/3, is there any real advantage
