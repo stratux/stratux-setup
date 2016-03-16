@@ -48,7 +48,7 @@ apt-get install -y automake
 # install hostapd for side effects
 apt-get install -y hostapd
 
-REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2)"
+REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 if [ "$REVISION" -eq "a01041" ] || [ "$REVISION" -eq "a21041" ]; then
     # RPi2 specific hostapd binary
     echo "**** RPi2 specific hostapd installation *****"
