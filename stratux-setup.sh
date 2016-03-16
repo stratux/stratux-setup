@@ -48,7 +48,7 @@ apt-get install -y automake
 # install hostapd for side effects
 apt-get install -y hostapd
 
-REVISION=`cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}' | sed 's/^1000//'`
+REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2)"
 if [ "$REVISION" -eq "a01041" ] || [ "$REVISION" -eq "a21041" ]; then
     # RPi2 specific hostapd binary
     echo "**** RPi2 specific hostapd installation *****"
@@ -77,7 +77,7 @@ if [ "$REVISION" -eq "a01041" ] || [ "$REVISION" -eq "a21041" ]; then
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
-else if [ "$REVISION" -eq "a01041" ]; then
+elif [ "$REVISION" -eq "a01041" ]; then
     echo "**** RPi3 specific hostapd installation *****"
     cp -f ./files/hostapdRPi3.conf /etc/hostapd/hostapd.conf
 else
