@@ -22,9 +22,8 @@ Commands
     # git clone https://github.com/jpoirier/stratux-setup
     # cd stratux-setup
 
-    # bash stratux-setup.sh [3]
-    Pass 3 as an option if running on an RPi3 to bypass
-    installing the edimax wifi specific hostapd binary
+    # bash stratux-setup.sh
+      autodetects RPi2 or RPi3
 
 
 - requires an ethernet connection
@@ -35,15 +34,7 @@ stratux-setup was run multiple times.
 
 TODO - get it working on RPi3 and ODROID-C2 and others?
 
-Concerning RPi3, reddit.com/user/ldc2010 commented here
-https://www.reddit.com/r/stratux/comments/490qpk/is_raspberry_pi_3_compatible_with_stratux_image/
-pointing to the following link for driver changes
-https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostapd/
-
 RPi3 uses nl80211 WiFi driver
 
 Note, most of the contents of stratux-setup.sh was pulled from
 https://github.com/cyoung/stratux/blob/master/image/spindle/wheezy-stage4
-
-
-Minimal xserver installation https://www.raspberrypi.org/forums/viewtopic.php?p=890408#p890408

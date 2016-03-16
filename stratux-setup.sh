@@ -3,8 +3,8 @@
 # Assumes you're logged in as root and the folder
 # is sitting in your root directory.
 
-# to execute the script: # bash stratux-setup.sh [3]
-# pass 3 as an option if running on an RPi3
+# to execute the script: # bash stratux-setup.sh
+# autodetects RPi2 or RPi3
 
 echo "**** STRATUX SETUP *****"
 
@@ -48,7 +48,8 @@ apt-get install -y automake
 # install hostapd for side effects
 apt-get install -y hostapd
 
-if [ "$1" != "3" ]; then
+REVISION=`cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}' | sed 's/^1000//'`
+if [ "$REVISION" -eq "a01041" ] || [ "$REVISION" -eq "a21041" ]; then
     # RPi2 specific hostapd binary
     echo "**** RPi2 specific hostapd installation *****"
     rm -f /usr/sbin/hostapd
@@ -76,8 +77,12 @@ if [ "$1" != "3" ]; then
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
-else
+else if [ "$REVISION" -eq "a01041" ]; then
+    echo "**** RPi3 specific hostapd installation *****"
     cp -f ./files/hostapdRPi3.conf /etc/hostapd/hostapd.conf
+else
+    echo "**** Inable to identify the board using /proc/cpuinfo, exiting *****"
+    exit 0
 fi
 
 mkdir -p /etc/ssh/authorized_keys
