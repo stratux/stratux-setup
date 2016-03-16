@@ -52,7 +52,7 @@ apt-get install -y automake
 apt-get install -y hostapd
 
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
-if [ "$REVISION" == "a01041" ] || [ "$REVISION" == "a21041" ]; then
+if [ "$REVISION" == "a01041" ] || [ "$REVISION" == "a21041" || "$CIRCLECI" == true ]; then
     # RPi2 specific hostapd binary
     echo "**** RPi2 specific hostapd installation *****"
     rm -f /usr/sbin/hostapd
