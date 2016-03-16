@@ -84,7 +84,7 @@ elif [ "$REVISION" == "a01041" ]; then
     echo "**** RPi3 specific hostapd installation *****"
     cp -f ./files/hostapdRPi3.conf /etc/hostapd/hostapd.conf
 else
-    echo "**** Inable to identify the board using /proc/cpuinfo, exiting *****"
+    echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
     exit 0
 fi
 
