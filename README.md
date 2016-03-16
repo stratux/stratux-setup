@@ -23,7 +23,7 @@ Commands
     # cd stratux-setup
 
     # bash stratux-setup.sh
-      autodetects RPi2 or RPi3
+        autodetects RPi2 or RPi3
 
 
 - requires an ethernet connection

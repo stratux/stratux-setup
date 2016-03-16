@@ -6,7 +6,7 @@
 # to execute the script: # bash stratux-setup.sh
 # autodetects RPi2 or RPi3
 
-echo "**** STRATUX SETUP *****"
+echo "**** Startux Setup Starting... *****"
 
 ntpd -q -g
 
