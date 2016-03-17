@@ -159,7 +159,7 @@ case "\$1" in
 esac
 EOT
 
-chmod +x /etc/init.d/wifi_access_point
+chmod +x /etc/init.d/wifi_ap
 
 ### make sure that it is stopped on boot
 sed -i /etc/rc.local  -e '/service wifi_ap stop/ d'
