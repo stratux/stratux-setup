@@ -41,8 +41,8 @@ echo
 
 sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
-
-if [ "$REVISION" == "RPI2BxREV" ] || [ "RPI2ByREV" == "a21041" ]; then
+### Check if RPi2 with Edimax Wifi dongle
+if [ "$REVISION" == "RPI2BxREV" ] || [ "RPI2ByREV" == "a21041" ] && [ "$EW7811Un" != '' ]; then
     echo
     echo "**** RPi2 specific hostapd installation... *****"
     echo
@@ -72,12 +72,6 @@ if [ "$REVISION" == "RPI2BxREV" ] || [ "RPI2ByREV" == "a21041" ]; then
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
-elif [ "$REVISION" == "a01041" ]; then
-    echo "**** RPi3 specific hostapd installation *****"
-    cp -f ./files/hostapdRPi3.conf /etc/hostapd/hostapd.conf
-else
-    echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
-    exit 0
 fi
 
 ##############################################################

@@ -13,6 +13,11 @@ if [ $(whoami) != 'root' ]; then
     exit 0
 fi
 
+WIFIDRV=rtl871xdrv
+if [ "$EW7811Un" != '' ]; then
+    WIFIDRV=driver=rtl 
+fi
+
 ##############################################################
 ## Check if the wireless card supports Access Point mode
 ##############################################################
@@ -44,7 +49,7 @@ wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p'
 cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
 ssid=stratux
-#driver=nl80211
+$WIFIDRV
 hw_mode=g
 channel=1
 wmm_enabled=1

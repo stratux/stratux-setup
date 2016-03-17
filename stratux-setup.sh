@@ -1,5 +1,12 @@
 #!/bin/sh
 
+if [ $(whoami) != 'root' ]; then
+    echo "This script must be executed as root, exiting..."
+    exit 0
+fi
+
+cd /root
+
 set -e 
 
 outfile=setuplog
@@ -19,10 +26,7 @@ RPI2ByREV=a21041
 RPI3BxREV=a02082
 ODROIDC2=
 
-if [ $(whoami) != 'root' ]; then
-    echo "This script must be executed as root, exiting..."
-    exit 0
-fi
+EW7811Un=$(lsusb | grep EW-7811Un)
 
 echo
 echo "************************************"
@@ -189,6 +193,8 @@ echo
 echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
 echo " - RTL-SDR tools"
 
+cd /root
+
 # For RPi-2/3, is there any disadvantage to using the armv6l compiler?
 # to compiling from source?
 wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
@@ -208,6 +214,8 @@ rm -rf gobootstrap/
 echo
 echo "**** RTL-SDR library build... *****"
 echo
+
+cd /root
 
 rm -rf librtlsdr
 git clone https://github.com/jpoirier/librtlsdr
