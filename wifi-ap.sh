@@ -21,12 +21,12 @@ fi
 ##############################################################
 ## Check if the wireless card supports Access Point mode
 ##############################################################
-supports_access_point=$(iw list | sed -n -e '/* AP$/p')
-if [ "$supports_access_point" = '' ]; then
-    echo "AP is not supported by the driver of the wireless card."
-    echo "This script does not work for this driver."
-    exit 0
-fi
+#supports_access_point=$(iw list | sed -n -e '/* AP$/p')
+#if [ "$supports_access_point" = '' ]; then
+#    echo "AP is not supported by the driver of the wireless card."
+#    echo "This script does not work for this driver."
+#    exit 0
+#fi
 
 ##############################################################
 ##  Setup the access point
@@ -43,6 +43,11 @@ rfkill unblock wifi
 
 # what wifi interface, e.g. wlan0, wlan1...
 wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
+#wifi_interface=wlano
+
+echo
+echo "**** Configuring $wifi_interface interface... *****"
+echo
 
 # TODO: check for edimax dongle
 #### set /etc/hostapd/hostapd.conf

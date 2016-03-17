@@ -5,19 +5,21 @@ if [ $(whoami) != 'root' ]; then
     exit 0
 fi
 
+SCRIPTDIR=$PWD
+
 cd /root
 
-set -e 
+#set -e 
 
-outfile=setuplog
-rm -f $outfile
+#outfile=setuplog
+#rm -f $outfile
 
 #exec > >(cat >> $outfile)
 #exec 2> >(cat >> $outfile)
 
 #### stdout and stderr to log file
-exec > >(tee -a $outfile >&1)
-exec 2> >(tee -a $outfile >&2)
+#exec > >(tee -a $outfile >&1)
+#exec 2> >(tee -a $outfile >&2)
 
 # execute the script: bash stratux-setup.sh
 
@@ -30,7 +32,7 @@ EW7811Un=$(lsusb | grep EW-7811Un)
 
 echo
 echo "************************************"
-echo "**** Startux Setup Starting... *****"
+echo "**** Stratux Setup Starting... *****"
 echo "************************************"
 echo 
 
@@ -42,10 +44,12 @@ ntpd -q -g
 echo
 echo "**** Installing dependencies... *****"
 echo
+
 apt-get install -y git
 git config --global http.sslVerify false
 
 apt-get install -y iw
+apt-get install -y lshw
 apt-get install -y wget
 apt-get install -y screen
 apt-get install -y isc-dhcp-server
@@ -66,7 +70,11 @@ apt-get install -y hostapd
 ##############################################################
 apt-get i
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
-if [ "$REVISION" == "RPI2BxREV" ] || [ "$REVISION" == "RPI2ByREV" ]  || [ "$REVISION" == "RPI3BxREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ]; thenecho
+    echo
+    echo "**** Raspberry Pi detected... *****"
+    echo
+
     source ./rpi.sh
 elif [ "$REVISION" == "ODROIDC2" ]; then
     source ./odroid.sh
@@ -87,12 +95,12 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 cp -n /etc/ssh/authorized_keys/root{,.bak}
-cp -f ./files/root /etc/ssh/authorized_keys/root
+cp -f $SCRIPTDIR/files/root /etc/ssh/authorized_keys/root
 chown root.root /etc/ssh/authorized_keys/root
 chmod 644 /etc/ssh/authorized_keys/root
 
 cp -n /etc/ssh/sshd_config{,.bak}
-cp -f ./files/sshd_config /etc/ssh/sshd_config
+cp -f $SCRIPTDIR/files/sshd_config /etc/ssh/sshd_config
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 
@@ -133,7 +141,7 @@ if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
 fi
 
 if grep -q "export GOROOT=" "/root/.bashrc"; then
-    line=$(grep -n 'GOROOT=' root/.bashrc | awk -F':' '{print $1}')d
+    line=$(grep -n 'GOROOT=' /root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /root/.bashrc
 fi
 
@@ -194,19 +202,19 @@ echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
 echo " - RTL-SDR tools"
 
 cd /root
-
-# For RPi-2/3, is there any disadvantage to using the armv6l compiler?
-# to compiling from source?
-wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
-tar -zxvf go1.6.src.tar.gz
-rm go1.6.src*
+mv gobootstrap go
+#### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
+#### to compiling from source?
+#wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
+#tar -zxvf go1.6.src.tar.gz
+#rm go1.6.src*
 
 # make.bash to skip the post build tests
-cd go/src
-bash ./make.bash
+#cd go/src
+#bash ./make.bash
 
-cd /root
-rm -rf gobootstrap/
+#cd /root
+#rm -rf gobootstrap/
 
 ##############################################################
 ##  RTL-SDR tools build
@@ -246,10 +254,10 @@ make install
 
 
 ##############################################################
-##  Kalibrate build and insttallation build
+##  Kalibrate build and installation build
 ##############################################################
 echo
-echo "**** Stratux build and installation... *****"
+echo "**** Kalibrate build and installation build... *****"
 echo
 
 cd /root
@@ -291,7 +299,7 @@ echo
 echo "**** WiFi Access Point setup... *****"
 echo
 
-souurce ./wifi-ap.sh
+source /$SCRIPTDIR/wifi-ap.sh
 
 #### disable ntpd autostart
 if which ntp >/dev/null; then
