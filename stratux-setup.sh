@@ -64,6 +64,7 @@ apt-get install -y fftw3-dev
 apt-get install -y libtool
 apt-get install -y automake
 apt-get install -y hostapd
+apt-get install -y rfkill
 
 ##############################################################
 ##  Platform and hardware specific items
@@ -80,7 +81,7 @@ else
     echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
     exit 0
 fi
-exit 0
+
 ##############################################################
 ##  SSH steup and config
 ##############################################################

@@ -13,9 +13,14 @@ if [ $(whoami) != 'root' ]; then
     exit 0
 fi
 
-WIFIDRV=rtl871xdrv
+#### enable wifi if disabled
+#rfkill unblock wlan
+
+WIFIDRV=
+IEEE80211N=
 if [ "$EW7811Un" != '' ]; then
-    WIFIDRV=driver=rtl 
+    WIFIDRV="driver=rtl871xdrv"
+    IEEE80211N="ieee80211n=1"
 fi
 
 ##############################################################
@@ -38,9 +43,6 @@ echo
 #### should not start automatically on boot
 update-rc.d hostapd disable
 
-#### enable wifi if disabled
-rfkill unblock wifi
-
 # what wifi interface, e.g. wlan0, wlan1...
 wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
 #wifi_interface=wlano
@@ -55,6 +57,7 @@ cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
 ssid=stratux
 $WIFIDRV
+$IEEE80211N
 hw_mode=g
 channel=1
 wmm_enabled=1
@@ -133,8 +136,9 @@ function start_ap {
     stop_ap
     sleep 3
     ### see: https://bugs.launchpad.net/ubuntu/+source/wpa/+bug/1289047/comments/8
-    nmcli nm wifi off
+    #nmcli nm wifi off
     rfkill unblock wlan
+    rfkill unblock wifi
     ### give a static IP to the wifi interface
     #ip link set dev $wifi_interface up
     #ip address add 10.10.0.1/24 dev $wifi_interface
