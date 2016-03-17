@@ -73,6 +73,7 @@ if [ "$EW7811Un" != '' ]; then
     mv ./hostapd /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
 
+    cd $SCRIPTDIR
     rm -rf wpa_supplicant_hostapd/
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then

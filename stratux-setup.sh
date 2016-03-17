@@ -197,8 +197,6 @@ mkdir -p /root/gopath
 echo
 echo "**** Go host compiler build... *****"
 echo
-echo "*** STRATUX COMPILE/PACKAGE INSTALL ***"
-echo " - RTL-SDR tools"
 
 cd /root
 mv gobootstrap go
