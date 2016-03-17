@@ -10,6 +10,12 @@ echo "************************************"
 echo "**** Startux Setup Starting... *****"
 echo "************************************"
 
+if [ $(whoami) != 'root' ]; then
+    echo "This script should be executed as root or with sudo: sudo $0"
+    exit 0
+fi
+
+
 
 ntpd -q -g
 
@@ -39,6 +45,7 @@ sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 apt-get install -y git
 git config --global http.sslVerify false
 
+apt-get install -y iw
 apt-get install -y wget
 apt-get install -y screen
 apt-get install -y isc-dhcp-server
