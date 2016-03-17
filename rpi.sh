@@ -36,17 +36,24 @@ fi
 ##  Disable serial console
 ##############################################################
 echo
-echo "**** Boot config settings... *****"
+echo "**** Disable serial console... *****"
 echo
 
 sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
+##############################################################
+##  Edimax wifi dongle check
+##############################################################
+echo
+echo "**** Edimax wifi dongle check... *****"
+echo
 ### Check if RPi2 with Edimax Wifi dongle
-if [ "$REVISION" == "RPI2BxREV" ] || [ "RPI2ByREV" == "a21041" ] && [ "$EW7811Un" != '' ]; then
+if [ "$EW7811Un" != '' ]; then
     echo
-    echo "**** RPi2 specific hostapd installation... *****"
+    echo "**** Edimax wifi dongle found, building hostapd... *****"
     echo
 
+    cd $SCRIPTDIR
     rm -f /usr/sbin/hostapd
 
     echo "hostapd edimax source"
@@ -65,9 +72,8 @@ if [ "$REVISION" == "RPI2BxREV" ] || [ "RPI2ByREV" == "a21041" ] && [ "$EW7811Un
     mv ./hostapd /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
 
-    cd ../../
+    cd /root
     rm -rf wpa_supplicant_hostapd/
-    cp -f ./files/hostapd.conf /etc/hostapd/hostapd.conf
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
@@ -93,7 +99,7 @@ fi
 ##  Sysctl tweaks
 ##############################################################
 echo
-echo "**** I2C setup... *****"
+echo "**** Sysctl tweaks... *****"
 echo
 
 if grep -q "net.core.rmem_max" "/etc/sysctl.conf"; then

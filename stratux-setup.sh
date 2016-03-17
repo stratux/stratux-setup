@@ -68,21 +68,19 @@ apt-get install -y hostapd
 ##############################################################
 ##  Platform and hardware specific items
 ##############################################################
-apt-get i
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ]; then
     echo
     echo "**** Raspberry Pi detected... *****"
     echo
-
-    source ./rpi.sh
+    source $SCRIPTDIR/rpi.sh
 elif [ "$REVISION" == "ODROIDC2" ]; then
-    source ./odroid.sh
+    source $SCRIPTDIR/odroid.sh
 else
     echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
     exit 0
 fi
-
+exit 0
 ##############################################################
 ##  SSH steup and config
 ##############################################################
