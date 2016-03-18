@@ -27,14 +27,14 @@ Commands
     # cd stratux-setup
 
     # bash stratux-setup.sh
-        will detect RPi2, RPi3, and Odroid-C2 currently
+        will currently detect RPi2, RPi3, and Odroid-C2
         
     # reboot
 
 Requirements
 
     - Linux OS
-    - apt-get 
+    - apt-get
     - ethernet connection
 
 Add a hardware hook for your board:
@@ -43,6 +43,6 @@ Add a hardware hook for your board:
       then add a detection mechanism to the "Platform and hardware
       specific items" section in the stratux-setup.sh file.
       E.g., see the rpi.sh file.
-      
+
 WiFi config settings hook:
     - TODO
