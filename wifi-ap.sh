@@ -6,6 +6,7 @@
 # /etc/default/isc-dhcp-server
 # /etc/dhcp/dhcpd.conf
 # /etc/init.d/wifi_ap
+# /etc/network/interfaces
 
 ##### make sure that this script is executed from root
 if [ $(whoami) != 'root' ]; then
