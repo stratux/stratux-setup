@@ -21,11 +21,9 @@ fi
 #rfkill unblock wlan
 
 WIFIDRV=
-#IEEE80211N=
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     if [ "$EW7811Un" != '' ]; then
 	    WIFIDRV="driver=rtl871xdrv"
-	    #IEEE80211N="ieee80211n=1"
     fi
 fi
 
@@ -172,11 +170,14 @@ function start {
     #ip link set dev $wifi_interface up
     #ip address add 10.10.0.1/24 dev $wifi_interface
     ### protect the static IP from network-manger restart
-    #echo >> /etc/network/interfaces
-    #echo 'auto $wifi_interface' >> /etc/network/interfaces
-    #echo 'iface $wifi_interface' inet static >> /etc/network/interfaces
-    #echo 'address 192.168.10.1' >> /etc/network/interfaces
-    #echo 'netmask 255.255.255.0' >> /etc/network/interfaces
+    #echo > /etc/network/interfaces
+    #echo 'auto lo' >> /etc/network/interfaces
+    #echo 'iface lo inet loopback' >> /etc/network/interfaces
+    #echo 'iface eth0 inet dhcp' >> /etc/network/interfaces
+    #echo 'allow-hotplug $wifi_interface' >> /etc/network/interfaces
+    #echo 'iface $wifi_interface inet static' >> /etc/network/interfaces
+    #echo '  address 192.168.10.1' >> /etc/network/interfaces
+    #echo '  netmask 255.255.255.0' >> /etc/network/interfaces
     ### start services dhcpd and hostapd
     service hostapd start
     service isc-dhcp-server start
