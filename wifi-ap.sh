@@ -136,6 +136,7 @@ $ODROIDPART
 auto lo
 iface lo inet loopback
 
+auto eth0
 iface eth0 inet dhcp
 
 allow-hotplug wlan0
