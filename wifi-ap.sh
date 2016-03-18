@@ -154,7 +154,7 @@ function stop_ap {
     #    sed -i /etc/network/interfaces -e '\$ d'
     #fi
     ### restart network manager to takeover wifi management
-    service network-manager restart
+    #service network-manager restart
 }
 function start_ap {
     stop_ap
