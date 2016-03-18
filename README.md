@@ -2,7 +2,7 @@ An alternative method for installing Stratux on your board's stock Linux OS.
 
 Why use a setup script rather than an image to install stratux?
 
-For most, the stratux image is what you should use for your installation. 
+For most, the stratux *image* is what you should use for your installation. 
 With that said, the setup script does offer the ability to use stratux on
 almost any Linux distro that'll run on your preferred board with a fairly
 straightforward way to add support for additional Linux boards beyond an
