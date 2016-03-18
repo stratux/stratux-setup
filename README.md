@@ -8,6 +8,7 @@ Commands
     login via command line, user: pi  pwd: raspberry
 
     # sudo su -
+    
     # raspi-config
         select option 1 - expand filesystem
 
@@ -23,18 +24,21 @@ Commands
     # cd stratux-setup
 
     # bash stratux-setup.sh
-        autodetects RPi2 or RPi3
+        will detect RPi2, RPi3, and Odroid-C2 currently
+        
+    reboot
 
+Requirements
 
-- requires an ethernet connection
+    - apt-get 
+    - ethernet connection
 
-Note, older versions polluted files with redundant info (e.g.
-.bashrc and other files that have values echoed to them) when
-stratux-setup was run multiple times.
+Add a hardware hook for your board:
 
-TODO - get it working on RPi3 and ODROID-C2 and others?
-
-RPi3 uses nl80211 WiFi driver
-
-Note, most of the contents of stratux-setup.sh was pulled from
-https://github.com/cyoung/stratux/blob/master/image/spindle/wheezy-stage4
+    - create a bash file containing you hard specific setting
+      and add a detection mechanism to the "Platform and hardware
+      specific items" section in the stratux-setup.sh file.
+      See the rpi.sh file for an example.
+      
+WiFi config settings hook:
+    - TODO
