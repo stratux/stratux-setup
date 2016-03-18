@@ -56,14 +56,15 @@ if [ "$EW7811Un" != '' ]; then
     cd $SCRIPTDIR
     rm -f /usr/sbin/hostapd
 
-    echo "hostapd edimax source"
-    # http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
-    # Realtek downloads page http://152.104.125.41/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&ProdID=27...
-    rm -rf wpa_supplicant_hostapd/
-    unzip wpa_supplicant_hostapd.zip
-    cd wpa_supplicant_hostapd/hostapd
-    make
+    #echo "hostapd edimax source"
+    #### http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
+    #### Realtek downloads page http://152.104.125.41/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&ProdID=27...
+    #rm -rf wpa_supplicant_hostapd/
+    #unzip wpa_supplicant_hostapd.zip
+    #cd wpa_supplicant_hostapd/hostapd
+    #make
 
+    gunzip -k hostapd.gz
     if [ ! -f ./hostapd ]; then
         echo "ERROR - hostapd doesn't exist, exiting..."
         exit 0
@@ -73,8 +74,8 @@ if [ "$EW7811Un" != '' ]; then
     mv ./hostapd /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
 
-    cd $SCRIPTDIR
-    rm -rf wpa_supplicant_hostapd/
+    #cd $SCRIPTDIR
+    #rm -rf wpa_supplicant_hostapd/
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
