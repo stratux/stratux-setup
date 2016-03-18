@@ -32,7 +32,7 @@ prompt in /root/stratux, issuing a "git checkout some-rev" command and running
     Although you could restart stratux via "service stratux start" it's
     advisable to reboot.
 
-Commands
+Commands to run the setup scipt
 
     login via command line (RPi - user: pi  pwd: raspberry
 
