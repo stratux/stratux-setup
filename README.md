@@ -1,7 +1,8 @@
-Tested on RPi2, Raspbian Jessie and *Jessie Lite (requires image resize)
+Tested on RPi2, Raspbian Jessie and *Jessie Lite (requires image resize),
+and Odroid-C2 Ubuntu.
 
-This script checkouts the revision that corresponds to the latest stratux
-release, if want to run tip comment out, e.g. git checkout v0.8r1
+Note, this script checkouts the revision that corresponds to the latest
+stratux release, if want to run tip comment out, e.g. git checkout v0.8r1
 
 Commands
 
@@ -35,10 +36,10 @@ Requirements
 
 Add a hardware hook for your board:
 
-    - create a bash file containing you hard specific setting
-      and add a detection mechanism to the "Platform and hardware
+    - create a bash file containing your hardware specific setting,
+      add a detection mechanism to the "Platform and hardware
       specific items" section in the stratux-setup.sh file.
-      See the rpi.sh file for an example.
+      E.g., see the rpi.sh file.
       
 WiFi config settings hook:
     - TODO
