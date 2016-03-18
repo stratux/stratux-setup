@@ -75,7 +75,7 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$RE
     echo "**** Raspberry Pi detected... *****"
     echo
     source $SCRIPTDIR/rpi.sh
-elif [ "$REVISION" == "ODROIDC2" ]; then
+elif [ "$REVISION" == "$ODROIDC2" ]; then
     source $SCRIPTDIR/odroid.sh
 else
     echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
@@ -120,10 +120,6 @@ fi
 
 if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
-fi
-
-if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
-    echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
 fi
 
 ##############################################################
@@ -199,19 +195,23 @@ echo "**** Go host compiler build... *****"
 echo
 
 cd /root
-mv gobootstrap go
-#### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
-#### to compiling from source?
-#wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
-#tar -zxvf go1.6.src.tar.gz
-#rm go1.6.src*
 
-# make.bash to skip the post build tests
-#cd go/src
-#bash ./make.bash
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
+    mv gobootstrap go
+else
+    #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
+    #### to compiling from source?
+    wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
+    tar -zxvf go1.6.src.tar.gz
+    rm go1.6.src*
 
-#cd /root
-#rm -rf gobootstrap/
+    make.bash to skip the post build tests
+    cd go/src
+    bash ./make.bash
+
+    cd /root
+    rm -rf gobootstrap/
+fi
 
 ##############################################################
 ##  RTL-SDR tools build

@@ -22,9 +22,11 @@ fi
 
 WIFIDRV=
 IEEE80211N=
-if [ "$EW7811Un" != '' ]; then
-    WIFIDRV="driver=rtl871xdrv"
-    IEEE80211N="ieee80211n=1"
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
+    if [ "$EW7811Un" != '' ]; then
+	    WIFIDRV="driver=rtl871xdrv"
+	    IEEE80211N="ieee80211n=1"
+    fi
 fi
 
 ##############################################################
