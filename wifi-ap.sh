@@ -155,6 +155,14 @@ echo
 
 cat <<EOT > /etc/init.d/wifiap
 #!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          wifiap
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Stratux Wifi Access Point
+### END INIT INFO
+
 ext_interface=\$(ip route | grep default | cut -d' ' -f5)
 function stop {
     ### stop services dhcpd and hostapd
