@@ -21,8 +21,9 @@ cd /root
 #exec > >(tee -a $outfile >&1)
 #exec 2> >(tee -a $outfile >&2)
 
-# execute the script: bash stratux-setup.sh
+#### execute the script: bash stratux-setup.sh
 
+#### Revision numbers found via cat /proc/cpuinfo
 RPI2BxREV=a01041
 RPI2ByREV=a21041
 RPI3BxREV=a02082
