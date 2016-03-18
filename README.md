@@ -1,4 +1,4 @@
-An alternative method for installing Stratux on your stock OS.
+An alternative method for installing Stratux on your board's stock Linux OS.
 
 Tested on RPi2, Raspbian Jessie and *Jessie Lite (requires image resize),
 and Odroid-C2 Ubuntu.
