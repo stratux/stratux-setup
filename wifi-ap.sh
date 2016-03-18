@@ -1,12 +1,15 @@
 #!/bin/bash
 
-#### files created 
-# /etc/hostapd/hostapd.conf
-# /etc/default/hostapd
-# /etc/default/isc-dhcp-server
+#### files created
 # /etc/dhcp/dhcpd.conf
-# /etc/init.d/wifi_ap
+# /etc/hostapd/hostapd.conf
 # /etc/network/interfaces
+# /etc/default/isc-dhcp-server
+
+# /etc/default/hostapd
+# /etc/init.d/wifi_ap
+
+
 
 ##### make sure that this script is executed from root
 if [ $(whoami) != 'root' ]; then
@@ -65,11 +68,18 @@ wmm_enabled=1
 ignore_broadcast_ssid=0
 EOT
 
-#### set /etc/default/hostapd
-cp -n /etc/default/hostapd{,.bak}
-cat <<EOT > /etc/default/hostapd
-DAEMON_CONF=/etc/hostapd/hostapd.conf
-EOT
+#### edit /etc/init.d/hostapd
+cp -n /etc/init.d/hostapd{,.bak}
+
+
+if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
+    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
+    sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
+else
+    echo 
+    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
+    echo
+fi
 
 ##############################################################
 ## Set up DHCP server for IP address management
@@ -83,13 +93,13 @@ update-rc.d isc-dhcp-server disable
 
 ### set /etc/default/isc-dhcp-server
 cp -n /etc/default/isc-dhcp-server{,.bak}
-cat <<EOT >> /etc/default/isc-dhcp-server
+cat <<EOT > /etc/default/isc-dhcp-server
 NTERFACES="$wifi_interface"
 EOT
 
 ### set /etc/dhcp/dhcpd.conf
 cp -n /etc/dhcp/dhcpd.conf{,.bak}
-cat <<EOT >> /etc/dhcp/dhcpd.conf
+cat <<EOT > /etc/dhcp/dhcpd.conf
 ddns-update-style none;
 default-lease-time 86400; # 24 hours
 max-lease-time 172800; # 48 hours
@@ -104,13 +114,26 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 EOT
 
 ##############################################################
-## Create a startup script
+## Set network interface
 ##############################################################
 echo
-echo "**** ... *****"
+echo "**** Set network interface *****"
 echo
 
+### set /etc/network/interfaces
+cp -n /etc/network/interfaces{,.bak}
 
+cat <<EOT > /etc/network/interfaces
+auto lo
+iface lo inet loopback
+iface eth0 inet dhcp
+allow-hotplug wlan0
+
+iface wlan0 inet static
+  address 192.168.10.1
+  netmask 255.255.255.0
+  #post-up /usr/sbin/stratux-wifi.sh
+EOT
 
 #################################################
 ## Create a startup script
