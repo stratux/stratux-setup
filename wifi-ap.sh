@@ -23,8 +23,13 @@ fi
 WIFIDRV=
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     if [ "$EW7811Un" != '' ]; then
-	    WIFIDRV="driver=rtl871xdrv"
+        WIFIDRV="driver=rtl871xdrv"
     fi
+fi
+
+ODROIDPART=
+if [ "$REVISION" == "$ODROIDC2" ]; then
+    ODROIDPART="source-directory /etc/network/interfaces.d"
 fi
 
 ##############################################################
@@ -125,6 +130,8 @@ echo
 cp -n /etc/network/interfaces{,.bak}
 
 cat <<EOT > /etc/network/interfaces
+$ODROIDPART
+
 auto lo
 iface lo inet loopback
 
