@@ -5,7 +5,7 @@ if [ $(whoami) != 'root' ]; then
     exit 0
 fi
 
-SCRIPTDIR=$PWD
+SCRIPTDIR="`pwd`"
 
 cd /root
 
