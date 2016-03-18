@@ -3,20 +3,21 @@ An alternative method for installing Stratux on your board's stock Linux OS.
 Why use a setup script rather than an image to install stratux?
 
 For most, the stratux image is what you should use for your installation. 
-The setup script does offer the ability to use stratux on almost any Linux
-distro that'll run on your preferred board with a fairly straightforward 
-way to add support for additional Linux boards beyond an RPi2 or RPi3. 
+With that said, the setup script does offer the ability to use stratux on
+almost any Linux distro that'll run on your preferred board with a fairly
+straightforward way to add support for additional Linux boards beyond an
+RPi2 or RPi3. 
 
 Tested on RPi2, Raspbian Jessie, Jessie Lite (requires image resize),
 and Odroid-C2 Ubuntu64-16.04lts-mate.
 
-Note, this script checkouts the revision that corresponds to the latest
-stratux release, if you want to run the bleeding edge stratux code comment out
-the "git checkout" line in the stratux-setup.sh file:  git checkout v0.8r1
+Note, this script checks out the stratux revision that corresponds to the latest
+release, if you'd' like to run the bleeding edge stratux code comment out the 
+"git checkout" line in the stratux-setup.sh file:  git checkout v0.8r1
 
-Note, you can go back to any previous stratux revision by opening a command line
-prompt in /root/stratux, issuing a "git checkout" command and running "make all"
-then "make install." E.g.
+Note, you can go back to any previous stratux version by opening a command line
+prompt in /root/stratux, issuing a "git checkout some-rev" command and running
+"make all" then "make install." E.g.
 
     # cd /root/stratux
     # service stratux stop
