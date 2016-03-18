@@ -11,7 +11,7 @@ RPi2 or RPi3.
 Tested on RPi2, Raspbian Jessie, Jessie Lite (requires image resize),
 and Odroid-C2 Ubuntu64-16.04lts-mate.
 
-Note, this script checks out the stratux revision that corresponds to the latest
+Note, this script checks out the stratux version that corresponds to the latest
 release, if you'd' like to run the bleeding edge stratux code comment out the 
 "git checkout" line in the stratux-setup.sh file:  git checkout v0.8r1
 
