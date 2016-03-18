@@ -5,8 +5,6 @@
 # /etc/hostapd/hostapd.conf
 # /etc/network/interfaces
 # /etc/default/isc-dhcp-server
-
-# /etc/default/hostapd
 # /etc/init.d/wifi_ap
 
 
