@@ -21,11 +21,11 @@ fi
 #rfkill unblock wlan
 
 WIFIDRV=
-IEEE80211N=
+#IEEE80211N=
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     if [ "$EW7811Un" != '' ]; then
 	    WIFIDRV="driver=rtl871xdrv"
-	    IEEE80211N="ieee80211n=1"
+	    #IEEE80211N="ieee80211n=1"
     fi
 fi
 
@@ -63,10 +63,11 @@ cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
 ssid=stratux
 $WIFIDRV
-$IEEE80211N
+ieee80211n=1
 hw_mode=g
 channel=1
 wmm_enabled=1
+macaddr_acl=0
 ignore_broadcast_ssid=0
 EOT
 
