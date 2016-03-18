@@ -134,13 +134,16 @@ iface wlan0 inet static
 EOT
 
 #################################################
-## Create a startup script
+## Create the wifi access point startup script
 #################################################
+echo
+echo "**** Create the wifi access point startup script *****"
+echo
 
-cat <<EOT > /etc/init.d/wifi_ap
+cat <<EOT > /etc/init.d/wifiap
 #!/bin/bash
 ext_interface=\$(ip route | grep default | cut -d' ' -f5)
-function stop_ap {
+function stop {
     ### stop services dhcpd and hostapd
     service isc-dhcp-server stop
     service hostapd stop
@@ -154,7 +157,7 @@ function stop_ap {
     ### restart network manager to takeover wifi management
     #service network-manager restart
 }
-function start_ap {
+function start {
     stop_ap
     sleep 3
     ### see: https://bugs.launchpad.net/ubuntu/+source/wpa/+bug/1289047/comments/8
@@ -176,22 +179,22 @@ function start_ap {
 }
 ### start/stop wifi access point
 case "\$1" in
-    start) start_ap ;;
-    stop)  stop_ap  ;;
+    start) start ;;
+    stop)  stop  ;;
 esac
 EOT
 
-chmod +x /etc/init.d/wifi_ap
+chmod +x /etc/init.d/wifiap
 
 ### make sure that it is stopped on boot
-sed -i /etc/rc.local  -e '/service wifi_ap stop/ d'
-sed -i /etc/rc.local  -e '/^exit/ i service wifi_ap stop'
+#sed -i /etc/rc.local  -e '/service wifiap stop/ d'
+#sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
 ### display usage message
 echo "
 ======================================
 Wifi Access Point installed.
 You can start and stop it with:
-    service wifi_ap start
-    service wifi_ap stop
+    service wifiap start
+    service wifiap stop
 "
