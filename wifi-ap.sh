@@ -216,6 +216,9 @@ chmod +x /etc/init.d/wifiap
 #sed -i /etc/rc.local  -e '/service wifiap stop/ d'
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
+#### avoids missing symlinks error
+update-rc.d hostapd default
+
 #### start service at bootup
 update-rc.d wifiap enable
 
