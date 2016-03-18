@@ -8,7 +8,7 @@ stratux release, if want to run tip comment out, e.g. git checkout v0.8r1
 
 Commands
 
-    login via command line, user: pi  pwd: raspberry
+    login via command line (RPi - user: pi  pwd: raspberry
 
     # sudo su -
     
