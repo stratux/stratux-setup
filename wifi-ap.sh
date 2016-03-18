@@ -6,6 +6,8 @@
 # /etc/network/interfaces
 # /etc/default/isc-dhcp-server
 # /etc/init.d/wifi_ap
+#### files modified
+# /etc/init.d/hostapd
 
 
 
@@ -158,7 +160,7 @@ function stop {
     #service network-manager restart
 }
 function start {
-    stop_ap
+    stop
     sleep 3
     ### see: https://bugs.launchpad.net/ubuntu/+source/wpa/+bug/1289047/comments/8
     #nmcli nm wifi off
