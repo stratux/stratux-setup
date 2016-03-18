@@ -194,6 +194,9 @@ chmod +x /etc/init.d/wifiap
 #sed -i /etc/rc.local  -e '/service wifiap stop/ d'
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
+#### start service at bootup
+update-rc.d wifiap
+
 ### display usage message
 echo "
 ======================================
