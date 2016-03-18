@@ -111,6 +111,7 @@ default-lease-time 86400; # 24 hours
 max-lease-time 172800; # 48 hours
 authoritative;
 log-facility local7;
+
 subnet 192.168.10.0 netmask 255.255.255.0 {
     range 192.168.10.10 192.168.10.50;
     option broadcast-address 192.168.10.255;
@@ -205,7 +206,7 @@ chmod +x /etc/init.d/wifiap
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
 #### start service at bootup
-update-rc.d wifiap
+update-rc.d wifiap enable
 
 ### display usage message
 echo "
