@@ -13,7 +13,7 @@
 
 ##### make sure that this script is executed from root
 if [ $(whoami) != 'root' ]; then
-    echo "This script should be executed as root or with sudo: sudo $0"
+    echo "This script must be executed as root, exiting..."
     exit 0
 fi
 
@@ -40,10 +40,10 @@ fi
 #fi
 
 ##############################################################
-##  Setup the access point
+##  Setup hostapd
 ##############################################################
 echo
-echo "**** ... *****"
+echo "**** Setup hostapd *****"
 echo
 
 #### should not start automatically on boot
@@ -84,10 +84,10 @@ else
 fi
 
 ##############################################################
-## Set up DHCP server for IP address management
+## Setup DHCP server for IP address management
 ##############################################################
 echo
-echo "**** ... *****"
+echo "**** Setup DHCP server for IP address management *****"
 echo
 
 #### should not start automatically on boot
