@@ -235,8 +235,10 @@ echo "...done"
 #sed -i /etc/rc.local  -e '/service wifiap stop/ d'
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
-#### avoids missing symlinks error
-update-rc.d hostapd default
+#if [ "$REVISION" == "$ODROIDC2" ]; then
+#    #### avoids missing symlinks error
+#    update-rc.d hostapd default
+#fi
 
 #### start service at bootup
 update-rc.d wifiap enable
