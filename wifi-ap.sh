@@ -92,7 +92,6 @@ echo "**** Setup /etc/init.d/hostapd *****"
 #### edit /etc/init.d/hostapd
 cp -n /etc/init.d/hostapd{,.bak}
 
-
 if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
     line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
     sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
@@ -103,7 +102,6 @@ else
 fi
 
 echo "...done"
-
 
 ##############################################################
 ## 4) Setup /etc/network/interfaces
