@@ -2,8 +2,8 @@
 
 #### files created
 # 1) /etc/dnsmasq.conf
-# 2) /etc/default/hostapd
-# 3) /etc/hostapd/hostapd.conf
+# 2) /etc/hostapd/hostapd.conf
+# 3) /etc/init.d/hostapd
 # 4) /etc/network/interfaces
 # 5) /etc/init.d/wifi_ap
 
@@ -54,20 +54,7 @@ EOT
 echo "...done"
 
 ##############################################################
-## 2) Create /etc/default/hostapd
-##############################################################
-echo
-echo "**** Setup /etc/default/hostapd *****"
-echo
-
-cat <<EOT > /etc//default/hostapd
-DAEMON_CONF=/etc/hostapd/hostapd.conf
-EOT
-
-echo "...done"
-
-##############################################################
-## 3) Setup /etc/hostapd/hostapd.conf
+## 2) Setup /etc/hostapd/hostapd.conf
 ##############################################################
 echo
 echo "**** Setup /etc/hostapd/hostapd.conf *****"
@@ -95,6 +82,28 @@ ignore_broadcast_ssid=0
 EOT
 
 echo "...done"
+
+##############################################################
+## 3) Setup /etc/init.d/hostapd
+##############################################################
+echo
+echo "**** Setup /etc/init.d/hostapd *****"
+
+#### edit /etc/init.d/hostapd
+cp -n /etc/init.d/hostapd{,.bak}
+
+
+if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
+    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
+    sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
+else
+    echo
+    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
+    exit 0
+fi
+
+echo "...done"
+
 
 ##############################################################
 ## 4) Setup /etc/network/interfaces
@@ -136,7 +145,7 @@ cat <<EOT > /etc/init.d/wifiap
 # Provides:          wifiap
 # Required-Start:
 # Required-Stop:
-# Should-Start: 
+# Should-Start:
 # Should-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
