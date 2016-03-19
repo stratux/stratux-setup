@@ -187,7 +187,7 @@ echo "**** Setup hostapd symlink *****"
 
 #### fixes missing symlinks error
 ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
-update-rc.d hostapd stop
+update-rc.d hostapd disable
 
 echo "...done"
 
