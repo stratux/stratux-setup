@@ -136,9 +136,12 @@ cat <<EOT > /etc/init.d/wifiap
 # Provides:          wifiap
 # Required-Start:
 # Required-Stop:
+# Should-Start: 
+# Should-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Stratux Wifi Access Point
+# Description: Stratux
 ### END INIT INFO
 
 function stop {
