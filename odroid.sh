@@ -10,7 +10,6 @@ echo
 ##############################################################
 echo
 echo "**** Disable firewall *****"
-echo
 
 #### disable the firewall
 #### TODO: check distro

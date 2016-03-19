@@ -10,7 +10,6 @@ echo
 ##############################################################
 echo
 echo "**** Boot config settings... *****"
-echo
 
 if ! grep -q "max_usb_current=1" "/boot/config.txt"; then
     echo "max_usb_current=1" >>/boot/config.txt
@@ -39,7 +38,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Disable serial console... *****"
-echo
 
 sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
@@ -50,7 +48,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Edimax wifi dongle check... *****"
-echo
 
 if [ "$EW7811Un" != '' ]; then
     echo "edimax wifi dongle found, copying the hostapd binary... *****"
@@ -104,7 +101,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** I2C setup... *****"
-echo
 
 if ! grep -q "i2c-bcm2708" "/etc/modules"; then
     echo "i2c-bcm2708" >>/etc/modules
@@ -121,7 +117,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Sysctl tweaks... *****"
-echo
 
 if grep -q "net.core.rmem_max" "/etc/sysctl.conf"; then
     line=$(grep -n 'net.core.rmem_max' /etc/sysctl.conf | awk -F':' '{print $1}')d

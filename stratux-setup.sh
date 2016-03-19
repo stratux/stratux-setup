@@ -60,7 +60,6 @@ ntpd -q -g
 ##############################################################
 echo
 echo "**** Installing dependencies... *****"
-echo
 
 apt-get install -y git
 git config --global http.sslVerify false
@@ -91,17 +90,22 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Hardware checkout... *****"
-echo
 
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ]; then
+    echo
     echo "**** Raspberry Pi detected... *****"
+
     source $SCRIPTDIR/rpi.sh
 elif [ "$REVISION" == "$ODROIDC2" ]; then
+    echo
     echo "**** Odroid-C2 detected... *****"
+
     source $SCRIPTDIR/odroid.sh
 else
+    echo
     echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
+
     exit 0
 fi
 
@@ -112,7 +116,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** SSH setup and config... *****"
-echo
 
 if [ ! -d "$DIRECTORY" ]; then
     mkdir -p /etc/ssh/authorized_keys
@@ -134,7 +137,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Hardware blacklisting... *****"
-echo
 
 if ! grep -q "blacklist dvb_usb_rtl28xxu" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist dvb_usb_rtl28xxu >>/etc/modprobe.d/rtl-sdr-blacklist.conf
@@ -155,7 +157,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Go environment setup... *****"
-echo
 
 # if any of the following environment variables are set in .bashrc delete them
 if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
@@ -191,7 +192,7 @@ fi
 echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
-echo export PATH=\$PATH$XPATH >>/root/.bashrc
+echo 'export PATH=$PATH$XPATH' >>/root/.bashrc
 
 source /root/.bashrc
 
@@ -202,7 +203,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Go bootstrap compiler installtion... *****"
-echo
 
 cd /root
 
@@ -227,7 +227,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Go host compiler build... *****"
-echo
 
 cd /root
 
@@ -256,7 +255,6 @@ fi
 ##############################################################
 echo
 echo "**** RTL-SDR library build... *****"
-echo
 
 cd /root
 
@@ -277,7 +275,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Stratux build and installation... *****"
-echo
 
 cd /root
 
@@ -296,7 +293,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** Kalibrate build and installation... *****"
-echo
 
 cd /root
 
@@ -315,7 +311,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** System tweaks... *****"
-echo
 
 ##### disable serial console
 if [ -f /etc/inittab ]; then
@@ -339,7 +334,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** WiFi Access Point setup... *****"
-echo
 
 source /$SCRIPTDIR/wifi-ap.sh
 
