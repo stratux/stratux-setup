@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#### files created
+#### files created and/or modified
 # 1) /etc/dnsmasq.conf
 # 2) /etc/hostapd/hostapd.conf
 # 3) /etc/init.d/hostapd
