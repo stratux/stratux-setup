@@ -47,7 +47,7 @@ cp -n /etc/dnsmasq{,.bak}
 cat <<EOT > /etc/dnsmasq.conf
 no-resolv
 interface=wlan0
-dns-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
+dhcp-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
 server=4.2.2.2
 EOT
 
@@ -180,7 +180,7 @@ echo "**** Setup hostapd symlink *****"
 
 #### fixes missing symlinks error
 ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
-update-rc.d hostapd default
+update-rc.d hostapd stop
 
 echo "...done"
 
