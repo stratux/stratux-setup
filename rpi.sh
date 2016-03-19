@@ -1,14 +1,14 @@
-echo
+echo "${MAGENTA}"
 echo "************************************"
 echo "****** Raspberry Pi setup... *******"
 echo "************************************"
-echo
+echo "${WHITE}"
 
 ##############################################################
 ##  Boot config settings
 ##############################################################
 echo
-echo "**** Boot config settings... *****"
+echo "${YELLOW}**** Boot config settings... *****${WHITE}"
 
 if ! grep -q "max_usb_current=1" "/boot/config.txt"; then
     echo "max_usb_current=1" >>/boot/config.txt
@@ -30,28 +30,27 @@ fi
 #echo "sdram_freq=450" >>boot/config.txt
 #echo "core_freq=450" >>boot/config.txt
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Disable serial console
 ##############################################################
 echo
-echo "**** Disable serial console... *****"
+echo "${YELLOW}**** Disable serial console... *****${WHITE}"
 
 sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Edimax wifi dongle check
 ##############################################################
 echo
-echo "**** Edimax wifi dongle check... *****"
+echo "${YELLOW}**** Edimax wifi dongle check... *****${WHITE}"
 
 if [ "$EW7811Un" != '' ]; then
-    echo "edimax wifi dongle found, copying the hostapd binaries... *****"
+    echo "${MAGENTA}edimax wifi dongle found, copying the hostapd binaries... *****${WHITE}"
 
-    cd $SCRIPTDIR
     rm -f /usr/sbin/hostapd
     rm -f /usr/sbin/hostapd_cli
 
@@ -63,16 +62,18 @@ if [ "$EW7811Un" != '' ]; then
     #cd wpa_supplicant_hostapd/hostapd
     #make
 
+    cd ${SCRIPTDIR}
+
     gunzip -k hostapd.gz
     if [ ! -f ./hostapd ]; then
-        echo "ERROR - hostapd doesn't exist, exiting..."
-        exit 0
+        echo "${BOLD}${RED}ERROR - hostapd doesn't exist, exiting...${WHITE}${NORMAL}"
+        exit
     fi
 
     gunzip -k hostapd_cli.gz
     if [ ! -f ./hostapd_cli ]; then
-        echo "ERROR - hostapd_cli doesn't exist, exiting..."
-        exit 0
+        echo "${BOLD}${RED}ERROR - hostapd_cli doesn't exist, exiting...${WHITE}${NORMAL}"
+        exit
     fi
 
     # install the binary
@@ -83,23 +84,23 @@ if [ "$EW7811Un" != '' ]; then
     mv ./hostapd_cli /usr/sbin/hostapd_cli
     chmod +x /usr/sbin/hostapd_cli
 
-    #cd $SCRIPTDIR
+    #cd ${SCRIPTDIR}
     #rm -rf wpa_supplicant_hostapd/
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
 else
-    echo "edimax wifi dongle not found, nothing to do... *****"
+    echo "${MAGENTA}edimax wifi dongle not found, nothing to do... *****${WHITE}"
 fi
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  I2C setup
 ##############################################################
 echo
-echo "**** I2C setup... *****"
+echo "${YELLOW}**** I2C setup... *****${WHITE}"
 
 if ! grep -q "i2c-bcm2708" "/etc/modules"; then
     echo "i2c-bcm2708" >>/etc/modules
@@ -109,13 +110,13 @@ if ! grep -q "i2c-dev" "/etc/modules"; then
     echo "i2c-dev" >>/etc/modules
 fi
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Sysctl tweaks
 ##############################################################
 echo
-echo "**** Sysctl tweaks... *****"
+echo "${YELLOW}**** Sysctl tweaks... *****${WHITE}"
 
 if grep -q "net.core.rmem_max" "/etc/sysctl.conf"; then
     line=$(grep -n 'net.core.rmem_max' /etc/sysctl.conf | awk -F':' '{print $1}')d
@@ -142,4 +143,4 @@ echo "net.core.rmem_default = 167772160" >>/etc/sysctl.conf
 echo "net.core.wmem_max = 167772160" >>/etc/sysctl.conf
 echo "net.core.wmem_default = 167772160" >>/etc/sysctl.conf
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"

@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if [ $(whoami) != 'root' ]; then
-    echo "This script must be executed as root, exiting..."
-    exit 0
-fi
-
 BLACK=$(tput setaf 0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
@@ -21,9 +16,15 @@ BLINK=$(tput blink)
 REVERSE=$(tput smso)
 UNDERLINE=$(tput smul)
 
-SCRIPTDIR="`pwd`"
+echo "${BRIGHT}"
 
-cd /root
+if [ $(whoami) != 'root' ]; then
+    echo "${BOLD}${RED}This script must be executed as root, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+
+SCRIPTDIR="`pwd`"
 
 #set -e
 
@@ -47,11 +48,11 @@ ODROIDC2=020b
 
 EW7811Un=$(lsusb | grep EW-7811Un)
 
-echo
+echo "${MAGENTA}"
 echo "************************************"
 echo "**** Stratux Setup Starting... *****"
 echo "************************************"
-echo
+echo "${WHITE}"
 
 ntpd -q -g
 
@@ -59,7 +60,7 @@ ntpd -q -g
 ##  Dependencies
 ##############################################################
 echo
-echo "**** Installing dependencies... *****"
+echo "${YELLOW}**** Installing dependencies... *****${WHITE}"
 
 apt-get install -y git
 git config --global http.sslVerify false
@@ -83,60 +84,61 @@ apt-get install -y hostapd
 apt-get install -y rfkill
 apt-get install -y dnsmasq
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Hardware checkout
 ##############################################################
 echo
-echo "**** Hardware checkout... *****"
+echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
+
 
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ]; then
     echo
-    echo "**** Raspberry Pi detected... *****"
+    echo "${MAGENTA}**** Raspberry Pi detected... *****${WHITE}"
 
-    source $SCRIPTDIR/rpi.sh
+    . ${SCRIPTDIR}/rpi.sh
 elif [ "$REVISION" == "$ODROIDC2" ]; then
     echo
-    echo "**** Odroid-C2 detected... *****"
+    echo "${MAGENTA}**** Odroid-C2 detected... *****${WHITE}"
 
-    source $SCRIPTDIR/odroid.sh
+    . ${SCRIPTDIR}/odroid.sh
 else
     echo
-    echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
+    echo "${BOLD}${RED}ERROR - nable to identify the board using /proc/cpuinfo, exiting...${WHITE}${NORMAL}"
 
-    exit 0
+    exit
 fi
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  SSH steup and config
 ##############################################################
 echo
-echo "**** SSH setup and config... *****"
+echo "${YELLOW}**** SSH setup and config... *****${WHITE}"
 
 if [ ! -d "$DIRECTORY" ]; then
     mkdir -p /etc/ssh/authorized_keys
 fi
 
 cp -n /etc/ssh/authorized_keys/root{,.bak}
-cp -f $SCRIPTDIR/files/root /etc/ssh/authorized_keys/root
+cp -f ${SCRIPTDIR}/files/root /etc/ssh/authorized_keys/root
 chown root.root /etc/ssh/authorized_keys/root
 chmod 644 /etc/ssh/authorized_keys/root
 
 cp -n /etc/ssh/sshd_config{,.bak}
-cp -f $SCRIPTDIR/files/sshd_config /etc/ssh/sshd_config
+cp -f ${SCRIPTDIR}/files/sshd_config /etc/ssh/sshd_config
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Hardware blacklisting
 ##############################################################
 echo
-echo "**** Hardware blacklisting... *****"
+echo "${YELLOW}**** Hardware blacklisting... *****${WHITE}"
 
 if ! grep -q "blacklist dvb_usb_rtl28xxu" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist dvb_usb_rtl28xxu >>/etc/modprobe.d/rtl-sdr-blacklist.conf
@@ -150,13 +152,13 @@ if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Go environment setup
 ##############################################################
 echo
-echo "**** Go environment setup... *****"
+echo "${YELLOW}**** Go environment setup... *****${WHITE}"
 
 # if any of the following environment variables are set in .bashrc delete them
 if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
@@ -196,13 +198,13 @@ echo export PATH=$XPATH >>/root/.bashrc
 
 source /root/.bashrc
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Go bootstrap compiler installtion
 ##############################################################
 echo
-echo "**** Go bootstrap compiler installtion... *****"
+echo "${YELLOW}**** Go bootstrap compiler installtion... *****${WHITE}"
 
 cd /root
 
@@ -212,28 +214,28 @@ rm -rf gobootstrap/
 wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
 tar -zxvf go1.6.linux-armv6l.tar.gz
 if [ ! -d /root/go ]; then
-    echo "Error - go folder doesn't exist, exiting..."
-    exit 0
+    echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
+    exit
 fi
 
 rm -f go1.6.linux-armv6l.tar.gz
 rm -rf /root/gopath
 mkdir -p /root/gopath
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Go host compiler build
 ##############################################################
 echo
-echo "**** Go host compiler build... *****"
+echo "${YELLOW}**** Go host compiler build... *****${WHITE}"
 
 cd /root
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
     #### to compiling from source?
-    echo "...not necessary, done"
+    echo "${GREEN}...not necessary, done${WHITE}"
 else
     mv go gobootstrap
     wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
@@ -247,14 +249,14 @@ else
     cd /root
     rm -rf gobootstrap/
 
-    echo "...done"
+    echo "${GREEN}...done${WHITE}"
 fi
 
 ##############################################################
 ##  RTL-SDR tools build
 ##############################################################
 echo
-echo "**** RTL-SDR library build... *****"
+echo "${YELLOW}**** RTL-SDR library build... *****${WHITE}"
 
 cd /root
 
@@ -268,13 +270,13 @@ make
 make install
 ldconfig
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Stratux build and installation
 ##############################################################
 echo
-echo "**** Stratux build and installation... *****"
+echo "${YELLOW}**** Stratux build and installation... *****${WHITE}"
 
 cd /root
 
@@ -286,13 +288,13 @@ git checkout v0.8r1
 make all
 make install
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  Kalibrate build and installation
 ##############################################################
 echo
-echo "**** Kalibrate build and installation... *****"
+echo "${YELLOW}**** Kalibrate build and installation... *****${WHITE}"
 
 cd /root
 
@@ -304,13 +306,13 @@ cd kalibrate-rtl
 make
 make install
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  System tweaks
 ##############################################################
 echo
-echo "**** System tweaks... *****"
+echo "${YELLOW}**** System tweaks... *****${WHITE}"
 
 ##### disable serial console
 if [ -f /etc/inittab ]; then
@@ -327,15 +329,15 @@ if [ -f /usr/sbin/policy-rc.d ]; then
     rm /usr/sbin/policy-rc.d
 fi
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ##  WiFi Access Point setup
 ##############################################################
 echo
-echo "**** WiFi Access Point setup... *****"
+echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 
-source /$SCRIPTDIR/wifi-ap.sh
+. ${SCRIPTDIR}/wifi-ap.sh
 
 #### disable ntpd autostart
 if which ntp >/dev/null; then
@@ -346,5 +348,7 @@ fi
 update-rc.d stratux enable
 
 echo
-echo "**** Setup complete, don't forget to reboot! *****"
+echo "${MAGENTA}**** Setup complete, don't forget to reboot! *****${WHITE}"
 echo
+
+echo ${NORMAL}

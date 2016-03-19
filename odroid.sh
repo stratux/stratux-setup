@@ -9,10 +9,10 @@ echo
 ## Disable firewall
 ##############################################################
 echo
-echo "**** Disable firewall *****"
+echo "${YELLOW}**** Disable firewall *****${WHITE}"
 
 #### disable the firewall
 #### TODO: check distro
 ufw disable
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"

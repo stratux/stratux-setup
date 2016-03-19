@@ -9,8 +9,8 @@
 
 
 if [ $(whoami) != 'root' ]; then
-    echo "This script must be executed as root, exiting..."
-    exit 0
+    echo "${RED}This script must be executed as root, exiting...${WHITE}"
+    exit
 fi
 
 #### enable wifi if disabled
@@ -30,15 +30,14 @@ fi
 #if [ "$supports_access_point" = '' ]; then
 #    echo "AP is not supported by the driver of the wireless card."
 #    echo "This script does not work for this driver."
-#    exit 0
+#    exit
 #fi
 
 ##############################################################
 ## 1) Setup /etc/dnsmasq.conf
 ##############################################################
 echo
-echo "**** Setup /etc/dnsmasq.conf *****"
-echo
+echo "${YELLOW}**** Setup /etc/dnsmasq.conf *****${WHITE}"
 
 #### should not start automatically on boot
 update-rc.d dnsmasq disable
@@ -51,14 +50,13 @@ dhcp-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
 server=4.2.2.2
 EOT
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ## 2) Setup /etc/hostapd/hostapd.conf
 ##############################################################
 echo
-echo "**** Setup /etc/hostapd/hostapd.conf *****"
-echo
+echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
 
 #### should not start automatically on boot
 update-rc.d hostapd disable
@@ -67,7 +65,7 @@ update-rc.d hostapd disable
 wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
 #wifi_interface=wlano
 
-echo "...configuring $wifi_interface interface..."
+echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
 cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
@@ -81,13 +79,13 @@ macaddr_acl=0
 ignore_broadcast_ssid=0
 EOT
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ## 3) Setup /etc/init.d/hostapd
 ##############################################################
 echo
-echo "**** Setup /etc/init.d/hostapd *****"
+echo "**** Setup /etc/init.d/hostapd *****${WHITE}"
 
 #### edit /etc/init.d/hostapd
 cp -n /etc/init.d/hostapd{,.bak}
@@ -97,17 +95,17 @@ if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
     sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
 else
     echo
-    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
-    exit 0
+    echo "${BOLD}${RED}ERROR - /etc/init.d/hostapd is missing, exiting... !!!!!!!!${WHITE}${NORMAL}"
+    exit
 fi
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 ##############################################################
 ## 4) Setup /etc/network/interfaces
 ##############################################################
 echo
-echo "**** Setup /etc/network/interfaces *****"
+echo "${YELLOW}**** Setup /etc/network/interfaces *****${WHITE}"
 
 cp -n /etc/network/interfaces{,.bak}
 
@@ -128,13 +126,13 @@ iface wlan0 inet static
   wireless-mode master
 EOT
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 #################################################
 ## 5) Setup /etc/init.d/wifiap
 #################################################
 echo
-echo "**** Setup /etc/init.d/wifiap *****"
+echo "${YELLOW}**** Setup /etc/init.d/wifiap *****${WHITE}"
 
 cat <<EOT > /etc/init.d/wifiap
 #!/bin/bash
@@ -177,39 +175,39 @@ EOT
 
 chmod +x /etc/init.d/wifiap
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 #################################################
 ## Setup hostapd symlink
 #################################################
 echo
-echo "**** Setup hostapd symlink *****"
+echo "${YELLOW}**** Setup hostapd symlink *****${WHITE}"
 
 #### fixes missing symlinks error
 ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
 #update-rc.d hostapd default
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 #################################################
 ## Setup wifiap service
 #################################################
 echo
-echo "**** Setup wifiap service *****"
+echo "${YELLOW}**** Setup wifiap service *****${WHITE}"
 
 #### start service at bootup
 update-rc.d wifiap enable
 
-echo "...done"
+echo "${GREEN}...done${WHITE}"
 
 #################################################
 ## Display usage message
 #################################################
 ### display usage message
-echo "
+echo "${MAGENTA}
 ======================================
 Wifi Access Point setup
 You can start and stop it with:
     service wifiap start
     service wifiap stop
-"
+${WHITE}"
