@@ -1,12 +1,15 @@
 #!/bin/bash
 
 #### files created
-# /etc/dhcp/dhcpd.conf
+# /etc/dnsmasq.conf
 # /etc/hostapd/hostapd.conf
 # /etc/network/interfaces
-# /etc/default/isc-dhcp-server
 # /etc/init.d/wifi_ap
 #### files modified
+# /etc/default/hostapd
+
+# /etc/dhcp/dhcpd.conf
+# /etc/default/isc-dhcp-server
 # /etc/init.d/hostapd
 
 
@@ -77,17 +80,21 @@ echo "**** Setup /etc/init.d/hostapd *****"
 echo
 
 #### edit /etc/init.d/hostapd
-cp -n /etc/init.d/hostapd{,.bak}
+#cp -n /etc/init.d/hostapd{,.bak}
+cp -n /etc/default/hostapd{,.bak}
 
+#if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
+#    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
+#    sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
+#else
+#    echo
+#    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
+#    exit 0
+#fi
 
-if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
-    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
-else
-    echo
-    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
-    exit 0
-fi
+cat <<EOT > /etc//default/hostapd
+DAEMON_CONF=/etc/hostapd/hostapd.conf
+EOT
 
 echo "done..."
 
@@ -99,13 +106,23 @@ echo "**** Setup /etc/default/isc-dhcp-server *****"
 echo
 
 #### should not start automatically on boot
-update-rc.d isc-dhcp-server disable
+#update-rc.d isc-dhcp-server disable
 
 ### set /etc/default/isc-dhcp-server
-cp -n /etc/default/isc-dhcp-server{,.bak}
-cat <<EOT > /etc/default/isc-dhcp-server
-NTERFACES="$wifi_interface"
+#cp -n /etc/default/isc-dhcp-server{,.bak}
+#cat <<EOT > /etc/default/isc-dhcp-server
+#NTERFACES="$wifi_interface"
+#EOT
+
+cp -n /etc/dnsmasq{,.bak}
+#cat <<EOT > /etc/dnsmasq.conf
+no-resolv
+interface=wlan0
+dns-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
+server=4.2.2.2
 EOT
+
+update-rc.d dnsmasq disable
 
 echo "done..."
 
@@ -117,21 +134,21 @@ echo "**** Setup /etc/dhcp/dhcpd.conf *****"
 echo
 
 ### set /etc/dhcp/dhcpd.conf
-cp -n /etc/dhcp/dhcpd.conf{,.bak}
-cat <<EOT > /etc/dhcp/dhcpd.conf
-ddns-update-style none;
-default-lease-time 86400; # 24 hours
-max-lease-time 172800; # 48 hours
-authoritative;
-log-facility local7;
+#cp -n /etc/dhcp/dhcpd.conf{,.bak}
+#cat <<EOT > /etc/dhcp/dhcpd.conf
+#ddns-update-style none;
+#default-lease-time 86400; # 24 hours
+#max-lease-time 172800; # 48 hours
+#authoritative;
+#log-facility local7;
 
-subnet 192.168.10.0 netmask 255.255.255.0 {
-    range 192.168.10.10 192.168.10.50;
-    option broadcast-address 192.168.10.255;
-    option domain-name "stratux.local";
-    option domain-name-servers 4.2.2.2;
-}
-EOT
+#subnet 192.168.10.0 netmask 255.255.255.0 {
+#    range 192.168.10.10 192.168.10.50;
+#    option broadcast-address 192.168.10.255;
+#    option domain-name "stratux.local";
+#    option domain-name-servers 4.2.2.2;
+#}
+#EOT
 
 echo "done..."
 
@@ -185,7 +202,8 @@ cat <<EOT > /etc/init.d/wifiap
 ext_interface=\$(ip route | grep default | cut -d' ' -f5)
 function stop {
     ### stop services dhcpd and hostapd
-    service isc-dhcp-server stop
+    #service isc-dhcp-server stop
+    service dnsmasq stop
     service hostapd stop
 
     ### remove the static IP from the wifi interface
@@ -218,7 +236,8 @@ function start {
     #echo '  netmask 255.255.255.0' >> /etc/network/interfaces
     ### start services dhcpd and hostapd
     service hostapd start
-    service isc-dhcp-server start
+    #service isc-dhcp-server start
+    service dnsmasq start
 }
 ### start/stop wifi access point
 case "\$1" in
@@ -236,7 +255,7 @@ echo "done..."
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
 #### avoids missing symlinks error
-update-rc.d hostapd default
+#update-rc.d hostapd default
 
 #### start service at bootup
 update-rc.d wifiap enable

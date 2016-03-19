@@ -75,7 +75,7 @@ if [ "$EW7811Un" != '' ]; then
 
     gunzip -k hostapd_cli.gz
     if [ ! -f ./hostapd_cli ]; then
-        echo "ERROR - hostapd doesn't exist, exiting..."
+        echo "ERROR - hostapd_cli doesn't exist, exiting..."
         exit 0
     fi
 
