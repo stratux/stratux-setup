@@ -1,16 +1,16 @@
 #!/bin/bash
 
 #### files created
-# /etc/dnsmasq.conf
+# /etc/dhcp/dhcpd.conf
 # /etc/hostapd/hostapd.conf
 # /etc/network/interfaces
+# /etc/default/isc-dhcp-server
 # /etc/init.d/wifi_ap
 #### files modified
 # /etc/default/hostapd
 
-# /etc/dhcp/dhcpd.conf
-# /etc/default/isc-dhcp-server
 # /etc/init.d/hostapd
+# /etc/dnsmasq.conf
 
 
 
@@ -115,7 +115,7 @@ echo
 #EOT
 
 cp -n /etc/dnsmasq{,.bak}
-#cat <<EOT > /etc/dnsmasq.conf
+cat <<EOT > /etc/dnsmasq.conf
 no-resolv
 interface=wlan0
 dns-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
@@ -255,12 +255,8 @@ echo "...done"
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
 
 #### avoids missing symlinks error
-#update-rc.d hostapd default
-=======
-#if [ "$REVISION" == "$ODROIDC2" ]; then
-#    #### avoids missing symlinks error
-#    update-rc.d hostapd default
-#fi
+systemctl -l status dnsmasq.service
+update-rc.d hostapd default
 
 #### start service at bootup
 update-rc.d wifiap enable
