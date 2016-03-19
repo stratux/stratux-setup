@@ -180,7 +180,7 @@ if grep -q "export PATH=" "/root/.bashrc"; then
 fi
 
 # only add new paths
-XPATH=
+XPATH='$PATH'
 if [[ ! "$PATH" =~ "/root/go/bin" ]]; then
     XPATH+=:/root/go/bin
 fi
@@ -192,7 +192,7 @@ fi
 echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
-echo 'export PATH=$PATH$XPATH' >>/root/.bashrc
+echo export PATH=$XPATH >>/root/.bashrc
 
 source /root/.bashrc
 

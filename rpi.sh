@@ -50,7 +50,7 @@ echo
 echo "**** Edimax wifi dongle check... *****"
 
 if [ "$EW7811Un" != '' ]; then
-    echo "edimax wifi dongle found, copying the hostapd binary... *****"
+    echo "edimax wifi dongle found, copying the hostapd binaries... *****"
 
     cd $SCRIPTDIR
     rm -f /usr/sbin/hostapd
@@ -81,7 +81,7 @@ if [ "$EW7811Un" != '' ]; then
     chmod +x /usr/sbin/hostapd
 
     # install the binary
-    mv ./hostapd /usr/sbin/hostapd_cli
+    mv ./hostapd_cli /usr/sbin/hostapd_cli
     chmod +x /usr/sbin/hostapd_cli
 
     #cd $SCRIPTDIR
