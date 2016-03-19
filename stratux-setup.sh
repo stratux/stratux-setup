@@ -5,11 +5,27 @@ if [ $(whoami) != 'root' ]; then
     exit 0
 fi
 
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+LIME_YELLOW=$(tput setaf 190)
+POWDER_BLUE=$(tput setaf 153)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+BRIGHT=$(tput bold)
+NORMAL=$(tput sgr0)
+BLINK=$(tput blink)
+REVERSE=$(tput smso)
+UNDERLINE=$(tput smul)
+
 SCRIPTDIR="`pwd`"
 
 cd /root
 
-#set -e 
+#set -e
 
 #outfile=setuplog
 #rm -f $outfile
@@ -35,7 +51,7 @@ echo
 echo "************************************"
 echo "**** Stratux Setup Starting... *****"
 echo "************************************"
-echo 
+echo
 
 ntpd -q -g
 
@@ -55,33 +71,40 @@ apt-get install -y wget
 apt-get install -y screen
 apt-get install -y isc-dhcp-server
 apt-get install -y tcpdump
-apt-get install -y cmake 
-apt-get install -y libusb-1.0-0.dev 
+apt-get install -y cmake
+apt-get install -y libusb-1.0-0.dev
 apt-get install -y build-essential
 apt-get install -y mercurial
-apt-get install -y autoconf 
-apt-get install -y fftw3 
+apt-get install -y autoconf
+apt-get install -y fftw3
 apt-get install -y fftw3-dev
 apt-get install -y libtool
 apt-get install -y automake
 apt-get install -y hostapd
 apt-get install -y rfkill
 
+echo "done..."
+
 ##############################################################
-##  Platform and hardware specific items
+##  Hardware checkout
 ##############################################################
+echo
+echo "**** Hardware checkout... *****"
+echo
+
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ]; then
-    echo
     echo "**** Raspberry Pi detected... *****"
-    echo
     source $SCRIPTDIR/rpi.sh
 elif [ "$REVISION" == "$ODROIDC2" ]; then
+    echo "**** Odroid-C2 detected... *****"
     source $SCRIPTDIR/odroid.sh
 else
     echo "**** Unable to identify the board using /proc/cpuinfo, exiting *****"
     exit 0
 fi
+
+echo "done..."
 
 ##############################################################
 ##  SSH steup and config
@@ -103,6 +126,7 @@ cp -n /etc/ssh/sshd_config{,.bak}
 cp -f $SCRIPTDIR/files/sshd_config /etc/ssh/sshd_config
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
+echo "done..."
 
 ##############################################################
 ##  Hardware blacklisting
@@ -122,6 +146,8 @@ fi
 if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
+
+echo "done..."
 
 ##############################################################
 ##  Go environment setup
@@ -168,6 +194,8 @@ echo export PATH=\$PATH$XPATH >>/root/.bashrc
 
 source /root/.bashrc
 
+echo "done..."
+
 ##############################################################
 ##  Go bootstrap compiler installtion
 ##############################################################
@@ -182,11 +210,16 @@ rm -rf gobootstrap/
 
 wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
 tar -zxvf go1.6.linux-armv6l.tar.gz
-mv go gobootstrap
-rm -f go1.6.linux-armv6l.tar.gz
+if [ ! -d /root/go ]; then
+    echo "Error - go folder doesn't exist, exiting..."
+    exit 0
+fi
 
+rm -f go1.6.linux-armv6l.tar.gz
 rm -rf /root/gopath
 mkdir -p /root/gopath
+
+echo "done..."
 
 ##############################################################
 ##  Go host compiler build
@@ -198,10 +231,11 @@ echo
 cd /root
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
-    mv gobootstrap go
-else
     #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
     #### to compiling from source?
+    echo "not necessary, done..."
+else
+    mv go gobootstrap
     wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
     tar -zxvf go1.6.src.tar.gz
     rm go1.6.src*
@@ -212,6 +246,8 @@ else
 
     cd /root
     rm -rf gobootstrap/
+
+    echo "done..."
 fi
 
 ##############################################################
@@ -233,6 +269,8 @@ make
 make install
 ldconfig
 
+echo "done..."
+
 ##############################################################
 ##  Stratux build and installation
 ##############################################################
@@ -250,6 +288,7 @@ git checkout v0.8r1
 make all
 make install
 
+echo "done..."
 
 ##############################################################
 ##  Kalibrate build and installation build
@@ -267,6 +306,8 @@ cd kalibrate-rtl
 ./configure
 make
 make install
+
+echo "done..."
 
 ##############################################################
 ##  System tweaks
@@ -290,6 +331,8 @@ if [ -f /usr/sbin/policy-rc.d ]; then
     rm /usr/sbin/policy-rc.d
 fi
 
+echo "done..."
+
 ##############################################################
 ##  WiFi Access Point setup
 ##############################################################
@@ -304,7 +347,7 @@ if which ntp >/dev/null; then
     update-rc.d ntp disable
 fi
 
-#### 
+####
 update-rc.d stratux enable
 
 echo

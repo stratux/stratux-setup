@@ -1,4 +1,4 @@
- 
+
 echo
 echo "************************************"
 echo "****** Raspberry Pi setup... *******"
@@ -32,6 +32,8 @@ fi
 #echo "sdram_freq=450" >>boot/config.txt
 #echo "core_freq=450" >>boot/config.txt
 
+echo "...done"
+
 ##############################################################
 ##  Disable serial console
 ##############################################################
@@ -41,17 +43,17 @@ echo
 
 sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
+echo "...done"
+
 ##############################################################
 ##  Edimax wifi dongle check
 ##############################################################
 echo
 echo "**** Edimax wifi dongle check... *****"
 echo
-### Check if RPi2 with Edimax Wifi dongle
+
 if [ "$EW7811Un" != '' ]; then
-    echo
-    echo "**** Edimax wifi dongle found, building hostapd... *****"
-    echo
+    echo "edimax wifi dongle found, copying the hostapd binary... *****"
 
     cd $SCRIPTDIR
     rm -f /usr/sbin/hostapd
@@ -80,7 +82,11 @@ if [ "$EW7811Un" != '' ]; then
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
+else
+    echo "edimax wifi dongle not found, nothing to do... *****"
 fi
+
+echo "done..."
 
 ##############################################################
 ##  I2C setup
@@ -96,6 +102,8 @@ fi
 if ! grep -q "i2c-dev" "/etc/modules"; then
     echo "i2c-dev" >>/etc/modules
 fi
+
+echo "done..."
 
 ##############################################################
 ##  Sysctl tweaks
@@ -129,3 +137,4 @@ echo "net.core.rmem_default = 167772160" >>/etc/sysctl.conf
 echo "net.core.wmem_max = 167772160" >>/etc/sysctl.conf
 echo "net.core.wmem_default = 167772160" >>/etc/sysctl.conf
 
+echo "...done"

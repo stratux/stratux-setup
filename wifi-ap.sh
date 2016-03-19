@@ -27,11 +27,6 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     fi
 fi
 
-ODROIDPART=
-if [ "$REVISION" == "$ODROIDC2" ]; then
-    ODROIDPART="source-directory /etc/network/interfaces.d"
-fi
-
 ##############################################################
 ## Check if the wireless card supports Access Point mode
 ##############################################################
@@ -43,10 +38,10 @@ fi
 #fi
 
 ##############################################################
-##  Setup hostapd
+##  Setup /etc/hostapd/hostapd.conf
 ##############################################################
 echo
-echo "**** Setup hostapd *****"
+echo "**** Setup /etc/hostapd/hostapd.conf *****"
 echo
 
 #### should not start automatically on boot
@@ -56,9 +51,7 @@ update-rc.d hostapd disable
 wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
 #wifi_interface=wlano
 
-echo
-echo "**** Configuring $wifi_interface interface... *****"
-echo
+echo "...configuring $wifi_interface interface..."
 
 # TODO: check for edimax dongle
 #### set /etc/hostapd/hostapd.conf
@@ -74,6 +67,15 @@ macaddr_acl=0
 ignore_broadcast_ssid=0
 EOT
 
+echo "done..."
+
+##############################################################
+##  Setup /etc/init.d/hostapd
+##############################################################
+echo
+echo "**** Setup /etc/init.d/hostapd *****"
+echo
+
 #### edit /etc/init.d/hostapd
 cp -n /etc/init.d/hostapd{,.bak}
 
@@ -82,16 +84,18 @@ if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
     line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
     sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
 else
-    echo 
-    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
     echo
+    echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
+    exit 0
 fi
 
+echo "done..."
+
 ##############################################################
-## Setup DHCP server for IP address management
+## Setup /etc/default/isc-dhcp-server
 ##############################################################
 echo
-echo "**** Setup DHCP server for IP address management *****"
+echo "**** Setup /etc/default/isc-dhcp-server *****"
 echo
 
 #### should not start automatically on boot
@@ -102,6 +106,15 @@ cp -n /etc/default/isc-dhcp-server{,.bak}
 cat <<EOT > /etc/default/isc-dhcp-server
 NTERFACES="$wifi_interface"
 EOT
+
+echo "done..."
+
+##############################################################
+## Setup /etc/dhcp/dhcpd.conf
+##############################################################
+echo
+echo "**** Setup /etc/dhcp/dhcpd.conf *****"
+echo
 
 ### set /etc/dhcp/dhcpd.conf
 cp -n /etc/dhcp/dhcpd.conf{,.bak}
@@ -120,18 +133,20 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 }
 EOT
 
+echo "done..."
+
 ##############################################################
-## Set network interface
+## Setup /etc/network/interfaces
 ##############################################################
 echo
-echo "**** Set network interface *****"
+echo "**** Setup /etc/network/interfaces *****"
 echo
 
 ### set /etc/network/interfaces
 cp -n /etc/network/interfaces{,.bak}
 
 cat <<EOT > /etc/network/interfaces
-$ODROIDPART
+source-directory /etc/network/interfaces.d
 
 auto lo
 iface lo inet loopback
@@ -146,11 +161,13 @@ iface wlan0 inet static
   netmask 255.255.255.0
 EOT
 
+echo "done..."
+
 #################################################
-## Create the wifi access point startup script
+## Setup /etc/init.d/wifiap
 #################################################
 echo
-echo "**** Create the wifi access point startup script *****"
+echo "**** Setup /etc/init.d/wifiap *****"
 echo
 
 cat <<EOT > /etc/init.d/wifiap
@@ -170,7 +187,7 @@ function stop {
     ### stop services dhcpd and hostapd
     service isc-dhcp-server stop
     service hostapd stop
-    
+
     ### remove the static IP from the wifi interface
     #if grep -q 'auto $wifi_interface' /etc/network/interfaces
     #then
@@ -212,6 +229,8 @@ EOT
 
 chmod +x /etc/init.d/wifiap
 
+echo "done..."
+
 ### make sure that it is stopped on boot
 #sed -i /etc/rc.local  -e '/service wifiap stop/ d'
 #sed -i /etc/rc.local  -e '/^exit/ i service wifiap stop'
@@ -225,7 +244,7 @@ update-rc.d wifiap enable
 ### display usage message
 echo "
 ======================================
-Wifi Access Point installed.
+Wifi Access Point setup
 You can start and stop it with:
     service wifiap start
     service wifiap stop
