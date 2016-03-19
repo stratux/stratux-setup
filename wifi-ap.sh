@@ -1,12 +1,11 @@
 #!/bin/bash
 
-##### files created or modified
-# 1) /etc/dhcp/dhcpd.conf
-# 2) /etc/init.d/hostapd
-# 3) /etc/hostapd/hostapd.conf
+#### files created and/or modified
+# 1) /etc/dnsmasq.conf
+# 2) /etc/hostapd/hostapd.conf
+# 3) /etc/init.d/hostapd
 # 4) /etc/network/interfaces
-# 5) /etc/default/isc-dhcp-server
-# 6) /etc/init.d/wifi_ap
+# 5) /etc/init.d/wifi_ap
 
 
 if [ $(whoami) != 'root' ]; then
@@ -35,32 +34,57 @@ fi
 #fi
 
 ##############################################################
-## 1) Setup /etc/dhcp/dhcpd.conf
+## 1) Setup /etc/dnsmasq.conf
 ##############################################################
 echo
-echo "**** Setup /etc/dhcp/dhcpd.conf *****"
+echo "**** Setup /etc/dnsmasq.conf *****"
+echo
 
-### set /etc/dhcp/dhcpd.conf
-cp -n /etc/dhcp/dhcpd.conf{,.bak}
-cat <<EOT > /etc/dhcp/dhcpd.conf
-ddns-update-style none;
-default-lease-time 86400; # 24 hours
-max-lease-time 172800; # 48 hours
-authoritative;
-log-facility local7;
+#### should not start automatically on boot
+update-rc.d dnsmasq disable
 
-subnet 192.168.10.0 netmask 255.255.255.0 {
-    range 192.168.10.10 192.168.10.50;
-    option broadcast-address 192.168.10.255;
-    option domain-name "stratux.local";
-    option domain-name-servers 4.2.2.2;
-}
+cp -n /etc/dnsmasq{,.bak}
+cat <<EOT > /etc/dnsmasq.conf
+no-resolv
+interface=wlan0
+dhcp-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
+server=4.2.2.2
 EOT
 
 echo "...done"
 
 ##############################################################
-## 2) Setup /etc/init.d/hostapd
+## 2) Setup /etc/hostapd/hostapd.conf
+##############################################################
+echo
+echo "**** Setup /etc/hostapd/hostapd.conf *****"
+echo
+
+#### should not start automatically on boot
+update-rc.d hostapd disable
+
+# what wifi interface, e.g. wlan0, wlan1..., uses the first one
+wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
+#wifi_interface=wlano
+
+echo "...configuring $wifi_interface interface..."
+
+cat <<EOT > /etc/hostapd/hostapd.conf
+interface=$wifi_interface
+ssid=stratux
+$WIFIDRV
+ieee80211n=1
+hw_mode=g
+channel=1
+wmm_enabled=1
+macaddr_acl=0
+ignore_broadcast_ssid=0
+EOT
+
+echo "...done"
+
+##############################################################
+## 3) Setup /etc/init.d/hostapd
 ##############################################################
 echo
 echo "**** Setup /etc/init.d/hostapd *****"
@@ -76,34 +100,6 @@ else
     echo "!!!!!!!! Error, /etc/init.d/hostapd is missing, exiting... !!!!!!!!"
     exit 0
 fi
-
-echo "...done"
-
-##############################################################
-## 3) Setup /etc/hostapd/hostapd.conf
-##############################################################
-echo
-echo "**** Setup /etc/hostapd/hostapd.conf *****"
-
-#### should not start automatically on boot
-update-rc.d hostapd disable
-
-# what wifi interface, e.g. wlan0, wlan1..., uses the first one
-wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
-
-echo "...configuring $wifi_interface interface..."
-
-cat <<EOT > /etc/hostapd/hostapd.conf
-interface=$wifi_interface
-ssid=stratux
-$WIFIDRV
-ieee80211n=1
-hw_mode=g
-channel=1
-wmm_enabled=1
-macaddr_acl=0
-ignore_broadcast_ssid=0
-EOT
 
 echo "...done"
 
@@ -133,27 +129,8 @@ EOT
 
 echo "...done"
 
-##############################################################
-## 5) Setup /etc/default/isc-dhcp-server
-##############################################################
-echo
-echo "**** Setup /etc/default/isc-dhcp-server *****"
-echo
-
-#### should not start automatically on boot
-update-rc.d isc-dhcp-server disable
-
-### set /etc/default/isc-dhcp-server
-cp -n /etc/default/isc-dhcp-server{,.bak}
-cat <<EOT > /etc/default/isc-dhcp-server
-NTERFACES="$wifi_interface"
-EOT
-
-echo "...done"
-
-
 #################################################
-## 6) Setup /etc/init.d/wifiap
+## 5) Setup /etc/init.d/wifiap
 #################################################
 echo
 echo "**** Setup /etc/init.d/wifiap *****"
@@ -175,7 +152,8 @@ cat <<EOT > /etc/init.d/wifiap
 
 function stop {
     ### stop services dhcpd and hostapd
-    service isc-dhcp-server stop
+    #service isc-dhcp-server stop
+    service dnsmasq stop
     service hostapd stop
 }
 
@@ -186,7 +164,7 @@ function start {
     rfkill unblock wifi
     ### start services dhcpd and hostapd
     service hostapd start
-    service isc-dhcp-server start
+    service dnsmasq start
 }
 
 ### start/stop wifi access point

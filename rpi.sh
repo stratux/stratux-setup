@@ -100,7 +100,6 @@ echo "...done"
 ##############################################################
 echo
 echo "**** I2C setup... *****"
-echo
 
 if ! grep -q "i2c-bcm2708" "/etc/modules"; then
     echo "i2c-bcm2708" >>/etc/modules

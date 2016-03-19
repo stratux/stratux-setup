@@ -68,7 +68,7 @@ apt-get install -y iw
 apt-get install -y lshw
 apt-get install -y wget
 apt-get install -y screen
-apt-get install -y isc-dhcp-server
+#apt-get install -y isc-dhcp-server
 apt-get install -y tcpdump
 apt-get install -y cmake
 apt-get install -y libusb-1.0-0.dev
@@ -81,6 +81,7 @@ apt-get install -y libtool
 apt-get install -y automake
 apt-get install -y hostapd
 apt-get install -y rfkill
+apt-get install -y dnsmasq
 
 echo "...done"
 
