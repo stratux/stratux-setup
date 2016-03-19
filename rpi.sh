@@ -57,6 +57,7 @@ if [ "$EW7811Un" != '' ]; then
 
     cd $SCRIPTDIR
     rm -f /usr/sbin/hostapd
+    rm -f /usr/sbin/hostapd_cli
 
     #echo "hostapd edimax source"
     #### http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
@@ -72,9 +73,19 @@ if [ "$EW7811Un" != '' ]; then
         exit 0
     fi
 
+    gunzip -k hostapd_cli.gz
+    if [ ! -f ./hostapd_cli ]; then
+        echo "ERROR - hostapd doesn't exist, exiting..."
+        exit 0
+    fi
+
     # install the binary
     mv ./hostapd /usr/sbin/hostapd
     chmod +x /usr/sbin/hostapd
+
+    # install the binary
+    mv ./hostapd /usr/sbin/hostapd_cli
+    chmod +x /usr/sbin/hostapd_cli
 
     #cd $SCRIPTDIR
     #rm -rf wpa_supplicant_hostapd/
