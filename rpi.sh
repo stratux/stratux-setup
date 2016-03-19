@@ -86,7 +86,7 @@ else
     echo "edimax wifi dongle not found, nothing to do... *****"
 fi
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  I2C setup
@@ -103,7 +103,7 @@ if ! grep -q "i2c-dev" "/etc/modules"; then
     echo "i2c-dev" >>/etc/modules
 fi
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Sysctl tweaks

@@ -67,7 +67,7 @@ macaddr_acl=0
 ignore_broadcast_ssid=0
 EOT
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Setup /etc/init.d/hostapd
@@ -89,7 +89,7 @@ else
     exit 0
 fi
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ## Setup /etc/default/isc-dhcp-server
@@ -107,7 +107,7 @@ cat <<EOT > /etc/default/isc-dhcp-server
 NTERFACES="$wifi_interface"
 EOT
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ## Setup /etc/dhcp/dhcpd.conf
@@ -133,7 +133,7 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 }
 EOT
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ## Setup /etc/network/interfaces
@@ -161,7 +161,7 @@ iface wlan0 inet static
   netmask 255.255.255.0
 EOT
 
-echo "done..."
+echo "...done"
 
 #################################################
 ## Setup /etc/init.d/wifiap
@@ -229,7 +229,7 @@ EOT
 
 chmod +x /etc/init.d/wifiap
 
-echo "done..."
+echo "...done"
 
 ### make sure that it is stopped on boot
 #sed -i /etc/rc.local  -e '/service wifiap stop/ d'

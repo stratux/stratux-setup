@@ -16,4 +16,4 @@ echo
 #### TODO: check distro
 ufw disable
 
-echo "done..."
+echo "...done"

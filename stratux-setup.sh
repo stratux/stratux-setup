@@ -83,7 +83,7 @@ apt-get install -y automake
 apt-get install -y hostapd
 apt-get install -y rfkill
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Hardware checkout
@@ -104,7 +104,7 @@ else
     exit 0
 fi
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  SSH steup and config
@@ -126,7 +126,7 @@ cp -n /etc/ssh/sshd_config{,.bak}
 cp -f $SCRIPTDIR/files/sshd_config /etc/ssh/sshd_config
 rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Hardware blacklisting
@@ -147,7 +147,7 @@ if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Go environment setup
@@ -194,7 +194,7 @@ echo export PATH=\$PATH$XPATH >>/root/.bashrc
 
 source /root/.bashrc
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Go bootstrap compiler installtion
@@ -219,7 +219,7 @@ rm -f go1.6.linux-armv6l.tar.gz
 rm -rf /root/gopath
 mkdir -p /root/gopath
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Go host compiler build
@@ -233,7 +233,7 @@ cd /root
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
     #### to compiling from source?
-    echo "not necessary, done..."
+    echo "...not necessary, done"
 else
     mv go gobootstrap
     wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
@@ -247,7 +247,7 @@ else
     cd /root
     rm -rf gobootstrap/
 
-    echo "done..."
+    echo "...done"
 fi
 
 ##############################################################
@@ -269,7 +269,7 @@ make
 make install
 ldconfig
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  Stratux build and installation
@@ -288,13 +288,13 @@ git checkout v0.8r1
 make all
 make install
 
-echo "done..."
+echo "...done"
 
 ##############################################################
-##  Kalibrate build and installation build
+##  Kalibrate build and installation
 ##############################################################
 echo
-echo "**** Kalibrate build and installation build... *****"
+echo "**** Kalibrate build and installation... *****"
 echo
 
 cd /root
@@ -307,7 +307,7 @@ cd kalibrate-rtl
 make
 make install
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  System tweaks
@@ -331,7 +331,7 @@ if [ -f /usr/sbin/policy-rc.d ]; then
     rm /usr/sbin/policy-rc.d
 fi
 
-echo "done..."
+echo "...done"
 
 ##############################################################
 ##  WiFi Access Point setup
