@@ -63,7 +63,7 @@ echo
 #### should not start automatically on boot
 update-rc.d hostapd disable
 
-# what wifi interface, e.g. wlan0, wlan1..., fixes the first one
+# what wifi interface, e.g. wlan0, wlan1..., uses the first one
 wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
 #wifi_interface=wlano
 
