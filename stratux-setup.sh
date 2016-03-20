@@ -79,6 +79,7 @@ apt-get install -y fftw3
 apt-get install -y fftw3-dev
 apt-get install -y libtool
 apt-get install -y automake
+apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y rfkill
 apt-get install -y dnsmasq

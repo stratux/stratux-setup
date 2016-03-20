@@ -16,8 +16,10 @@ opposed to isc-dhcp-server, which offers quicker and more consistent
 client connections.
 
 
-Tested on RPi2, Raspbian Jessie, Jessie Lite (requires image resize),
-and Odroid-C2 Ubuntu64-16.04lts-mate.
+Tested on RPi2, Raspbian Jessie and Jessie Lite (requires image resize),
+as well as, Odroid-C2 Ubuntu64-16.04lts-mate both systems worked with an
+Edimaw EW-7811Un and Odroid Module 0 (Ralink RT5370) Wifi USB adapters, no
+extra configuration required.
 
 
 Note, you can go back to any previous stratux version by opening a command line
