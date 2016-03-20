@@ -192,6 +192,7 @@ echo
 echo "${YELLOW}**** Setup wifiap service *****${WHITE}"
 
 #### start service at bootup
+ln -s /etc/init.d/wifiap /etc/rc2.d/S02wifiap
 update-rc.d wifiap enable
 
 echo "${GREEN}...done${WHITE}"
