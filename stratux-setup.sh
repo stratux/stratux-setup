@@ -89,6 +89,24 @@ apt-get install -y dnsmasq
 echo "${GREEN}...done${WHITE}"
 
 ##############################################################
+##  Stop exisiting services
+##############################################################
+echo
+echo "${YELLOW}**** Stop exisiting services... *****${WHITE}"
+
+if [ -f "/etc/init.d/stratux" ]; then
+    service stratux stop
+    echo "${MAGENTA}stratux service stopped... *****${WHITE}"
+fi
+
+if [ -f "/etc/init.d/wifiap" ]; then
+    service wifiap stop
+    echo "${MAGENTA}wifiap service stopped... *****${WHITE}"
+fi
+
+echo "${GREEN}...done${WHITE}"
+
+##############################################################
 ##  Hardware checkout
 ##############################################################
 echo
