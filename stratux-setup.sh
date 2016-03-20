@@ -214,7 +214,7 @@ fi
 echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
-echo export PATH=$XPATH >>/root/.bashrc
+echo export PATH=${XPATH} >>/root/.bashrc
 
 source /root/.bashrc
 
@@ -265,7 +265,7 @@ else
     tar -zxvf go1.6.src.tar.gz
     rm go1.6.src*
 
-    make.bash to skip the post build tests
+    # make.bash to skip the post build tests
     cd go/src
     bash ./make.bash
 
@@ -304,6 +304,7 @@ echo "${YELLOW}**** Stratux build and installation... *****${WHITE}"
 cd /root
 
 rm -rf stratux
+rm -rf /var/www
 git clone https://github.com/cyoung/stratux --recursive
 cd stratux
 # checkout the latest release

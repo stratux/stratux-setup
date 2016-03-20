@@ -135,14 +135,14 @@ cat <<EOT > /etc/init.d/wifiap
 
 ### BEGIN INIT INFO
 # Provides:          wifiap
-# Required-Start:
+# Required-Start:    $network
 # Required-Stop:
 # Should-Start:
 # Should-Stop:
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
+# Default-Start:     2
+# Default-Stop:      6
 # Short-Description: Stratux Wifi Access Point
-# Description: Stratux
+# Description:       Stratux Wifi Access Point
 ### END INIT INFO
 
 function stop {
@@ -193,6 +193,7 @@ echo "${YELLOW}**** Setup wifiap service *****${WHITE}"
 
 #### start service at bootup
 ln -s /etc/init.d/wifiap /etc/rc2.d/S02wifiap
+ln -s /etc/init.d/wifiap /etc/rc6.d/S06wifiap
 update-rc.d wifiap enable
 
 echo "${GREEN}...done${WHITE}"
