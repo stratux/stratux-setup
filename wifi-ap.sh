@@ -130,6 +130,8 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Setup /etc/init.d/wifiap *****${WHITE}"
 
+rm -f /etc/init.d/wifiap
+
 cat <<EOT > /etc/init.d/wifiap
 #!/bin/bash
 
@@ -180,6 +182,7 @@ echo
 echo "${YELLOW}**** Setup hostapd symlink *****${WHITE}"
 
 #### fixes missing symlinks error
+rm -f /etc/rc2.d/S02hostapd
 ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
 #update-rc.d hostapd default
 
@@ -192,6 +195,8 @@ echo
 echo "${YELLOW}**** Setup wifiap service *****${WHITE}"
 
 #### start service at bootup
+rm -f /etc/rc2.d/S02wifiap
+rm -f /etc/rc6.d/S06wifiap
 ln -s /etc/init.d/wifiap /etc/rc2.d/S02wifiap
 ln -s /etc/init.d/wifiap /etc/rc6.d/S06wifiap
 update-rc.d wifiap enable

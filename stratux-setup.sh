@@ -307,8 +307,10 @@ rm -rf stratux
 rm -rf /var/www
 git clone https://github.com/cyoung/stratux --recursive
 cd stratux
+git fetch --tags
+tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 # checkout the latest release
-git checkout v0.8r1
+git checkout $tag
 make all
 make install
 
