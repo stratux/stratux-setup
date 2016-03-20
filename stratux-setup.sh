@@ -16,7 +16,6 @@ BLINK=$(tput blink)
 REVERSE=$(tput smso)
 UNDERLINE=$(tput smul)
 
-echo "${BRIGHT}"
 
 if [ $(whoami) != 'root' ]; then
     echo "${BOLD}${RED}This script must be executed as root, exiting...${WHITE}${NORMAL}"
