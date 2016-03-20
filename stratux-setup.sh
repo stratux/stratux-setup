@@ -304,7 +304,6 @@ echo "${YELLOW}**** Stratux build and installation... *****${WHITE}"
 cd /root
 
 rm -rf stratux
-rm -rf /var/www
 git clone https://github.com/cyoung/stratux --recursive
 cd stratux
 git fetch --tags

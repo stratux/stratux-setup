@@ -6,15 +6,11 @@ echo
 
 
 ##############################################################
-## Disable firewall
+## Uninstalling the firewall
 ##############################################################
 echo
 echo "${YELLOW}**** Disable firewall *****${WHITE}"
 
-#### disable the firewall
-#### TODO: check distro
-if which ufw >/dev/null; then
-    ufw disable
-fi
+apt-get remove -y ufw
 
 echo "${GREEN}...done${WHITE}"
