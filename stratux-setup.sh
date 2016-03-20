@@ -53,7 +53,9 @@ echo "**** Stratux Setup Starting... *****"
 echo "************************************"
 echo "${WHITE}"
 
-ntpd -q -g
+if which ntp >/dev/null; then
+    ntpd -q -g
+fi
 
 ##############################################################
 ##  Dependencies
@@ -237,6 +239,9 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     #### to compiling from source?
     echo "${GREEN}...not necessary, done${WHITE}"
 else
+    # ulimit -s 1024     # set the thread stack limit to 1mb
+    # ulimit -s          # check that it worked
+    # env GO_TEST_TIMEOUT_SCALE=10 GOROOT_BOOTSTRAP=/root/gobootstrap
     mv go gobootstrap
     wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
     tar -zxvf go1.6.src.tar.gz
@@ -341,7 +346,8 @@ echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 
 #### disable ntpd autostart
 if which ntp >/dev/null; then
-    update-rc.d ntp disable
+    #update-rc.d ntp disable
+    systemctl disbable ntp
 fi
 
 ####

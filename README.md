@@ -21,6 +21,9 @@ as well as, Odroid-C2 Ubuntu64-16.04lts-mate both systems worked with an
 Edimaw EW-7811Un and Odroid Module 0 (Ralink RT5370) Wifi USB adapters, no
 extra configuration required.
 
+*Currently Odroid-C2 network issues. The web ui works but EFBs don't get
+gdl90 messages.
+
 
 Note, you can go back to any previous stratux version by opening a command line
 prompt in /root/stratux, issuing a "git checkout some-rev" command and running
