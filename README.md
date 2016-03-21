@@ -2,9 +2,9 @@ An alternative method for installing Stratux on your board's Linux OS.
 
 Both 1090ES and 978UAT SDR dongles have been tested on RPi2, Raspbian
 Jessie and Jessie Lite (requires image resize), as well as, Odroid-C2
-Ubuntu64-16.04lts-mate. Both RPI2 and Odroid systems worked with an
-Edimax EW-7811Un as well as an Odroid Module 0 (Ralink RT5370) Wifi
-USB adapters, no extra configuration required. But virtually any natively
+Ubuntu64-16.04lts-mate. Both the RPI2 and Odroid boards worked with an
+Edimax EW-7811Un and Odroid Module 0 (Ralink RT5370) Wifi
+USB adapter, no extra configuration required. But virtually any natively
 supported Wifi USB adapter should work.
 
 
