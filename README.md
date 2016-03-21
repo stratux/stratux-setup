@@ -3,7 +3,7 @@ An alternative method for installing Stratux on your board's Linux OS.
 Both 1090ES and 978UAT SDR dongles have been tested on RPi2, Raspbian
 Jessie and Jessie Lite (requires image resize), as well as, Odroid-C2
 Ubuntu64-16.04lts-mate. Both RPI2 and Odroid systems worked with an
-Edimaw EW-7811Un as well as an Odroid Module 0 (Ralink RT5370) Wifi
+Edimax EW-7811Un as well as an Odroid Module 0 (Ralink RT5370) Wifi
 USB adapters, no extra configuration required. But virtually any natively
 supported Wifi USB adapter should work.
 
@@ -20,11 +20,11 @@ Pre-installations commands:
     # make all
     # make install
 
-    Although you could restart stratux via "service stratux start" it's
+    Although you could restart stratux via "service stratux stop/start" it's
     advisable to reboot.
 
 
-Commands to run the setup scipt:
+Commands to run the setup script:
 
     login via command line (RPi - user: pi  pwd: raspberry
 
@@ -80,7 +80,7 @@ Specifically, the setup script installs dnsmasq, as opposed to isc-dhcp-server.
 
 Q: Does the stratux setup script differ from the installation provided by the official image?
 
-A: Yes, as stated in the previous answer, the setup srcipt uses dnsmasq for
+A: Yes, as stated in the previous answer, the setup script uses dnsmasq for
 its dhcp server whereas the official image uses isc-dhcp-server. The switch does
 require a change to the network.go file so stratux knows where the dhcp lease file is
 located and how to parse said file. For that reason, the setup script includes
