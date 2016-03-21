@@ -70,8 +70,8 @@ Notes
     - the setup script uses its own wifi service command use the
       following commands to start and stop it:
 
-          servive wifiap stop
-          servive wifiap start
+          service wifiap stop
+          service wifiap start
 
 Requirements
 
