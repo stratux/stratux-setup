@@ -310,6 +310,12 @@ git fetch --tags
 tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 # checkout the latest release
 git checkout $tag
+
+# changed for dnsmasq specific lease file parsing
+# pointless but it feels like the right thing to do
+cp -n /root/startux/main/network.go{,.bak}
+cp ${SCRIPTDIR}/network-dnsmasq.go /root/stratux/main/network.go
+
 make all
 make install
 
