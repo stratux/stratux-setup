@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env sh
+# Copyright (c) 2016 Joseph D Poirier
+# Distributable under the terms of The New BSD License
+# that can be found in the LICENSE file.
+
 
 BLACK=$(tput setaf 0)
 RED=$(tput setaf 1)

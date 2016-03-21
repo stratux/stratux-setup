@@ -1,4 +1,6 @@
-#!/bin/bash
+# Copyright (c) 2016 Joseph D Poirier
+# Distributable under the terms of The New BSD License
+# that can be found in the LICENSE file.
 
 #### files created and/or modified
 # 1) /etc/dnsmasq.conf
