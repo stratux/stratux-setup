@@ -313,7 +313,7 @@ git checkout $tag
 
 # changed for dnsmasq specific lease file parsing
 # pointless but it feels like the right thing to do
-cp -n /root/stratux/main/network.go{,.bak}
+cp -n /root/stratux/main/network{,.bak}
 cp ${SCRIPTDIR}/network-dnsmasq.go /root/stratux/main/network.go
 
 make all
