@@ -97,9 +97,10 @@ depending on which SDR dongle you're using.
 
 Notes:
 
-    - the setup script uses its own wifi service, and although there's
-      no need to manually start and stop the it, if for some reason
-      you do need to, e.g. debugging, use the following commands:
+    - the setup script uses its own wifi service, and although there
+      is no need to manually start it post setup, if for some reason
+      you do need to start and/or stop it, e.g. for debugging, use
+      the following commands:
 
           service wifiap stop
           service wifiap start
