@@ -54,12 +54,13 @@ Commands to run the setup script:
 Q: What version of stratux does the setup script download and install?
 
 A: The setup script checks out and builds the latest version of the stratux
-code from the official stratux repository.
+code from the official stratux git repository.
 
 Note, you can check out and install any version of the stratux source code by
 opening a command line prompt in /root/stratux, issuing a "git checkout some-rev"
 command, where some-rev can be either a sha1 hash or tag, and running
-"make all" then "make install" and reboot.
+"make all" then "make install" and reboot. To see what revisions are available for
+checkout issue a "git branch" command.
 
 
 Q: Why use a setup script to manually install stratux as opposed to using the official image?
@@ -67,13 +68,13 @@ Q: Why use a setup script to manually install stratux as opposed to using the of
 A: For most, the official stratux image is what you should use.
 With that said, the setup script does offer the ability to use stratux on
 many other boards that run Linux with a fairly straightforward approach to
-adding support for Linux boards beyond RPi2s or RPi3s.
+adding support for Linux boards beyond RPi2 and RPi3.
 
 
 Q: How does it work?
 
 A: The stratux-setup script downloads, builds, and installs source code from the
-main (official) stratux repository and it sets up the necessary dhcp server using
+official stratux git repository and it sets up the necessary dhcp server using
 the same isc-dhcp-server binary as on the stratux image.
 
 
@@ -86,8 +87,8 @@ the stratux-setup installation is identical to that of the official image.
 Q: Are there any parts that don't work if I use an unsupported board, eg an Odroid-C2?
 
 A: Yes. Those parts that connect via GPIO are unsupported at this time,
-therefore, you're restricted to just traffic and/or weather information,
-depending on which SDR dongle you're using.
+therefore, you're restricted to those USB devices you'd use with the official image,
+e.g. SDR and/or GPS USB devices.
 
 
 Notes:
