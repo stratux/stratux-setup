@@ -8,6 +8,7 @@ echo "****** Raspberry Pi setup... *******"
 echo "************************************"
 echo "${WHITE}"
 
+
 ##############################################################
 ##  Boot config settings
 ##############################################################
@@ -36,6 +37,7 @@ fi
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  Disable serial console
 ##############################################################
@@ -45,6 +47,7 @@ echo "${YELLOW}**** Disable serial console... *****${WHITE}"
 sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  Edimax wifi dongle check
@@ -97,6 +100,7 @@ fi
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  I2C setup
 ##############################################################
@@ -112,6 +116,7 @@ if ! grep -q "i2c-dev" "/etc/modules"; then
 fi
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  Sysctl tweaks
@@ -145,3 +150,4 @@ echo "net.core.wmem_max = 167772160" >>/etc/sysctl.conf
 echo "net.core.wmem_default = 167772160" >>/etc/sysctl.conf
 
 echo "${GREEN}...done${WHITE}"
+

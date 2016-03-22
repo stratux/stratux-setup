@@ -91,6 +91,7 @@ apt-get install -y rfkill
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  Stop exisiting services
 ##############################################################
@@ -108,6 +109,7 @@ if [ -f "/etc/init.d/wifiap" ]; then
 fi
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  Hardware checkout
@@ -136,6 +138,7 @@ fi
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  SSH steup and config
 ##############################################################
@@ -157,6 +160,7 @@ rm -f /usr/share/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  Hardware blacklisting
 ##############################################################
@@ -176,6 +180,7 @@ if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
 fi
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  Go environment setup
@@ -222,6 +227,7 @@ echo export PATH=${XPATH} >>/root/.bashrc
 source /root/.bashrc
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  Go bootstrap compiler installtion
@@ -286,6 +292,7 @@ ldconfig
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  Stratux build and installation
 ##############################################################
@@ -307,6 +314,7 @@ make install
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ##  Kalibrate build and installation
 ##############################################################
@@ -324,6 +332,7 @@ make
 make install
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  System tweaks
@@ -347,6 +356,7 @@ if [ -f /usr/sbin/policy-rc.d ]; then
 fi
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ##  WiFi Access Point setup

@@ -57,6 +57,9 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 }
 EOT
 
+echo "${GREEN}...done${WHITE}"
+
+
 ##############################################################
 ## 1) Setup /etc/hostapd/hostapd.conf
 ##############################################################
@@ -86,6 +89,7 @@ EOT
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ## 3) Setup /etc/init.d/hostapd
 ##############################################################
@@ -105,6 +109,7 @@ else
 fi
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ## 4) Setup /etc/network/interfaces
@@ -128,6 +133,7 @@ iface wlan0 inet static
 EOT
 
 echo "${GREEN}...done${WHITE}"
+
 
 #################################################
 ## 5) Setup /etc/init.d/wifiap
@@ -179,6 +185,7 @@ chmod +x /etc/init.d/wifiap
 
 echo "${GREEN}...done${WHITE}"
 
+
 #################################################
 ## Setup hostapd symlink
 #################################################
@@ -191,6 +198,7 @@ ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
 #update-rc.d hostapd default
 
 echo "${GREEN}...done${WHITE}"
+
 
 #################################################
 ## Setup wifiap service
@@ -206,6 +214,7 @@ ln -s /etc/init.d/wifiap /etc/rc6.d/S06wifiap
 update-rc.d wifiap enable
 
 echo "${GREEN}...done${WHITE}"
+
 
 #################################################
 ## Display usage message
