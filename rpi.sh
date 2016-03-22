@@ -66,7 +66,7 @@ if [ "$EW7811Un" != '' ]; then
     #cd wpa_supplicant_hostapd/hostapd
     #make
 
-    cd ${SCRIPTDIR}
+    cd ${SCRIPTDIR}/files
 
     gunzip -k hostapd.gz
     if [ ! -f ./hostapd ]; then
@@ -87,9 +87,6 @@ if [ "$EW7811Un" != '' ]; then
     # install the binary
     mv ./hostapd_cli /usr/sbin/hostapd_cli
     chmod +x /usr/sbin/hostapd_cli
-
-    #cd ${SCRIPTDIR}
-    #rm -rf wpa_supplicant_hostapd/
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf

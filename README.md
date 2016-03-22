@@ -73,24 +73,19 @@ adding support for Linux boards beyond RPi2s or RPi3s.
 Q: How does it work?
 
 A: The stratux-setup script downloads, builds, and installs source code from the
-main (official) stratux repository and makes small modification to a network file;
-the setup script sets up a different dhcp server than what the image uses.
-Specifically, the setup script installs dnsmasq, as opposed to isc-dhcp-server.
+main (official) stratux repository and it sets up the necessary dhcp server using
+the same isc-dhcp-server binary as on the stratux image.
 
 
 Q: Does the stratux setup script differ from the installation provided by the official image?
 
-A: Yes, as stated in the previous answer, the setup script uses dnsmasq for
-its dhcp server whereas the official image uses isc-dhcp-server. The switch does
-require a change to the network.go file so stratux knows where the dhcp lease file is
-located and how to parse said file. For that reason, the setup script includes
-a modified version of the file in the root of the script folder and copies it
-to stratux/main prior to compiling the stratux middleware.
+A: No. The stratux-setup script makes no modifications and for all intense and purposes
+the stratup-setup installation is identical to that of the official image.
 
 
 Q: Are there any parts that don't work if I use an unsupported board, eg an Odroid-C2?
 
-A: Yes. Those parts that connect via GPIO are unsupported at the moment,
+A: Yes. Those parts that connect via GPIO are unsupported at this time,
 therefore, you're restricted to just traffic and/or weather information,
 depending on which SDR dongle you're using.
 

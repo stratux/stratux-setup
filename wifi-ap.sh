@@ -3,7 +3,7 @@
 # that can be found in the LICENSE file.
 
 #### files created and/or modified
-# 1) /etc/dnsmasq.conf
+# 1) /etc/default/isc-dhcp-server
 # 2) /etc/hostapd/hostapd.conf
 # 3) /etc/init.d/hostapd
 # 4) /etc/network/interfaces
@@ -25,38 +25,9 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     fi
 fi
 
-##############################################################
-## Check if the wireless card supports Access Point mode
-##############################################################
-#supports_access_point=$(iw list | sed -n -e '/* AP$/p')
-#if [ "$supports_access_point" = '' ]; then
-#    echo "AP is not supported by the driver of the wireless card."
-#    echo "This script does not work for this driver."
-#    exit
-#fi
 
 ##############################################################
-## 1) Setup /etc/dnsmasq.conf
-##############################################################
-# echo
-# echo "${YELLOW}**** Setup /etc/dnsmasq.conf *****${WHITE}"
-
-# #### should not start automatically on boot
-# update-rc.d dnsmasq disable
-
-# cp -n /etc/dnsmasq{,.bak}
-# cat <<EOT > /etc/dnsmasq.conf
-# no-resolv
-# interface=wlan0
-# dhcp-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
-# server=4.2.2.2
-# EOT
-
-# echo "${GREEN}...done${WHITE}"
-
-
-##############################################################
-## Setup DHCP server for IP address management
+## 1) Setup DHCP server for IP address management
 ##############################################################
 echo
 echo "**** Setup DHCP server for IP address management *****"
@@ -87,7 +58,7 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 EOT
 
 ##############################################################
-## 2) Setup /etc/hostapd/hostapd.conf
+## 1) Setup /etc/hostapd/hostapd.conf
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
@@ -184,7 +155,6 @@ cat <<EOT > /etc/init.d/wifiap
 function stop {
     ### stop services dhcpd and hostapd
     service isc-dhcp-server stop
-    #service dnsmasq stop
     service hostapd stop
 }
 
@@ -195,7 +165,6 @@ function start {
     rfkill unblock wifi
     ### start services dhcpd and hostapd
     service hostapd start
-    #service dnsmasq start
     service isc-dhcp-server start
 }
 
