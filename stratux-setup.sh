@@ -235,49 +235,37 @@ cd /root
 rm -rf go/
 rm -rf gobootstrap/
 
-wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
-tar -zxvf go1.6.linux-armv6l.tar.gz
-if [ ! -d /root/go ]; then
-    echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
-    exit
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
+    #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
+    #### to compiling from source?
+
+    wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
+    tar -zxvf go1.6.linux-armv6l.tar.gz
+    if [ ! -d /root/go ]; then
+        echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
+        exit
+    fi
+else
+    # ulimit -s 1024     # set the thread stack limit to 1mb
+    # ulimit -s          # check that it worked
+    # env GO_TEST_TIMEOUT_SCALE=10 GOROOT_BOOTSTRAP=/root/gobootstrap
+
+    cd ${SCRIPTDIR}/files
+    tar -zxvf go1.6.linux-armvAarch64.tar.gz
+    if [ ! -d ${SCRIPTDIR}/files/go ]; then
+        echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
+        exit
+    fi
+    mv go /root/go
+    cd /root
 fi
 
-rm -f go1.6.linux-armv6l.tar.gz
+rm -f go1.6.linux*
 rm -rf /root/gopath
 mkdir -p /root/gopath
 
 echo "${GREEN}...done${WHITE}"
 
-##############################################################
-##  Go host compiler build
-##############################################################
-echo
-echo "${YELLOW}**** Go host compiler build... *****${WHITE}"
-
-cd /root
-
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
-    #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
-    #### to compiling from source?
-    echo "${GREEN}...not necessary, done${WHITE}"
-else
-    # ulimit -s 1024     # set the thread stack limit to 1mb
-    # ulimit -s          # check that it worked
-    # env GO_TEST_TIMEOUT_SCALE=10 GOROOT_BOOTSTRAP=/root/gobootstrap
-    mv go gobootstrap
-    wget https://storage.googleapis.com/golang/go1.6.src.tar.gz
-    tar -zxvf go1.6.src.tar.gz
-    rm go1.6.src*
-
-    # make.bash to skip the post build tests
-    cd go/src
-    bash ./make.bash
-
-    cd /root
-    rm -rf gobootstrap/
-
-    echo "${GREEN}...done${WHITE}"
-fi
 
 ##############################################################
 ##  RTL-SDR tools build
