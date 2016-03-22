@@ -79,7 +79,7 @@ the same isc-dhcp-server binary as on the stratux image.
 
 Q: Does the stratux setup script differ from the installation provided by the official image?
 
-A: No. The stratux-setup script makes no modifications and for all intense and purposes
+A: No. The stratux-setup script makes no modifications and for all intents and purposes
 the stratux-setup installation is identical to that of the official image.
 
 
