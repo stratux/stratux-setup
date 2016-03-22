@@ -149,7 +149,7 @@ A 35,750 foot view of stratux:
     | || |                        || |             +----+   \/
     | || +---+ Process AHRS info  || |<------------+AHRS|----   (optional)
     | || |                        || |             +----+
-    | || +---+ Build message/s    || |
+    | || Build outgoing message/s || |
     | || |                        || |           +------+   \/
     | || +---> Send messages ---> || |<----------> Wifi |----
     | ||                          || |           +------+
