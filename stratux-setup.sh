@@ -46,7 +46,7 @@ SCRIPTDIR="`pwd`"
 #### Revision numbers found via cat /proc/cpuinfo
 RPI2BxREV=a01041
 RPI2ByREV=a21041
-RPI3BxREV=a02082
+RPI3BxREV=a22082
 ODROIDC2=020b
 
 EW7811Un=$(lsusb | grep EW-7811Un)
