@@ -38,21 +38,53 @@ fi
 ##############################################################
 ## 1) Setup /etc/dnsmasq.conf
 ##############################################################
+# echo
+# echo "${YELLOW}**** Setup /etc/dnsmasq.conf *****${WHITE}"
+
+# #### should not start automatically on boot
+# update-rc.d dnsmasq disable
+
+# cp -n /etc/dnsmasq{,.bak}
+# cat <<EOT > /etc/dnsmasq.conf
+# no-resolv
+# interface=wlan0
+# dhcp-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
+# server=4.2.2.2
+# EOT
+
+# echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
+## Setup DHCP server for IP address management
+##############################################################
 echo
-echo "${YELLOW}**** Setup /etc/dnsmasq.conf *****${WHITE}"
+echo "**** Setup DHCP server for IP address management *****"
 
 #### should not start automatically on boot
-update-rc.d dnsmasq disable
+update-rc.d isc-dhcp-server disable
 
-cp -n /etc/dnsmasq{,.bak}
-cat <<EOT > /etc/dnsmasq.conf
-no-resolv
-interface=wlan0
-dhcp-range=192.168.10.10,192.168.10.50,255.255.255.0,24h
-server=4.2.2.2
+### set /etc/default/isc-dhcp-server
+cp -n /etc/default/isc-dhcp-server{,.bak}
+cat <<EOT > /etc/default/isc-dhcp-server
+NTERFACES="$wifi_interface"
 EOT
 
-echo "${GREEN}...done${WHITE}"
+### set /etc/dhcp/dhcpd.conf
+cp -n /etc/dhcp/dhcpd.conf{,.bak}
+cat <<EOT > /etc/dhcp/dhcpd.conf
+ddns-update-style none;
+default-lease-time 3600; # 24 hours
+max-lease-time 4200; # 48 hours
+authoritative;
+log-facility local7;
+subnet 192.168.10.0 netmask 255.255.255.0 {
+    range 192.168.10.10 192.168.10.50;
+    option broadcast-address 192.168.10.255;
+    option domain-name "stratux.local";
+    option domain-name-servers 4.2.2.2;
+}
+EOT
 
 ##############################################################
 ## 2) Setup /etc/hostapd/hostapd.conf
@@ -151,8 +183,8 @@ cat <<EOT > /etc/init.d/wifiap
 
 function stop {
     ### stop services dhcpd and hostapd
-    #service isc-dhcp-server stop
-    service dnsmasq stop
+    service isc-dhcp-server stop
+    #service dnsmasq stop
     service hostapd stop
 }
 
@@ -163,7 +195,8 @@ function start {
     rfkill unblock wifi
     ### start services dhcpd and hostapd
     service hostapd start
-    service dnsmasq start
+    #service dnsmasq start
+    service isc-dhcp-server start
 }
 
 ### start/stop wifi access point
