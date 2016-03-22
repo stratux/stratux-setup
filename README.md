@@ -8,25 +8,9 @@ USB adapter, no extra configuration required. But virtually any natively
 supported Wifi USB adapter should work.
 
 
-Pre-installations commands:
-
-    # cd /root/stratux
-    # service stratux stop
-
-    # git checkout v0.8r1
-        or
-    # git checkout master
-
-    # make all
-    # make install
-
-    Although you could restart stratux via "service stratux stop/start" it's
-    advisable to reboot.
-
-
 Commands to run the setup script:
 
-    login via command line (RPi - user: pi  pwd: raspberry
+    login via command line
 
     # sudo su -
 
