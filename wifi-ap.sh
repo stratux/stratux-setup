@@ -45,8 +45,8 @@ EOT
 cp -n /etc/dhcp/dhcpd.conf{,.bak}
 cat <<EOT > /etc/dhcp/dhcpd.conf
 ddns-update-style none;
-default-lease-time 3600; # 24 hours
-max-lease-time 4200; # 48 hours
+default-lease-time 86400; # 24 hours
+max-lease-time 172800; # 48 hours
 authoritative;
 log-facility local7;
 subnet 192.168.10.0 netmask 255.255.255.0 {
@@ -83,7 +83,6 @@ ieee80211n=1
 hw_mode=g
 channel=1
 wmm_enabled=1
-macaddr_acl=0
 ignore_broadcast_ssid=0
 EOT
 

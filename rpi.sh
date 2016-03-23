@@ -15,6 +15,10 @@ echo "${WHITE}"
 echo
 echo "${YELLOW}**** Boot config settings... *****${WHITE}"
 
+if ! grep -q "dtparam=audio=on" "/boot/config.txt"; then
+    echo "dtparam=audio=on" >>/boot/config.txt
+fi
+
 if ! grep -q "max_usb_current=1" "/boot/config.txt"; then
     echo "max_usb_current=1" >>/boot/config.txt
 fi
