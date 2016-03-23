@@ -1,11 +1,14 @@
 An alternative method for installing Stratux on your board's Linux OS.
 
-Both 1090ES and 978UAT SDR dongles have been tested on RPi2, Raspbian
-Jessie and Jessie Lite (requires image resize), as well as, Odroid-C2
-Ubuntu64-16.04lts-mate. Both the RPI2 and Odroid boards worked with an
-Edimax EW-7811Un and Odroid Module 0 (Ralink RT5370) Wifi
+The script is currently in beta development.
+
+Both 1090ES and 978UAT SDR dongles have been tested on an RPi2, an RPi3
+(both Raspbian Jessie and Jessie Lite, image resize required for both),
+and an Odroid-C2 running Ubuntu64-16.04lts-mate. All three boards worked
+with an Edimax EW-7811Un and Odroid Module 0 (Ralink RT5370) Wifi
 USB adapter, no extra configuration required. But virtually any natively
-supported Wifi USB adapter should work.
+supported Wifi USB adapter should work. The network config default to
+wlan0 and is not configurable at this time.
 
 
 Commands to run the setup script:
@@ -72,6 +75,12 @@ Q: Are there any parts that don't work if I use an unsupported board, eg an Odro
 A: Yes. Those parts that connect via GPIO are unsupported at this time,
 therefore, you're restricted to those USB devices you'd use with the official image,
 e.g. SDR and/or GPS USB devices.
+
+
+Q: How do I check that the stratux and wifi services are running if I run in to a problem.
+
+A: Login as root and run the command "service --status-all" in a shell window and check
+if the stratux, hostapd, and isc-dhcp-server services are shown to be running in the output.
 
 
 Requirements:
