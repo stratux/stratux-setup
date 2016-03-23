@@ -37,7 +37,7 @@ Commands to run the setup script:
     # reboot
 
 
-Q: How do I update stratux when a new version comes out?
+Q: How do I update stratux when a new version is released?
 
 A: If the stratux-setup still exists just login in as root,
 cd in to the stratux-setup folder, run git pull then "bash stratux-setup"
