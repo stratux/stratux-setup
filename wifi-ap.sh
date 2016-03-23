@@ -26,9 +26,13 @@ WIFIDRV=
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     if [ "$EW7811Un" != '' ]; then
         WIFIDRV="driver=rtl871xdrv"
-        echo "${MAGENTA}Edimax dongle found (EW7811Un), setting driver=rtl871xdrv${WHITE}"
+        echo "${MAGENTA}Edimax dongle found (EW7811Un), setting driver=rtl871xdrv...${WHITE}"
+    else
+        echo "${MAGENTA}No Edimax dongle found, using the native driver...${WHITE}"
     fi
 fi
+
+echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
@@ -70,7 +74,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
 
-# what wifi interface, e.g. wlan0, wlan1..., uses the first one
+# what wifi interface, e.g. wlan0, wlan1..., uses the first one found
 #wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
 wifi_interface=wlan0
 
@@ -95,6 +99,15 @@ echo "${GREEN}...done${WHITE}"
 ##############################################################
 echo
 echo "**** Setup /etc/default/hostapd *****${WHITE}"
+
+if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
+    #### reset these to be safe
+    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
+    sed "$line s/.*/DAEMON_CONF=" -i /etc/init.d/hostapd
+
+    line=$(grep -n 'DAEMON_SBIN=' /usr/sbin/hostapd | awk -F':' '{print $1}')
+    sed "$line s/.*/DAEMON_SBIN=" -i /etc/init.d/hostapd
+fi
 
 echo "DAEMON_CONF=\"/etc/default/hostapd\"" >/etc/default/hostapd
 
