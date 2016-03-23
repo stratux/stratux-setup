@@ -68,7 +68,7 @@ many other boards that run Linux with a fairly straightforward approach to
 adding support for Linux boards beyond RPi2 and RPi3.
 
 
-Q: How does it work?
+Q: How does the stratux-setup script it work?
 
 A: The stratux-setup script downloads, builds, and installs source code from the
 official stratux git repository and it sets up the necessary dhcp server using
@@ -88,10 +88,28 @@ therefore, you're restricted to those USB devices you'd use with the official im
 e.g. SDR and/or GPS USB devices.
 
 
-Q: How do I check that the stratux and wifi services are running if I run in to a problem.
+Q: How do I check that the stratux and wifi services are running if I run in to a problem?
 
 A: Login as root and run the command "service --status-all" in a shell window and check
 if the stratux, hostapd, and isc-dhcp-server services are shown to be running in the output.
+
+
+Q: In general, what's involved in setting up stratux on a Linux board?
+
+A: The setup can be broken down in to two basic parts, 1) the stratux software,
+to include it's various components and services, and 2) the dhcp wifi network.
+
+Wifi is the delivery method used to get various messages to clients, i.e. to an
+EFB. The stratux board is setup as a dhcp server, similar to your home
+wifi router, with the SSID (service set identifier) "stratux." Once a device
+connects to the stratux network applications can start receiving the messages
+being sent by stratux.
+
+The stratux software is made up of several components that interface with various
+external peripherals and middleware software. All the various pieces of software
+must be compiled and installed.
+
+See figure 1 below for a high level overview.
 
 
 Requirements:
@@ -149,3 +167,5 @@ A 35,750 foot view of stratux:
     | |----------------------------| |
     | +----------------------------+ |
     +--------------------------------+
+
+               Figure 1
