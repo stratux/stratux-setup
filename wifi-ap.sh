@@ -61,7 +61,7 @@ wifi_interface=wlan0
 
 echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] && [ "$EW7811Un" != '' ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$RPI_REV" = "900092" ] && [ "$EW7811Un" != '' ]; then
 echo "${MAGENTA}Edimax dongle check${WHITE}"
 
 cat <<EOT > /etc/hostapd/hostapd-edimax.conf
