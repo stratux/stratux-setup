@@ -32,7 +32,7 @@ Commands to run the setup script:
     # cd stratux-setup
 
     # bash stratux-setup.sh
-        will currently detect RPi2, RPi3, and Odroid-C2
+        will currently detect RPi2, RPi3, RPi0, and Odroid-C2
 
     # reboot
 
