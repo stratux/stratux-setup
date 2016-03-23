@@ -69,8 +69,8 @@ echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
 
 # what wifi interface, e.g. wlan0, wlan1..., uses the first one
-wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
-#wifi_interface=wlano
+#wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
+wifi_interface=wlan0
 
 echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
@@ -144,8 +144,8 @@ echo
 echo "${YELLOW}**** Setup hostapd symlink *****${WHITE}"
 
 #### fixes missing symlinks error
-rm -f /etc/rc2.d/S02hostapd
-ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
+#rm -f /etc/rc2.d/S02hostapd
+#ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
 #update-rc.d hostapd default
 
 echo "${GREEN}...done${WHITE}"

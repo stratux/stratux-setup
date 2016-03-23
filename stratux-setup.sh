@@ -79,17 +79,17 @@ echo "${YELLOW}**** Stop exisiting services... *****${WHITE}"
 
 if [ -f "/etc/init.d/stratux" ]; then
     service stratux stop
-    echo "${MAGENTA}stratux service found and stopped... *****${WHITE}"
+    echo "${MAGENTA}stratux service found and stopped...${WHITE}"
 fi
 
 if [ -f "/etc/init.d/hostapd" ]; then
     service hostapd stop
-    echo "${MAGENTA}hostapd service found and stopped... *****${WHITE}"
+    echo "${MAGENTA}hostapd service found and stopped...${WHITE}"
 fi
 
 if [ -f "/etc/init.d/isc-dhcp-server" ]; then
     service isc-dhcp-server stop
-    echo "${MAGENTA}isc-dhcp service found and stopped... *****${WHITE}"
+    echo "${MAGENTA}isc-dhcp service found and stopped...${WHITE}"
 fi
 
 echo "${GREEN}...done${WHITE}"
@@ -144,7 +144,7 @@ elif [ "$REVISION" == "$ODROIDC2" ]; then
     . ${SCRIPTDIR}/odroid.sh
 else
     echo
-    echo "${BOLD}${RED}ERROR - nable to identify the board using /proc/cpuinfo, exiting...${WHITE}${NORMAL}"
+    echo "${BOLD}${RED}ERROR - unable to identify the board using /proc/cpuinfo, exiting...${WHITE}${NORMAL}"
 
     exit
 fi
@@ -262,7 +262,7 @@ if [ "$MACHINE" == "$ARM6L" ] || [ "$MACHINE" == "$ARM7L" ]; then
         echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
         exit
     fi
-else
+elif [ "$MACHINE" == "$ARM64" ]; then
     # ulimit -s 1024     # set the thread stack limit to 1mb
     # ulimit -s          # check that it worked
     # env GO_TEST_TIMEOUT_SCALE=10 GOROOT_BOOTSTRAP=/root/gobootstrap
@@ -275,6 +275,9 @@ else
     fi
     mv go /root/go
     cd /root
+else
+    echo
+    echo "${BOLD}${RED}ERROR - unsupported machine type: $MACHINE, exiting...${WHITE}${NORMAL}"
 fi
 
 rm -f go1.6.linux*
