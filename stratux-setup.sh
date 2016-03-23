@@ -388,7 +388,10 @@ fi
 
 ####
 update-rc.d stratux enable
+update-rc.d hostapd enable
+update-rc.d isc-dhcp-server enable
 
+echo
 echo
 echo "${MAGENTA}**** Setup complete, don't forget to reboot! *****${WHITE}"
 echo

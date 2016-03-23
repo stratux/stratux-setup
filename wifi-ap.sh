@@ -155,4 +155,3 @@ update-rc.d isc-dhcp-server enable
 
 echo "${GREEN}...done${WHITE}"
 
-echo "${YELLOW}**** Stratux setup complete, please reboot... *****${WHITE}"
