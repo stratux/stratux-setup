@@ -44,11 +44,17 @@ SCRIPTDIR="`pwd`"
 #### execute the script: bash stratux-setup.sh
 
 #### Revision numbers found via cat /proc/cpuinfo
+RPI0xREV=900092
 RPI2BxREV=a01041
 RPI2ByREV=a21041
 RPI3BxREV=a02082
 RPI3ByREV=a22082
 ODROIDC2=020b
+
+#### unchecked right now
+RPIBPxREV=0010
+RPIAPxREV=0012
+RPIBPyREV=0013
 
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 
@@ -132,7 +138,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
     echo
     echo "${MAGENTA}**** Raspberry Pi detected... *****${WHITE}"
 
