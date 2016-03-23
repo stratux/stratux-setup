@@ -51,7 +51,7 @@ RPI3BxREV=a02082
 RPI3ByREV=a22082
 ODROIDC2=020b
 
-#### unchecked right now
+#### unchecked
 RPIBPxREV=0010
 RPIAPxREV=0012
 RPIBPyREV=0013
@@ -113,7 +113,6 @@ git config --global http.sslVerify false
 apt-get install -y iw
 apt-get install -y lshw
 apt-get install -y wget
-apt-get install -y screen
 apt-get install -y isc-dhcp-server
 apt-get install -y tcpdump
 apt-get install -y cmake
@@ -127,7 +126,6 @@ apt-get install -y libtool
 apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
-apt-get install -y rfkill
 
 echo "${GREEN}...done${WHITE}"
 
@@ -140,12 +138,12 @@ echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
     echo
-    echo "${MAGENTA}**** Raspberry Pi detected... *****${WHITE}"
+    echo "${MAGENTA}Raspberry Pi detected...${WHITE}"
 
     . ${SCRIPTDIR}/rpi.sh
 elif [ "$REVISION" == "$ODROIDC2" ]; then
     echo
-    echo "${MAGENTA}**** Odroid-C2 detected... *****${WHITE}"
+    echo "${MAGENTA}Odroid-C2 detected...${WHITE}"
 
     . ${SCRIPTDIR}/odroid.sh
 else

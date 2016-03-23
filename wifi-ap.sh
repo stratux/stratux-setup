@@ -15,13 +15,13 @@ if [ $(whoami) != 'root' ]; then
     exit
 fi
 
-#### enable wifi if disabled
-#rfkill unblock wlan
-
 
 ##############################################################
 ## Edimax dongle check
 ##############################################################
+echo
+echo "**** Edimax dongle check *****"
+
 WIFIDRV=
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     if [ "$EW7811Un" != '' ]; then
