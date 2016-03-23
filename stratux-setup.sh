@@ -64,6 +64,30 @@ fi
 
 
 ##############################################################
+##  Stop exisiting services
+##############################################################
+echo
+echo "${YELLOW}**** Stop exisiting services... *****${WHITE}"
+
+if [ -f "/etc/init.d/stratux" ]; then
+    service stratux stop
+    echo "${MAGENTA}stratux service found and stopped... *****${WHITE}"
+fi
+
+if [ -f "/etc/init.d/hostapd" ]; then
+    service hostapd stop
+    echo "${MAGENTA}hostapd service found and stopped... *****${WHITE}"
+fi
+
+if [ -f "/etc/init.d/isc-dhcp-server" ]; then
+    service isc-dhcp-server stop
+    echo "${MAGENTA}isc-dhcp service found and stopped... *****${WHITE}"
+fi
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
 ##  Dependencies
 ##############################################################
 echo
@@ -90,30 +114,6 @@ apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y rfkill
-
-echo "${GREEN}...done${WHITE}"
-
-
-##############################################################
-##  Stop exisiting services
-##############################################################
-echo
-echo "${YELLOW}**** Stop exisiting services... *****${WHITE}"
-
-if [ -f "/etc/init.d/stratux" ]; then
-    service stratux stop
-    echo "${MAGENTA}stratux service found and stopped... *****${WHITE}"
-fi
-
-if [ -f "/etc/init.d/hostapd" ]; then
-    service hostapd stop
-    echo "${MAGENTA}hostapd service found and stopped... *****${WHITE}"
-fi
-
-if [ -f "/etc/init.d/isc-dhcp-server" ]; then
-    service isc-dhcp-server stop
-    echo "${MAGENTA}isc-dhcp service found and stopped... *****${WHITE}"
-fi
 
 echo "${GREEN}...done${WHITE}"
 
