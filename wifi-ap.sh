@@ -103,10 +103,10 @@ echo "**** Setup /etc/default/hostapd *****${WHITE}"
 if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
     #### reset these to be safe
     line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_CONF=" -i /etc/init.d/hostapd
+    sed "$line s/.*/DAEMON_CONF=/" -i /etc/init.d/hostapd
 
-    line=$(grep -n 'DAEMON_SBIN=' /usr/sbin/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_SBIN=" -i /etc/init.d/hostapd
+    line=$(grep -n 'DAEMON_SBIN=' /etc/init.d/hostapd | awk -F':' '{print $1}')
+    sed "$line s/.*/DAEMON_SBIN=/" -i /etc/init.d/hostapd
 fi
 
 echo "DAEMON_CONF=\"/etc/default/hostapd\"" >/etc/default/hostapd
