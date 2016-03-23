@@ -62,7 +62,7 @@ echo
 echo "${YELLOW}**** Edimax wifi dongle check... *****${WHITE}"
 
 if [ "$EW7811Un" != '' ]; then
-    echo "${MAGENTA}edimax wifi dongle found, copying the hostapd binaries... *****${WHITE}"
+    echo "${MAGENTA}edimax wifi dongle found, copying the hostapd binaries...${WHITE}"
 
     rm -f /usr/sbin/hostapd-edimax
     cd ${SCRIPTDIR}/files
@@ -81,7 +81,7 @@ if [ "$EW7811Un" != '' ]; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
 else
-    echo "${MAGENTA}edimax wifi dongle not found, nothing to do... *****${WHITE}"
+    echo "${MAGENTA}edimax wifi dongle not found, nothing to do...${WHITE}"
 fi
 
 echo "${GREEN}...done${WHITE}"
