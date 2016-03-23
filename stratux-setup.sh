@@ -240,7 +240,7 @@ cd /root
 rm -rf go/
 rm -rf gobootstrap/
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" == "$RPI3BxREV" ]; then
     #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
     #### to compiling from source?
 
