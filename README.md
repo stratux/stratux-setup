@@ -45,7 +45,7 @@ and reboot. Otherwise, just follow the standard setup commands
 listed above.
 
 Note, the update-stratux*.sh file from the stratux release page
-cannot, and should not, be used due to possible settings conflicts.
+cannot, and should not, be used due to possible setting conflicts.
 
 
 Q: What version of stratux does the setup script download and install?
