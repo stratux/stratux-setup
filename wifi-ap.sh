@@ -138,20 +138,6 @@ echo "${GREEN}...done${WHITE}"
 
 
 #################################################
-## Setup hostapd symlink
-#################################################
-echo
-echo "${YELLOW}**** Setup hostapd symlink *****${WHITE}"
-
-#### fixes missing symlinks error
-#rm -f /etc/rc2.d/S02hostapd
-#ln -s /etc/init.d/hostapd /etc/rc2.d/S02hostapd
-#update-rc.d hostapd default
-
-echo "${GREEN}...done${WHITE}"
-
-
-#################################################
 ## Enable hostapd and isc-dhcp services
 #################################################
 echo
