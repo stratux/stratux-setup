@@ -152,8 +152,5 @@ if [ -f "/etc/init.d/wifiap" ]; then
     echo "${MAGENTA}legacy wifiap service stopped and file removed... *****${WHITE}"
 fi
 
-systemctl enable hostapd
-systemctl enable isc-dhcp-server
-
 echo "${GREEN}...done${WHITE}"
 

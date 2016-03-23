@@ -88,16 +88,6 @@ if [ -f "/etc/init.d/stratux" ]; then
     echo "${MAGENTA}stratux service found and stopped...${WHITE}"
 fi
 
-if [ -f "/etc/init.d/hostapd" ]; then
-    service hostapd stop
-    echo "${MAGENTA}hostapd service found and stopped...${WHITE}"
-fi
-
-if [ -f "/etc/init.d/isc-dhcp-server" ]; then
-    service isc-dhcp-server stop
-    echo "${MAGENTA}isc-dhcp service found and stopped...${WHITE}"
-fi
-
 echo "${GREEN}...done${WHITE}"
 
 
@@ -394,8 +384,6 @@ fi
 
 ####
 update-rc.d stratux enable
-update-rc.d hostapd enable
-update-rc.d isc-dhcp-server enable
 
 echo
 echo
