@@ -54,6 +54,8 @@ log-facility local7;
 subnet 192.168.10.0 netmask 255.255.255.0 {
     range 192.168.10.10 192.168.10.50;
     option broadcast-address 192.168.10.255;
+    default-lease-time 12000;
+    max-lease-time 12000;
     option domain-name "stratux.local";
     option domain-name-servers 4.2.2.2;
 }
@@ -100,9 +102,6 @@ cp -n /etc/init.d/hostapd{,.bak}
 if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
     line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
     sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
-
-    #line=$(grep -n 'DAEMON_SBIN=' /usr/sbin/hostapd | awk -F':' '{print $1}')
-    #sed "$line s/.*/DAEMON_SBIN=\/usr\/sbin\/hostapd/" -i /etc/init.d/hostapd
 else
     echo
     echo "${BOLD}${RED}ERROR - /etc/init.d/hostapd is missing, exiting... !!!!!!!!${WHITE}${NORMAL}"
@@ -131,7 +130,7 @@ allow-hotplug wlan0
 iface wlan0 inet static
   address 192.168.10.1
   netmask 255.255.255.0
-  post-up /usr/sbin/stratux-wifi.sh
+  post-up /usr/sbin/service isc-dhcp-server start
 EOT
 
 echo "${GREEN}...done${WHITE}"
