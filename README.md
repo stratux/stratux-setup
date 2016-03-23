@@ -74,16 +74,6 @@ therefore, you're restricted to those USB devices you'd use with the official im
 e.g. SDR and/or GPS USB devices.
 
 
-Notes:
-
-    - the setup script uses its own wifi service, and although there
-      is no need to manually start it post setup, if for some reason
-      you do need to start and/or stop it, e.g. for debugging, use
-      the following commands:
-
-          service wifiap stop
-          service wifiap start
-
 Requirements:
 
     - Linux compatible board

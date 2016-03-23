@@ -46,7 +46,8 @@ SCRIPTDIR="`pwd`"
 #### Revision numbers found via cat /proc/cpuinfo
 RPI2BxREV=a01041
 RPI2ByREV=a21041
-RPI3BxREV=a22082
+RPI3BxREV=a02082
+RPI3ByREV=a22082
 ODROIDC2=020b
 
 EW7811Un=$(lsusb | grep EW-7811Un)
@@ -60,6 +61,7 @@ echo "${WHITE}"
 if which ntp >/dev/null; then
     ntp -q -g
 fi
+
 
 ##############################################################
 ##  Dependencies
@@ -100,12 +102,17 @@ echo "${YELLOW}**** Stop exisiting services... *****${WHITE}"
 
 if [ -f "/etc/init.d/stratux" ]; then
     service stratux stop
-    echo "${MAGENTA}stratux service stopped... *****${WHITE}"
+    echo "${MAGENTA}stratux service found and stopped... *****${WHITE}"
 fi
 
-if [ -f "/etc/init.d/wifiap" ]; then
-    service wifiap stop
-    echo "${MAGENTA}wifiap service stopped... *****${WHITE}"
+if [ -f "/etc/init.d/hostapd" ]; then
+    service hostapd stop
+    echo "${MAGENTA}hostapd service found and stopped... *****${WHITE}"
+fi
+
+if [ -f "/etc/init.d/isc-dhcp-server" ]; then
+    service isc-dhcp-server stop
+    echo "${MAGENTA}isc-dhcp service found and stopped... *****${WHITE}"
 fi
 
 echo "${GREEN}...done${WHITE}"
@@ -119,7 +126,7 @@ echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
 
 
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ]; then
     echo
     echo "${MAGENTA}**** Raspberry Pi detected... *****${WHITE}"
 
@@ -368,7 +375,6 @@ echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 
 #### disable ntpd autostart
 if which ntp >/dev/null; then
-    #update-rc.d ntp disable
     systemctl disbable ntp
 fi
 

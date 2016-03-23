@@ -18,10 +18,15 @@ fi
 #### enable wifi if disabled
 #rfkill unblock wlan
 
+
+##############################################################
+## Edimax dongle check
+##############################################################
 WIFIDRV=
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
     if [ "$EW7811Un" != '' ]; then
         WIFIDRV="driver=rtl871xdrv"
+        echo "${MAGENTA}Edimax dongle found (EW7811Un), setting driver=rtl871xdrv${WHITE}"
     fi
 fi
 
@@ -31,9 +36,6 @@ fi
 ##############################################################
 echo
 echo "**** Setup DHCP server for IP address management *****"
-
-#### should not start automatically on boot
-update-rc.d isc-dhcp-server disable
 
 ### set /etc/default/isc-dhcp-server
 cp -n /etc/default/isc-dhcp-server{,.bak}
@@ -65,9 +67,6 @@ echo "${GREEN}...done${WHITE}"
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
-
-#### should not start automatically on boot
-update-rc.d hostapd disable
 
 # what wifi interface, e.g. wlan0, wlan1..., uses the first one
 wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
@@ -101,6 +100,9 @@ cp -n /etc/init.d/hostapd{,.bak}
 if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
     line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
     sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
+
+    #line=$(grep -n 'DAEMON_SBIN=' /usr/sbin/hostapd | awk -F':' '{print $1}')
+    #sed "$line s/.*/DAEMON_SBIN=\/usr\/sbin\/hostapd/" -i /etc/init.d/hostapd
 else
     echo
     echo "${BOLD}${RED}ERROR - /etc/init.d/hostapd is missing, exiting... !!!!!!!!${WHITE}${NORMAL}"
@@ -129,58 +131,8 @@ allow-hotplug wlan0
 iface wlan0 inet static
   address 192.168.10.1
   netmask 255.255.255.0
+  post-up /usr/sbin/stratux-wifi.sh
 EOT
-
-echo "${GREEN}...done${WHITE}"
-
-
-#################################################
-## 5) Setup /etc/init.d/wifiap
-#################################################
-echo
-echo "${YELLOW}**** Setup /etc/init.d/wifiap *****${WHITE}"
-
-rm -f /etc/init.d/wifiap
-
-cat <<EOT > /etc/init.d/wifiap
-#!/bin/bash
-
-### BEGIN INIT INFO
-# Provides:          wifiap
-# Required-Start:    $network
-# Required-Stop:
-# Should-Start:
-# Should-Stop:
-# Default-Start:     2
-# Default-Stop:      6
-# Short-Description: Stratux Wifi Access Point
-# Description:       Stratux Wifi Access Point
-### END INIT INFO
-
-function stop {
-    ### stop services dhcpd and hostapd
-    service isc-dhcp-server stop
-    service hostapd stop
-}
-
-function start {
-    stop
-    sleep 3
-    rfkill unblock wlan
-    rfkill unblock wifi
-    ### start services dhcpd and hostapd
-    service hostapd start
-    service isc-dhcp-server start
-}
-
-### start/stop wifi access point
-case "\$1" in
-    start) start ;;
-    stop)  stop  ;;
-esac
-EOT
-
-chmod +x /etc/init.d/wifiap
 
 echo "${GREEN}...done${WHITE}"
 
@@ -200,17 +152,19 @@ echo "${GREEN}...done${WHITE}"
 
 
 #################################################
-## Setup wifiap service
+## Enable hostapd and isc-dhcp services
 #################################################
 echo
-echo "${YELLOW}**** Setup wifiap service *****${WHITE}"
+echo "${YELLOW}**** Enable hostapd and isc-dhcp services *****${WHITE}"
 
-#### start service at bootup
-rm -f /etc/rc2.d/S02wifiap
-rm -f /etc/rc6.d/S06wifiap
-ln -s /etc/init.d/wifiap /etc/rc2.d/S02wifiap
-ln -s /etc/init.d/wifiap /etc/rc6.d/S06wifiap
-update-rc.d wifiap enable
+#### legacy file check
+if [ -f "/etc/init.d/wifiap" ]; then
+    service wifiap stop
+    echo "${MAGENTA}legacy wifiap service stopped and file removed... *****${WHITE}"
+fi
+
+update-rc.d hostapd enable
+update-rc.d isc-dhcp-server enable
 
 echo "${GREEN}...done${WHITE}"
 
