@@ -24,7 +24,6 @@ Commands to run the setup script:
 
     # cd /root
     # apt-get install git
-    # git config --global http.sslVerify false
 
     # git clone https://github.com/jpoirier/stratux-setup
     # cd stratux-setup
