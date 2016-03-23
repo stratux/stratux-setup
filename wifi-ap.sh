@@ -160,6 +160,7 @@ echo "${YELLOW}**** Enable hostapd and isc-dhcp services *****${WHITE}"
 #### legacy file check
 if [ -f "/etc/init.d/wifiap" ]; then
     service wifiap stop
+    rm -f /etc/init.d/wifiap
     echo "${MAGENTA}legacy wifiap service stopped and file removed... *****${WHITE}"
 fi
 
@@ -168,3 +169,4 @@ update-rc.d isc-dhcp-server enable
 
 echo "${GREEN}...done${WHITE}"
 
+echo "${YELLOW}**** Stratux setup complete, please reboot... *****${WHITE}"
