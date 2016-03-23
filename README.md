@@ -8,7 +8,7 @@ and an Odroid-C2 running Ubuntu64-16.04lts-mate. All three boards worked
 with both an Edimax EW-7811Un and an Odroid Module 0 (Ralink RT5370) Wifi
 USB adapter, no extra configuration required. But virtually any natively
 supported Wifi USB adapter should work. The network config defaults to
-wlan0 and is not re-configurable at this time.
+wlan0 and it is not re-configurable at this time.
 
 
 Commands to run the setup script:
