@@ -56,7 +56,7 @@ ARM6L=armv6l
 ARM7L=armv7l
 ARM64=aarch64
 
-MACHINE="$(cat uname -m)"
+MACHINE="$(uname -m)"
 
 EW7811Un=$(lsusb | grep EW-7811Un)
 
