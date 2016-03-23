@@ -17,29 +17,10 @@ fi
 
 
 ##############################################################
-## Edimax dongle check
-##############################################################
-echo
-echo "**** Edimax dongle check *****"
-
-WIFIDRV=
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
-    if [ "$EW7811Un" != '' ]; then
-        WIFIDRV="driver=rtl871xdrv"
-        echo "${MAGENTA}Edimax dongle found (EW7811Un), setting driver=rtl871xdrv...${WHITE}"
-    else
-        echo "${MAGENTA}No Edimax dongle found, using the native driver...${WHITE}"
-    fi
-fi
-
-echo "${GREEN}...done${WHITE}"
-
-
-##############################################################
 ## 1) Setup DHCP server for IP address management
 ##############################################################
 echo
-echo "**** Setup DHCP server for IP address management *****"
+echo "${YELLOW}**** Setup DHCP server for IP address management *****${WHITE}"
 
 ### set /etc/default/isc-dhcp-server
 cp -n /etc/default/isc-dhcp-server{,.bak}
@@ -80,16 +61,33 @@ wifi_interface=wlan0
 
 echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
-cat <<EOT > /etc/hostapd/hostapd.conf
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] && [ "$EW7811Un" != '' ]; then
+echo "${MAGENTA}Edimax dongle check${WHITE}"
+
+cat <<EOT > /etc/hostapd/hostapd-edimax.conf
 interface=$wifi_interface
 ssid=stratux
-$WIFIDRV
+driver=rtl871xdrv
 ieee80211n=1
 hw_mode=g
 channel=1
 wmm_enabled=1
 ignore_broadcast_ssid=0
 EOT
+
+else
+
+cat <<EOT > /etc/hostapd/hostapd.conf
+interface=$wifi_interface
+ssid=stratux
+ieee80211n=1
+hw_mode=g
+channel=1
+wmm_enabled=1
+ignore_broadcast_ssid=0
+EOT
+
+fi
 
 echo "${GREEN}...done${WHITE}"
 
