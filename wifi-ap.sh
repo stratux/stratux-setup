@@ -91,22 +91,12 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-## 3) Setup /etc/init.d/hostapd
+## 3) Setup /etc/default/hostapd
 ##############################################################
 echo
-echo "**** Setup /etc/init.d/hostapd *****${WHITE}"
+echo "**** Setup /etc/default/hostapd *****${WHITE}"
 
-#### edit /etc/init.d/hostapd
-cp -n /etc/init.d/hostapd{,.bak}
-
-if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
-    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
-else
-    echo
-    echo "${BOLD}${RED}ERROR - /etc/init.d/hostapd is missing, exiting... !!!!!!!!${WHITE}${NORMAL}"
-    exit
-fi
+echo "DAEMON_CONF=\"/etc/default/hostapd\"" >/etc/default/hostapd
 
 echo "${GREEN}...done${WHITE}"
 
@@ -130,8 +120,21 @@ allow-hotplug wlan0
 iface wlan0 inet static
   address 192.168.10.1
   netmask 255.255.255.0
-  post-up /usr/sbin/service isc-dhcp-server start
+  post-up /usr/sbin/stratux-wifi.sh
 EOT
+
+echo "${GREEN}...done${WHITE}"
+
+
+#################################################
+## Enable hostapd and isc-dhcp services
+#################################################
+echo
+echo "${YELLOW}**** Enable hostapd and isc-dhcp services *****${WHITE}"
+
+cd ${SCRIPTDIR}
+cp ./stratux-wifi.sh /usr/sbin/stratux-wifi.sh
+chmod 755 /usr/sbin/stratux-wifi.sh
 
 echo "${GREEN}...done${WHITE}"
 
@@ -149,8 +152,8 @@ if [ -f "/etc/init.d/wifiap" ]; then
     echo "${MAGENTA}legacy wifiap service stopped and file removed... *****${WHITE}"
 fi
 
-update-rc.d hostapd enable
-update-rc.d isc-dhcp-server enable
+systemctl enable hostapd
+systemctl enable isc-dhcp-server
 
 echo "${GREEN}...done${WHITE}"
 
