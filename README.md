@@ -2,13 +2,13 @@ An alternative method for installing Stratux on your board's Linux OS.
 
 The script is currently in beta development.
 
-Both 1090ES and 978UAT SDR dongles have been tested on an RPi2, an RPi3
-(both Raspbian Jessie and Jessie Lite, image resize required for both),
+Both 1090ES and 978UAT SDR dongles have been tested on an RPi2 and RPi3
+(for both Raspbian Jessie and Jessie Lite, image resize required for both),
 and an Odroid-C2 running Ubuntu64-16.04lts-mate. All three boards worked
-with an Edimax EW-7811Un and Odroid Module 0 (Ralink RT5370) Wifi
+with both an Edimax EW-7811Un and an Odroid Module 0 (Ralink RT5370) Wifi
 USB adapter, no extra configuration required. But virtually any natively
-supported Wifi USB adapter should work. The network config default to
-wlan0 and is not configurable at this time.
+supported Wifi USB adapter should work. The network config defaults to
+wlan0 and is not re-configurable at this time.
 
 
 Commands to run the setup script:
