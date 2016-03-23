@@ -168,15 +168,3 @@ update-rc.d isc-dhcp-server enable
 
 echo "${GREEN}...done${WHITE}"
 
-
-#################################################
-## Display usage message
-#################################################
-### display usage message
-echo "${MAGENTA}
-======================================
-Wifi Access Point setup
-You can start and stop it with:
-    service wifiap start
-    service wifiap stop
-${WHITE}"

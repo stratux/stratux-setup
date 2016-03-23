@@ -50,6 +50,14 @@ RPI3BxREV=a02082
 RPI3ByREV=a22082
 ODROIDC2=020b
 
+REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
+
+ARM6L=armv6l
+ARM7L=armv7l
+ARM64=aarch64
+
+MACHINE="$(cat uname -m)"
+
 EW7811Un=$(lsusb | grep EW-7811Un)
 
 echo "${MAGENTA}"
@@ -124,8 +132,6 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
 
-
-REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ]; then
     echo
     echo "${MAGENTA}**** Raspberry Pi detected... *****${WHITE}"
@@ -247,9 +253,8 @@ cd /root
 rm -rf go/
 rm -rf gobootstrap/
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" == "$RPI3BxREV" ]; then
+if [ "$MACHINE" == "$ARM6L" ] || [ "$MACHINE" == "$ARM7L" ]; then
     #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
-    #### to compiling from source?
 
     wget https://storage.googleapis.com/golang/go1.6.linux-armv6l.tar.gz
     tar -zxvf go1.6.linux-armv6l.tar.gz
