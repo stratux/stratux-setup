@@ -80,7 +80,7 @@ wmm_enabled=1
 ignore_broadcast_ssid=0
 EOT
 
-else
+fi
 
 cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
@@ -91,8 +91,6 @@ channel=1
 wmm_enabled=1
 ignore_broadcast_ssid=0
 EOT
-
-fi
 
 echo "${GREEN}...done${WHITE}"
 
