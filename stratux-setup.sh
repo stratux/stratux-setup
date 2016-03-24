@@ -246,7 +246,7 @@ echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export PATH=${XPATH} >>/root/.bashrc
-
+sleep 2
 source /root/.bashrc
 
 #### sanity checks
