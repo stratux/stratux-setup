@@ -250,6 +250,8 @@ export GOPATH=/root/gopath
 export GOROOT=/root/go
 export PATH=${PATH}:/root/go/bin:/root/gopath/bin
 
+source /root/.bashrc
+
 echo "${GREEN}...done${WHITE}"
 
 
@@ -402,7 +404,7 @@ if [ -f /etc/default/keyboard ]; then
     sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
 fi
 
-# allow starting services
+#### allow starting services
 if [ -f /usr/sbin/policy-rc.d ]; then
     rm /usr/sbin/policy-rc.d
 fi
