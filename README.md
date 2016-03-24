@@ -47,8 +47,8 @@ Commands to run the setup script:
 Q: How do I update stratux when a new version is released?
 
 A: If the stratux-setup folder still exists, login in as root,
-cd in to the stratux-setup folder, run "git pull" then "bash stratux-setup"
-and reboot.
+cd to the stratux-setup folder, run "git pull" then "bash stratux-setup"
+and reboot, otherwsie follow the standard install instructions listed above.
 
 Raspberry Pi users also have the option of updating via the web ui.
 From your device connect to the internet and go to github.com/cyoung/stratux/releases
