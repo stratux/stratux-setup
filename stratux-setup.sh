@@ -202,8 +202,6 @@ if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-echo "${GREEN}...done${WHITE}"
-
 
 ##############################################################
 ##  Go environment setup
@@ -217,13 +215,13 @@ if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
     sed -i $line /root/.bashrc
 fi
 
-if grep -q "export GOROOT=" "/root/.bashrc"; then
-    line=$(grep -n 'GOROOT=' /root/.bashrc | awk -F':' '{print $1}')d
+if grep -q "export GOPATH=" "/root/.bashrc"; then
+    line=$(grep -n 'GOPATH=' /root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /root/.bashrc
 fi
 
-if grep -q "export GOPATH=" "/root/.bashrc"; then
-    line=$(grep -n 'GOPATH=' /root/.bashrc | awk -F':' '{print $1}')d
+if grep -q "export GOROOT=" "/root/.bashrc"; then
+    line=$(grep -n 'GOROOT=' /root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /root/.bashrc
 fi
 
@@ -246,15 +244,13 @@ echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export PATH=${XPATH} >>/root/.bashrc
-sleep 2
-source /root/.bashrc
 
-#### sanity checks
-if [ "$GOROOT_BOOTSTRAP" == '' ] || [ "$GOPATH" == '' ] || [ "$GOROOT" == '' ]; then
-    echo "${BOLD}${RED}ERROR - go environment variables not set properly, exiting...${WHITE}${NORMAL}"
-    exit
-fi
+export GOROOT_BOOTSTRAP=/root/gobootstrap
+export GOPATH=/root/gopath
+export GOROOT=/root/go
+export PATH=${PATH}:/root/go/bin:/root/gopath/bin
 
+#### sanity check
 if ! which go >/dev/null; then
     echo "${BOLD}${RED}ERROR - go command not found, exiting...${WHITE}${NORMAL}"
     exit
