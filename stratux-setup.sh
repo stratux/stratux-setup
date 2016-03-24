@@ -336,6 +336,14 @@ tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 git checkout $tag
 
 make all
+
+if [ "$REVISION" == "$ODROIDC2" ]; then
+    chmod 755 ./gen_gdl90
+    chmod 755 ./init.d-stratux
+    chmod 755 ./dump1090/dump1090
+    chmod 755 ./init.d-stratux
+fi
+
 make install
 
 echo "${GREEN}...done${WHITE}"
@@ -355,14 +363,6 @@ cd kalibrate-rtl
 ./bootstrap
 ./configure
 make
-
-if [ "$REVISION" == "$ODROIDC2" ]; then
-    chmod 755 ./gen_gdl90
-    chmod 755 ./init.d-stratux
-    chmod 755 ./dump1090/dump1090
-    chmod 755 ./init.d-stratux
-fi
-
 make install
 
 echo "${GREEN}...done${WHITE}"
