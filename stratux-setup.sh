@@ -256,6 +256,7 @@ if [ "$GOROOT_BOOTSTRAP" == '' ] || [ "$GOPATH" == '' ] || [ "$GOROOT" == '' ]; 
     echo "${BOLD}${RED}ERROR - go environment variables not set properly, exiting...${WHITE}${NORMAL}"
     exit
 fi
+
 if ! which go >/dev/null; then
     echo "${BOLD}${RED}ERROR - go command not found, exiting...${WHITE}${NORMAL}"
     exit
@@ -348,6 +349,32 @@ git checkout $tag
 
 make all
 make install
+
+#### sanity checks
+if [ ! -f "/usr/bin/gen_gdl90" ]; then
+    echo "${BOLD}${RED}ERROR - gen_gdl90 file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/etc/init.d/stratux" ]; then
+    echo "${BOLD}${RED}ERROR - stratux file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/etc/rc2.d/S01stratux" ]; then
+    echo "${BOLD}${RED}ERROR - S01stratux link file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/etc/rc2.d/K01stratux" ]; then
+    echo "${BOLD}${RED}ERROR - K01stratux link file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/usr/bin/dump1090" ]; then
+    echo "${BOLD}${RED}ERROR - dump1090 file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
 
 echo "${GREEN}...done${WHITE}"
 
