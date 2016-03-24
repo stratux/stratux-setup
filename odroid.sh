@@ -10,11 +10,26 @@ echo
 
 
 ##############################################################
-## Uninstalling the firewall
+## Remove the firewall
 ##############################################################
 echo
-echo "${YELLOW}**** Disable firewall *****${WHITE}"
+echo "${YELLOW}Remove the firewall...${WHITE}"
 
 apt-get remove -y ufw
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
+## Set folder permissions
+##############################################################
+echo
+echo "${YELLOW}Set folder permissions...${WHITE}"
+
+chmod g+w /usr/bin/
+chmod g+w /usr/sbin/
+chmod g+w /etc/init.d/
+chmod 777 /etc/rc2.d/
+chmod 777 /etc/rc6.d/
 
 echo "${GREEN}...done${WHITE}"

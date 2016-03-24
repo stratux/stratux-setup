@@ -7,7 +7,6 @@
 # /etc/hostapd/hostapd.conf
 # /etc/network/interfaces
 # /usr/sbin/stratux-wifi.sh
-# 5) /etc/init.d/wifi_ap
 
 
 if [ $(whoami) != 'root' ]; then

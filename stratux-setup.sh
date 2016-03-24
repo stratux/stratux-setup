@@ -138,10 +138,10 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-##  Hardware checkout
+##  Hardware check
 ##############################################################
 echo
-echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
+echo "${YELLOW}**** Hardware check... *****${WHITE}"
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
     echo
