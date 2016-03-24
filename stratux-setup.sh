@@ -251,6 +251,16 @@ echo export PATH=${XPATH} >>/root/.bashrc
 
 source /root/.bashrc
 
+#### sanity checks
+if [ "$GOROOT_BOOTSTRAP" == '' ] || [ "$GOPATH" == '' ] || [ "$GOROOT" == '' ]; then
+    echo "${BOLD}${RED}ERROR - go environment variables not set properly, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+if ! which go >/dev/null; then
+    echo "${BOLD}${RED}ERROR - go command not found, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
 echo "${GREEN}...done${WHITE}"
 
 

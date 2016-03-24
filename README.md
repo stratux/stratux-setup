@@ -37,7 +37,9 @@ Commands to run the setup script:
     # cd stratux-setup
 
     # bash stratux-setup.sh
-        currently detected boards: RPi2, RPi3, RPi0, and Odroid-C2
+        - currently detected boards: RPi2, RPi3, RPi0, and Odroid-C2
+        - note, the setup script performs a dist-upgrade, if it's the
+        first time the setup may take a considerable amount of time
 
     # reboot
 
@@ -54,6 +56,11 @@ and download the desired update *.sh file. Connect to the stratux network,
 open the web ui in a browser (192.168.10.1) and go to the Settings page and
 select "Click to select System Update file" under the Commands section and follow
 the instructions to select the update file you downloaded from the internet.
+
+Non Raspberry Pi users - if your processor is an armv6l or arm7l you should be
+able to use the web ui updater. Odroid-C4 users can update via the web ui
+but keep in mind that the updater installs arm7l 32bit binaries where as the
+stratux-setup builds arm8l 64 bit binaries.
 
 
 Q: What version of stratux does the setup script download and install?
