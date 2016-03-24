@@ -23,13 +23,13 @@ echo "${GREEN}...done${WHITE}"
 ##############################################################
 ## Set folder permissions
 ##############################################################
-echo
-echo "${YELLOW}Set folder permissions...${WHITE}"
+# echo
+# echo "${YELLOW}Set folder permissions...${WHITE}"
 
-chmod g+w /usr/bin/
-chmod g+w /usr/sbin/
-chmod g+w /etc/init.d/
-chmod 777 /etc/rc2.d/
-chmod 777 /etc/rc6.d/
+# chmod g+w /usr/bin/
+# chmod g+w /usr/sbin/
+# chmod g+w /etc/init.d/
+# chmod 777 /etc/rc2.d/
+# chmod 777 /etc/rc6.d/
 
-echo "${GREEN}...done${WHITE}"
+# echo "${GREEN}...done${WHITE}"
