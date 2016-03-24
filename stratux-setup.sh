@@ -111,7 +111,7 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$RE
     apt-get install -y rpi-update
     rpi-update
     apt-get update
-    apt-get upgrade
+    apt-get upgrade -y
 fi
 
 apt-get install -y git
