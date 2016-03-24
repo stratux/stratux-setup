@@ -250,12 +250,6 @@ export GOPATH=/root/gopath
 export GOROOT=/root/go
 export PATH=${PATH}:/root/go/bin:/root/gopath/bin
 
-#### sanity check
-if ! which go >/dev/null; then
-    echo "${BOLD}${RED}ERROR - go command not found, exiting...${WHITE}${NORMAL}"
-    exit
-fi
-
 echo "${GREEN}...done${WHITE}"
 
 
