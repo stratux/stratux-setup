@@ -113,7 +113,7 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$RE
 fi
 
 apt-get update
-apt-get dist-upgrade
+apt-get dist-upgrade -y
 apt-get upgrade -y
 apt-get install -y git
 git config --global http.sslVerify false
