@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Copyright (c) 2016 Joseph D Poirier
 # Distributable under the terms of The New BSD License
 # that can be found in the LICENSE file.
