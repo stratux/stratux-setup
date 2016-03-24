@@ -3,11 +3,10 @@
 # that can be found in the LICENSE file.
 
 #### files created and/or modified
-# 1) /etc/default/isc-dhcp-server
-# 2) /etc/hostapd/hostapd.conf
-# 3) /etc/init.d/hostapd
-# 4) /etc/network/interfaces
-# 5) /etc/init.d/wifi_ap
+# /etc/default/isc-dhcp-server
+# /etc/hostapd/hostapd.conf
+# /etc/network/interfaces
+# /usr/sbin/stratux-wifi.sh
 
 
 if [ $(whoami) != 'root' ]; then
@@ -15,27 +14,18 @@ if [ $(whoami) != 'root' ]; then
     exit
 fi
 
-#### enable wifi if disabled
-#rfkill unblock wlan
+rm -f /etc/rc*.d/*hostapd
+rm -f /etc/network/if-pre-up.d/hostapd
+rm -f /etc/network/if-post-down.d/hostapd
+rm -f /etc/init.d/hostapd
+rm -f /etc/default/hostapd
 
 
 ##############################################################
-## Edimax dongle check
-##############################################################
-WIFIDRV=
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]; then
-    if [ "$EW7811Un" != '' ]; then
-        WIFIDRV="driver=rtl871xdrv"
-        echo "${MAGENTA}Edimax dongle found (EW7811Un), setting driver=rtl871xdrv${WHITE}"
-    fi
-fi
-
-
-##############################################################
-## 1) Setup DHCP server for IP address management
+## Setup DHCP server for IP address management
 ##############################################################
 echo
-echo "**** Setup DHCP server for IP address management *****"
+echo "${YELLOW}**** Setup DHCP server for IP address management *****${WHITE}"
 
 ### set /etc/default/isc-dhcp-server
 cp -n /etc/default/isc-dhcp-server{,.bak}
@@ -54,6 +44,8 @@ log-facility local7;
 subnet 192.168.10.0 netmask 255.255.255.0 {
     range 192.168.10.10 192.168.10.50;
     option broadcast-address 192.168.10.255;
+    default-lease-time 12000;
+    max-lease-time 12000;
     option domain-name "stratux.local";
     option domain-name-servers 4.2.2.2;
 }
@@ -63,21 +55,36 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-## 1) Setup /etc/hostapd/hostapd.conf
+## Setup /etc/hostapd/hostapd.conf
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
 
-# what wifi interface, e.g. wlan0, wlan1..., uses the first one
+# what wifi interface, e.g. wlan0, wlan1..., uses the first one found
 #wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
 wifi_interface=wlan0
 
 echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$RPI_REV" = "900092" ] && [ "$EW7811Un" != '' ]; then
+echo "${MAGENTA}Edimax dongle found...${WHITE}"
+
+cat <<EOT > /etc/hostapd/hostapd-edimax.conf
+interface=$wifi_interface
+ssid=stratux
+driver=rtl871xdrv
+ieee80211n=1
+hw_mode=g
+channel=1
+wmm_enabled=1
+ignore_broadcast_ssid=0
+EOT
+
+fi
+
 cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
 ssid=stratux
-$WIFIDRV
 ieee80211n=1
 hw_mode=g
 channel=1
@@ -89,31 +96,7 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-## 3) Setup /etc/init.d/hostapd
-##############################################################
-echo
-echo "**** Setup /etc/init.d/hostapd *****${WHITE}"
-
-#### edit /etc/init.d/hostapd
-cp -n /etc/init.d/hostapd{,.bak}
-
-if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
-    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_CONF=\/etc\/hostapd\/hostapd.conf/" -i /etc/init.d/hostapd
-
-    #line=$(grep -n 'DAEMON_SBIN=' /usr/sbin/hostapd | awk -F':' '{print $1}')
-    #sed "$line s/.*/DAEMON_SBIN=\/usr\/sbin\/hostapd/" -i /etc/init.d/hostapd
-else
-    echo
-    echo "${BOLD}${RED}ERROR - /etc/init.d/hostapd is missing, exiting... !!!!!!!!${WHITE}${NORMAL}"
-    exit
-fi
-
-echo "${GREEN}...done${WHITE}"
-
-
-##############################################################
-## 4) Setup /etc/network/interfaces
+## Setup /etc/network/interfaces
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/network/interfaces *****${WHITE}"
@@ -138,10 +121,23 @@ echo "${GREEN}...done${WHITE}"
 
 
 #################################################
-## Enable hostapd and isc-dhcp services
+## Setup /usr/sbin/stratux-wifi.sh
 #################################################
 echo
-echo "${YELLOW}**** Enable hostapd and isc-dhcp services *****${WHITE}"
+echo "${YELLOW}**** Setup /usr/sbin/stratux-wifi.sh *****${WHITE}"
+
+cd ${SCRIPTDIR}
+cp ./stratux-wifi.sh /usr/sbin/stratux-wifi.sh
+chmod 755 /usr/sbin/stratux-wifi.sh
+
+echo "${GREEN}...done${WHITE}"
+
+
+#################################################
+## Legacy wifiap cleanup
+#################################################
+echo
+echo "${YELLOW}**** Legacy wifiap cleanup *****${WHITE}"
 
 #### legacy file check
 if [ -f "/etc/init.d/wifiap" ]; then
@@ -149,9 +145,6 @@ if [ -f "/etc/init.d/wifiap" ]; then
     rm -f /etc/init.d/wifiap
     echo "${MAGENTA}legacy wifiap service stopped and file removed... *****${WHITE}"
 fi
-
-update-rc.d hostapd enable
-update-rc.d isc-dhcp-server enable
 
 echo "${GREEN}...done${WHITE}"
 

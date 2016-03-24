@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
 # Copyright (c) 2016 Joseph D Poirier
 # Distributable under the terms of The New BSD License
 # that can be found in the LICENSE file.
@@ -51,7 +50,7 @@ RPI3BxREV=a02082
 RPI3ByREV=a22082
 ODROIDC2=020b
 
-#### unchecked right now
+#### unchecked
 RPIBPxREV=0010
 RPIAPxREV=0012
 RPIBPyREV=0013
@@ -107,13 +106,19 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Installing dependencies... *****${WHITE}"
 
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
+    apt-get install -y rpi-update
+    rpi-update
+fi
+
+apt-get update
+apt-get dist-upgrade -y
+apt-get upgrade -y
 apt-get install -y git
 git config --global http.sslVerify false
-
 apt-get install -y iw
 apt-get install -y lshw
 apt-get install -y wget
-apt-get install -y screen
 apt-get install -y isc-dhcp-server
 apt-get install -y tcpdump
 apt-get install -y cmake
@@ -127,25 +132,24 @@ apt-get install -y libtool
 apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
-apt-get install -y rfkill
 
 echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-##  Hardware checkout
+##  Hardware check
 ##############################################################
 echo
-echo "${YELLOW}**** Hardware checkout... *****${WHITE}"
+echo "${YELLOW}**** Hardware check... *****${WHITE}"
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
     echo
-    echo "${MAGENTA}**** Raspberry Pi detected... *****${WHITE}"
+    echo "${MAGENTA}Raspberry Pi detected...${WHITE}"
 
     . ${SCRIPTDIR}/rpi.sh
 elif [ "$REVISION" == "$ODROIDC2" ]; then
     echo
-    echo "${MAGENTA}**** Odroid-C2 detected... *****${WHITE}"
+    echo "${MAGENTA}Odroid-C2 detected...${WHITE}"
 
     . ${SCRIPTDIR}/odroid.sh
 else
@@ -198,8 +202,6 @@ if ! grep -q "blacklist rtl2832" "/etc/modprobe.d/rtl-sdr-blacklist.conf"; then
     echo blacklist rtl2832 >>/etc/modprobe.d/rtl-sdr-blacklist.conf
 fi
 
-echo "${GREEN}...done${WHITE}"
-
 
 ##############################################################
 ##  Go environment setup
@@ -213,13 +215,13 @@ if grep -q "export GOROOT_BOOTSTRAP=" "/root/.bashrc"; then
     sed -i $line /root/.bashrc
 fi
 
-if grep -q "export GOROOT=" "/root/.bashrc"; then
-    line=$(grep -n 'GOROOT=' /root/.bashrc | awk -F':' '{print $1}')d
+if grep -q "export GOPATH=" "/root/.bashrc"; then
+    line=$(grep -n 'GOPATH=' /root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /root/.bashrc
 fi
 
-if grep -q "export GOPATH=" "/root/.bashrc"; then
-    line=$(grep -n 'GOPATH=' /root/.bashrc | awk -F':' '{print $1}')d
+if grep -q "export GOROOT=" "/root/.bashrc"; then
+    line=$(grep -n 'GOROOT=' /root/.bashrc | awk -F':' '{print $1}')d
     sed -i $line /root/.bashrc
 fi
 
@@ -229,7 +231,7 @@ if grep -q "export PATH=" "/root/.bashrc"; then
 fi
 
 # only add new paths
-XPATH='$PATH'
+XPATH="\$PATH"
 if [[ ! "$PATH" =~ "/root/go/bin" ]]; then
     XPATH+=:/root/go/bin
 fi
@@ -242,6 +244,11 @@ echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
 echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export PATH=${XPATH} >>/root/.bashrc
+
+export GOROOT_BOOTSTRAP=/root/gobootstrap
+export GOPATH=/root/gopath
+export GOROOT=/root/go
+export PATH=${PATH}:/root/go/bin:/root/gopath/bin
 
 source /root/.bashrc
 
@@ -333,6 +340,32 @@ git checkout $tag
 make all
 make install
 
+#### sanity checks
+if [ ! -f "/usr/bin/gen_gdl90" ]; then
+    echo "${BOLD}${RED}ERROR - gen_gdl90 file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/etc/init.d/stratux" ]; then
+    echo "${BOLD}${RED}ERROR - stratux file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/etc/rc2.d/S01stratux" ]; then
+    echo "${BOLD}${RED}ERROR - S01stratux link file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/etc/rc6.d/K01stratux" ]; then
+    echo "${BOLD}${RED}ERROR - K01stratux link file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+if [ ! -f "/usr/bin/dump1090" ]; then
+    echo "${BOLD}${RED}ERROR - dump1090 file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
 echo "${GREEN}...done${WHITE}"
 
 
@@ -371,7 +404,7 @@ if [ -f /etc/default/keyboard ]; then
     sed -i /etc/default/keyboard -e "/^XKBLAYOUT/s/\".*\"/\"us\"/"
 fi
 
-# allow starting services
+#### allow starting services
 if [ -f /usr/sbin/policy-rc.d ]; then
     rm /usr/sbin/policy-rc.d
 fi
@@ -394,8 +427,6 @@ fi
 
 ####
 update-rc.d stratux enable
-update-rc.d hostapd enable
-update-rc.d isc-dhcp-server enable
 
 echo
 echo

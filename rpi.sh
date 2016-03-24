@@ -62,19 +62,9 @@ echo
 echo "${YELLOW}**** Edimax wifi dongle check... *****${WHITE}"
 
 if [ "$EW7811Un" != '' ]; then
-    echo "${MAGENTA}edimax wifi dongle found, copying the hostapd binaries... *****${WHITE}"
+    echo "${MAGENTA}edimax wifi dongle found, copying the hostapd-edimax binary...${WHITE}"
 
-    rm -f /usr/sbin/hostapd
-    rm -f /usr/sbin/hostapd_cli
-
-    #echo "hostapd edimax source"
-    #### http://www.edimax.com/images/Image/Driver_Utility/Wireless/NIC/EW-7811Un/EW-7811Un_Linux_driver_v1.0.0.5.zip
-    #### Realtek downloads page http://152.104.125.41/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&ProdID=27...
-    #rm -rf wpa_supplicant_hostapd/
-    #unzip wpa_supplicant_hostapd.zip
-    #cd wpa_supplicant_hostapd/hostapd
-    #make
-
+    rm -f /usr/sbin/hostapd-edimax
     cd ${SCRIPTDIR}/files
 
     gunzip -k hostapd.gz
@@ -83,25 +73,15 @@ if [ "$EW7811Un" != '' ]; then
         exit
     fi
 
-    gunzip -k hostapd_cli.gz
-    if [ ! -f ./hostapd_cli ]; then
-        echo "${BOLD}${RED}ERROR - hostapd_cli doesn't exist, exiting...${WHITE}${NORMAL}"
-        exit
-    fi
-
     # install the binary
-    mv ./hostapd /usr/sbin/hostapd
-    chmod +x /usr/sbin/hostapd
-
-    # install the binary
-    mv ./hostapd_cli /usr/sbin/hostapd_cli
-    chmod +x /usr/sbin/hostapd_cli
+    mv ./hostapd /usr/sbin/hostapd-edimax
+    chmod +x /usr/sbin/hostapd-edimax
 
     if ! grep -q "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" "/etc/modprobe.d/8192cu.conf"; then
         echo "options 8192cu rtw_power_mgnt=0 rtw_enusbss=0" >>/etc/modprobe.d/8192cu.conf
     fi
 else
-    echo "${MAGENTA}edimax wifi dongle not found, nothing to do... *****${WHITE}"
+    echo "${MAGENTA}edimax wifi dongle not found, nothing to do...${WHITE}"
 fi
 
 echo "${GREEN}...done${WHITE}"
