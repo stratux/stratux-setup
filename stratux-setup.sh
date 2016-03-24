@@ -231,7 +231,7 @@ if grep -q "export PATH=" "/root/.bashrc"; then
 fi
 
 # only add new paths
-XPATH='$PATH'
+XPATH="\$PATH"
 if [[ ! "$PATH" =~ "/root/go/bin" ]]; then
     XPATH+=:/root/go/bin
 fi
@@ -245,14 +245,10 @@ echo export GOPATH=/root/gopath >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export PATH=${XPATH} >>/root/.bashrc
 
-if [ "$REVISION" == "$ODROIDC2" ]; then
-    export GOROOT_BOOTSTRAP=/root/gobootstrap
-    export GOPATH=/root/gopath
-    export GOROOT=/root/go
-    export PATH=${PATH}:/root/go/bin:/root/gopath/bin
-else
-    source /root/.bashrc
-fi
+export GOROOT_BOOTSTRAP=/root/gobootstrap
+export GOPATH=/root/gopath
+export GOROOT=/root/go
+export PATH=${PATH}:/root/go/bin:/root/gopath/bin
 
 #### sanity check
 if ! which go >/dev/null; then
