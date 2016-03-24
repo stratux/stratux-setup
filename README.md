@@ -13,22 +13,31 @@ wlan0 and it is not re-configurable at this time.
 
 Commands to run the setup script:
 
-    login via command line
+    [login via command line]
 
     # sudo su -
 
+    [Raspberry Pi boards]
+
     # raspi-config
         select option 1 - expand filesystem
-        this is an RPi only command
+        reboot
+
+
+    [Odroid-C4]
+
+    # apt-get update
+    # apt-get install -y git
+
+    [All]
 
     # cd /root
-    # apt-get install git
 
     # git clone https://github.com/jpoirier/stratux-setup
     # cd stratux-setup
 
     # bash stratux-setup.sh
-        will currently detect RPi2, RPi3, RPi0, and Odroid-C2
+        currently detected boards: RPi2, RPi3, RPi0, and Odroid-C2
 
     # reboot
 
@@ -37,11 +46,14 @@ Q: How do I update stratux when a new version is released?
 
 A: If the stratux-setup folder still exists, login in as root,
 cd in to the stratux-setup folder, run "git pull" then "bash stratux-setup"
-and reboot. Otherwise, just follow the standard setup commands
-listed above.
+and reboot.
 
-Note, the update-stratux*.sh file from the stratux release page
-cannot, and should not, be used due to possible setting conflicts.
+Raspberry Pi users also have the option of updating via the web ui.
+From your device connect to the internet and go to github.com/cyoung/stratux/releases
+and download the desired update *.sh file. Connect to the stratux network,
+open the web ui in a browser (192.168.10.1) and go to the Settings page and
+select "Click to select System Update file" under the Commands section and follow
+the instructions to select the update file you downloaded from the internet.
 
 
 Q: What version of stratux does the setup script download and install?
