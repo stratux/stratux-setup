@@ -107,10 +107,13 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Installing dependencies... *****${WHITE}"
 
-apt-get install -y rpi-update
-rpi-update
-apt-get update
-apt-get upgrade
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
+    apt-get install -y rpi-update
+    rpi-update
+    apt-get update
+    apt-get upgrade
+fi
+
 apt-get install -y git
 git config --global http.sslVerify false
 apt-get install -y iw
