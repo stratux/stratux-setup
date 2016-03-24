@@ -360,7 +360,7 @@ if [ ! -f "/etc/rc2.d/S01stratux" ]; then
     exit
 fi
 
-if [ ! -f "/etc/rc2.d/K01stratux" ]; then
+if [ ! -f "/etc/rc6.d/K01stratux" ]; then
     echo "${BOLD}${RED}ERROR - K01stratux link file missing, exiting...${WHITE}${NORMAL}"
     exit
 fi
