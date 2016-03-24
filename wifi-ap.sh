@@ -3,10 +3,10 @@
 # that can be found in the LICENSE file.
 
 #### files created and/or modified
-# 1) /etc/default/isc-dhcp-server
-# 2) /etc/hostapd/hostapd.conf
-# 3) /etc/init.d/hostapd
-# 4) /etc/network/interfaces
+# /etc/default/isc-dhcp-server
+# /etc/hostapd/hostapd.conf
+# /etc/network/interfaces
+# /usr/sbin/stratux-wifi.sh
 # 5) /etc/init.d/wifi_ap
 
 
@@ -23,7 +23,7 @@ rm -f /etc/default/hostapd
 
 
 ##############################################################
-## 1) Setup DHCP server for IP address management
+## Setup DHCP server for IP address management
 ##############################################################
 echo
 echo "${YELLOW}**** Setup DHCP server for IP address management *****${WHITE}"
@@ -56,7 +56,7 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-## 1) Setup /etc/hostapd/hostapd.conf
+## Setup /etc/hostapd/hostapd.conf
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
@@ -68,7 +68,7 @@ wifi_interface=wlan0
 echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$RPI_REV" = "900092" ] && [ "$EW7811Un" != '' ]; then
-echo "${MAGENTA}Edimax dongle found${WHITE}"
+echo "${MAGENTA}Edimax dongle found...${WHITE}"
 
 cat <<EOT > /etc/hostapd/hostapd-edimax.conf
 interface=$wifi_interface
@@ -99,27 +99,7 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-## 3) Setup /etc/default/hostapd
-##############################################################
-echo
-echo "**** Setup /etc/default/hostapd *****${WHITE}"
-
-if grep -q "DAEMON_CONF=" "/etc/init.d/hostapd"; then
-    #### reset these to be safe
-    line=$(grep -n 'DAEMON_CONF=' /etc/init.d/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_CONF=/" -i /etc/init.d/hostapd
-
-    line=$(grep -n 'DAEMON_SBIN=' /etc/init.d/hostapd | awk -F':' '{print $1}')
-    sed "$line s/.*/DAEMON_SBIN=/" -i /etc/init.d/hostapd
-fi
-
-echo "DAEMON_CONF=\"/etc/default/hostapd\"" >/etc/default/hostapd
-
-echo "${GREEN}...done${WHITE}"
-
-
-##############################################################
-## 4) Setup /etc/network/interfaces
+## Setup /etc/network/interfaces
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/network/interfaces *****${WHITE}"
@@ -144,10 +124,10 @@ echo "${GREEN}...done${WHITE}"
 
 
 #################################################
-## Enable hostapd and isc-dhcp services
+## Setup /usr/sbin/stratux-wifi.sh
 #################################################
 echo
-echo "${YELLOW}**** Enable hostapd and isc-dhcp services *****${WHITE}"
+echo "${YELLOW}**** Setup /usr/sbin/stratux-wifi.sh *****${WHITE}"
 
 cd ${SCRIPTDIR}
 cp ./stratux-wifi.sh /usr/sbin/stratux-wifi.sh
@@ -157,10 +137,10 @@ echo "${GREEN}...done${WHITE}"
 
 
 #################################################
-## Enable hostapd and isc-dhcp services
+## Legacy wifiap cleanup
 #################################################
 echo
-echo "${YELLOW}**** Enable hostapd and isc-dhcp services *****${WHITE}"
+echo "${YELLOW}**** Legacy wifiap cleanup *****${WHITE}"
 
 #### legacy file check
 if [ -f "/etc/init.d/wifiap" ]; then
