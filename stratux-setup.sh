@@ -107,9 +107,12 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Installing dependencies... *****${WHITE}"
 
+apt-get install -y rpi-update
+rpi-update
+apt-get update
+apt-get upgrade
 apt-get install -y git
 git config --global http.sslVerify false
-
 apt-get install -y iw
 apt-get install -y lshw
 apt-get install -y wget

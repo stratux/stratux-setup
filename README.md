@@ -21,10 +21,6 @@ Commands to run the setup script:
         select option 1 - expand filesystem
         this is an RPi only command
 
-    # apt-get update
-    # apt-get upgrade
-        reboot and log back in as root
-
     # cd /root
     # apt-get install git
 

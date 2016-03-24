@@ -15,6 +15,12 @@ if [ $(whoami) != 'root' ]; then
     exit
 fi
 
+rm -f /etc/rc*.d/*hostapd
+rm -f /etc/network/if-pre-up.d/hostapd
+rm -f /etc/network/if-post-down.d/hostapd
+rm -f /etc/init.d/hostapd
+rm -f /etc/default/hostapd
+
 
 ##############################################################
 ## 1) Setup DHCP server for IP address management
