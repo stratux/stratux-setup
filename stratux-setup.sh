@@ -256,7 +256,7 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-##  Go bootstrap compiler installtion
+##  Go bootstrap compiler installation
 ##############################################################
 echo
 echo "${YELLOW}**** Go bootstrap compiler installtion... *****${WHITE}"
