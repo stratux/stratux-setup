@@ -163,7 +163,7 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
-##  SSH steup and config
+##  SSH setup and config
 ##############################################################
 echo
 echo "${YELLOW}**** SSH setup and config... *****${WHITE}"
