@@ -154,9 +154,9 @@ elif [ "$REVISION" == "$ODROIDC2" ]; then
     . ${SCRIPTDIR}/odroid.sh
 else
     echo
-    echo "${BOLD}${RED}ERROR - unable to identify the board using /proc/cpuinfo, exiting...${WHITE}${NORMAL}"
+    echo "${BOLD}${RED}WARNING - unable to identify the board using /proc/cpuinfo...${WHITE}${NORMAL}"
 
-    exit
+    #exit
 fi
 
 echo "${GREEN}...done${WHITE}"
