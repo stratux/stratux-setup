@@ -280,14 +280,12 @@ elif [ "$MACHINE" == "$ARM64" ]; then
     # ulimit -s          # check that it worked
     # env GO_TEST_TIMEOUT_SCALE=10 GOROOT_BOOTSTRAP=/root/gobootstrap
 
-    cd ${SCRIPTDIR}/files
+    wget https://github.com/jpoirier/GoAarch64Binaries/raw/master/go1.6.linux-armvAarch64.tar.gz
     tar -zxvf go1.6.linux-armvAarch64.tar.gz
-    if [ ! -d ${SCRIPTDIR}/files/go ]; then
+    if [ ! -d /root/go ]; then
         echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
         exit
     fi
-    mv go /root/go
-    cd /root
 else
     echo
     echo "${BOLD}${RED}ERROR - unsupported machine type: $MACHINE, exiting...${WHITE}${NORMAL}"
