@@ -65,8 +65,8 @@ stratux-setup builds arm8l 64 bit binaries.
 
 Q: What version of stratux does the setup script download and install?
 
-A: The setup script checks out and builds the latest version of the stratux
-code from the official stratux git repository.
+A: The setup script checks out and builds the latest release from the official
+stratux git repository.
 
 Note, you can check out and install any version of the stratux source code by
 opening a command line prompt in /root/stratux, issuing a "git checkout some-rev"
