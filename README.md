@@ -10,6 +10,11 @@ USB adapter, no extra configuration required. But virtually any natively
 supported Wifi USB adapter should work. The network config defaults to
 wlan0 and it is not re-configurable at this time.
 
+Note, it's possible to bootstrap an install from one board to another
+when the two boards share similar processors and/or hardware. E.g. it's
+possible to use the setup script to install stratux on an RPi2 board then
+use the SD card from the RPi2 with an RPi0.
+
 
 Commands to run the setup script:
 
@@ -46,7 +51,7 @@ Commands to run the setup script:
 
 Q: How do I update stratux when a new version is released?
 
-A: If the stratux-setup folder still exists, login in as root,
+A: If the stratux-setup folder still exists, login in as root and
 cd to the stratux-setup folder, run "git pull" then "bash stratux-setup"
 and reboot, otherwsie follow the standard install instructions listed above.
 

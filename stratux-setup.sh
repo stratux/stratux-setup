@@ -418,14 +418,45 @@ echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 
 . ${SCRIPTDIR}/wifi-ap.sh
 
-#### disable ntpd autostart
+
+##############################################################
+## Copying the hostapd_manager.sh utility
+##############################################################
+echo
+echo "${YELLOW}**** Copying the hostapd_manager.sh utility... *****${WHITE}"
+
+if [ -f /root/stratux/image/hostapd_manager.sh ]; then
+    chmod 755 /root/stratux/image/hostapd_manager.sh
+    cp /root/stratux/image/hostapd_manager.sh /usr/bin/hostapd_manager.sh
+fi
+
+echo "${GREEN}...done${WHITE}"
+
+##############################################################
+## Disable ntpd autostart
+##############################################################
+echo
+echo "${YELLOW}**** Disable ntpd autostart... *****${WHITE}"
+
 if which ntp >/dev/null; then
     systemctl disbable ntp
 fi
 
+echo "${GREEN}...done${WHITE}"
+
+##############################################################
+## Enable update-rc.d stratux
+##############################################################
+echo
+echo "${YELLOW}**** Enable update-rc.d stratux... *****${WHITE}"
 ####
 update-rc.d stratux enable
 
+echo "${GREEN}...done${WHITE}"
+
+##############################################################
+## Epilogue
+##############################################################
 echo
 echo
 echo "${MAGENTA}**** Setup complete, don't forget to reboot! *****${WHITE}"
