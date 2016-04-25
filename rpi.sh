@@ -67,7 +67,8 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REV
     rm -f /usr/sbin/hostapd-edimax
     cd ${SCRIPTDIR}/files
 
-    gunzip -k hostapd.gz
+    # gunzip -k hostapd.gz
+    gunzip -c hostapd.gz >hostapd
     if [ ! -f ./hostapd ]; then
         echo "${BOLD}${RED}ERROR - hostapd doesn't exist, exiting...${WHITE}${NORMAL}"
         exit
