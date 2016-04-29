@@ -61,7 +61,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** RPi 0/2 check to enable Edimax wifi dongle option... *****${WHITE}"
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" = "$RPI0xREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
     echo "${MAGENTA}copying the hostapd-edimax binary...${WHITE}"
 
     rm -f /usr/sbin/hostapd-edimax
