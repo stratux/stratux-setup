@@ -410,6 +410,43 @@ fi
 echo "${GREEN}...done${WHITE}"
 
 
+#################################################
+## Setup /root/.stxAliases
+#################################################
+echo
+echo "${YELLOW}**** Setup /root/.stxAliases *****${WHITE}"
+
+if [ -f "/root/stratux/image/stxAliases.txt" ]; then
+    cp /root/stratux/image/stxAliases.txt /root/.stxAliases
+else
+    cp ${SCRIPTDIR}/stxAliases.txt /root/.stxAliases
+fi
+
+if [ ! -f "/root/.stxAliases" ]; then
+    echo "${BOLD}${RED}ERROR - /root/.stxAliases file missing, exiting...${WHITE}${NORMAL}"
+    exit
+fi
+
+echo "${GREEN}...done${WHITE}"
+
+
+#################################################
+## Add .stxAliases command to /root/.bashrc
+#################################################
+echo
+echo "${YELLOW}**** Add .stxAliases command to /root/.bashrc *****${WHITE}"
+
+if ! grep -q ".stxAliases" "/root/.bashrc"; then
+cat <<EOT > /root/.bashrc
+if [ -f /root/.stxAliases ]; then
+. /root/.stxAliases
+fi
+EOT
+fi
+
+echo "${GREEN}...done${WHITE}"
+
+
 ##############################################################
 ##  WiFi Access Point setup
 ##############################################################
@@ -432,6 +469,7 @@ fi
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ## Disable ntpd autostart
 ##############################################################
@@ -444,6 +482,7 @@ fi
 
 echo "${GREEN}...done${WHITE}"
 
+
 ##############################################################
 ## Enable update-rc.d stratux
 ##############################################################
@@ -453,6 +492,7 @@ echo "${YELLOW}**** Enable update-rc.d stratux... *****${WHITE}"
 update-rc.d stratux enable
 
 echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ## Epilogue

@@ -70,12 +70,12 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REV
 
 cat <<EOT > /etc/hostapd/hostapd-edimax.conf
 interface=$wifi_interface
-ssid=stratux
 driver=rtl871xdrv
-ieee80211n=1
+ssid=stratux
 hw_mode=g
 channel=1
 wmm_enabled=1
+ieee80211n=1
 ignore_broadcast_ssid=0
 EOT
 
@@ -84,10 +84,10 @@ fi
 cat <<EOT > /etc/hostapd/hostapd.conf
 interface=$wifi_interface
 ssid=stratux
-ieee80211n=1
 hw_mode=g
 channel=1
 wmm_enabled=1
+ieee80211n=1
 ignore_broadcast_ssid=0
 EOT
 
@@ -125,9 +125,13 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Setup /usr/sbin/stratux-wifi.sh *****${WHITE}"
 
-cd ${SCRIPTDIR}
-cp ./stratux-wifi.sh /usr/sbin/stratux-wifi.sh
-chmod 755 /usr/sbin/stratux-wifi.sh
+if [ -f "/root/stratux/image/stratux-wifi.sh" ]; then
+    chmod 755 /root/stratux/image/stratux-wifi.sh
+    cp /root/stratux/image/stratux-wifi.sh /usr/sbin/stratux-wifi.sh
+else
+    chmod 755 ${SCRIPTDIR}/stratux-wifi.sh
+    cp ${SCRIPTDIR}/stratux-wifi.sh /usr/sbin/stratux-wifi.sh
+fi
 
 echo "${GREEN}...done${WHITE}"
 

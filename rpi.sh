@@ -37,6 +37,13 @@ if ! grep -q "dtparam=i2c_arm_baudrate=400000" "/boot/config.txt"; then
     echo "dtparam=i2c_arm_baudrate=400000" >>/boot/config.txt
 fi
 
+if [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ]; then
+    # move RPi3 Bluetooth off of hardware UART to free up connection for GPS
+    if ! grep -q "dtoverlay=pi3-miniuart-bt" "/boot/config.txt"; then
+        echo "dtoverlay=pi3-miniuart-bt" >>/boot/config.txt
+    fi
+fi
+
 #echo "arm_freq=900" >>boot/config.txt
 #echo "sdram_freq=450" >>boot/config.txt
 #echo "core_freq=450" >>boot/config.txt
