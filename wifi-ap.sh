@@ -30,7 +30,7 @@ echo "${YELLOW}**** Setup DHCP server for IP address management *****${WHITE}"
 ### set /etc/default/isc-dhcp-server
 cp -n /etc/default/isc-dhcp-server{,.bak}
 cat <<EOT > /etc/default/isc-dhcp-server
-NTERFACES="$wifi_interface"
+INTERFACES="$wifi_interface"
 EOT
 
 ### set /etc/dhcp/dhcpd.conf
