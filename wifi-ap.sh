@@ -20,6 +20,12 @@ rm -f /etc/network/if-post-down.d/hostapd
 rm -f /etc/init.d/hostapd
 rm -f /etc/default/hostapd
 
+# what wifi interface, e.g. wlan0, wlan1..., uses the first one found
+#wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
+wifi_interface=wlan0
+
+echo "${MAGENTA}Configuring $wifi_interface interface...${WHITE}"
+
 
 ##############################################################
 ## Setup DHCP server for IP address management
@@ -59,12 +65,6 @@ echo "${GREEN}...done${WHITE}"
 ##############################################################
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
-
-# what wifi interface, e.g. wlan0, wlan1..., uses the first one found
-#wifi_interface=$(lshw -quiet -c network | sed -n -e '/Wireless interface/,+12 p' | sed -n -e '/logical name:/p' | cut -d: -f2 | sed -e 's/ //g')
-wifi_interface=wlan0
-
-echo "${MAGENTA}...configuring $wifi_interface interface...${WHITE}"
 
 if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" = "$RPI0xREV" ]; then
 
