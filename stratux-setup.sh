@@ -437,7 +437,7 @@ echo
 echo "${YELLOW}**** Add .stxAliases command to /root/.bashrc *****${WHITE}"
 
 if ! grep -q ".stxAliases" "/root/.bashrc"; then
-cat <<EOT > /root/.bashrc
+cat <<EOT >> /root/.bashrc
 if [ -f /root/.stxAliases ]; then
 . /root/.stxAliases
 fi
