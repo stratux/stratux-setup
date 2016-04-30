@@ -125,13 +125,9 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Setup /usr/sbin/stratux-wifi.sh *****${WHITE}"
 
-if [ -f "/root/stratux/image/stratux-wifi.sh" ]; then
-    chmod 755 /root/stratux/image/stratux-wifi.sh
-    cp /root/stratux/image/stratux-wifi.sh /usr/sbin/stratux-wifi.sh
-else
-    chmod 755 ${SCRIPTDIR}/stratux-wifi.sh
-    cp ${SCRIPTDIR}/stratux-wifi.sh /usr/sbin/stratux-wifi.sh
-fi
+# we use a slightly modified version to handle more hardware scenarios
+chmod 755 ${SCRIPTDIR}/stratux-wifi.sh
+cp ${SCRIPTDIR}/stratux-wifi.sh /usr/sbin/stratux-wifi.sh
 
 echo "${GREEN}...done${WHITE}"
 
