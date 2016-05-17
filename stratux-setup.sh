@@ -163,6 +163,27 @@ echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
+##  Stratux USB devices udev rules
+##############################################################
+echo
+echo "${YELLOW}**** Stratux USB devices udev rules to /etc/udev/rules.d/10-stratux.rules *****${WHITE}"
+
+cat <<EOT > /etc/udev/rules.d/10-stratux.rules
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a7", SYMLINK+="vk172"
+
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a6", SYMLINK+="vk162"
+
+#SUBSYSTEMS=="usb", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK+="bu353s4"
+
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK+="tu-s9"
+EOT
+
+
+echo "${GREEN}...done${WHITE}"
+
+
+
+##############################################################
 ##  SSH setup and config
 ##############################################################
 echo
