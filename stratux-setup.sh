@@ -44,10 +44,14 @@ SCRIPTDIR="`pwd`"
 
 #### Revision numbers found via cat /proc/cpuinfo
 RPI0xREV=900092
+RPI0yREV=900093
+
 RPI2BxREV=a01041
 RPI2ByREV=a21041
+
 RPI3BxREV=a02082
 RPI3ByREV=a22082
+
 ODROIDC2=020b
 
 #### unchecked
@@ -106,7 +110,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Installing dependencies... *****${WHITE}"
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ] || [ "$REVISION" == "$RPI0yREV" ]; then
     apt-get install -y rpi-update
     rpi-update
 fi
@@ -142,7 +146,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Hardware check... *****${WHITE}"
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ] || [ "$REVISION" == "$RPI0xREV" ] || [ "$REVISION" == "$RPI0yREV" ]; then
     echo
     echo "${MAGENTA}Raspberry Pi detected...${WHITE}"
 
@@ -170,14 +174,10 @@ echo "${YELLOW}**** Stratux USB devices udev rules to /etc/udev/rules.d/10-strat
 
 cat <<EOT > /etc/udev/rules.d/10-stratux.rules
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a8", SYMLINK+="ublox8"
-
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a7", SYMLINK+="ublox7"
-
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a6", SYMLINK+="ublox6"
-
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK+="prolific%n"
 EOT
-
 
 echo "${GREEN}...done${WHITE}"
 

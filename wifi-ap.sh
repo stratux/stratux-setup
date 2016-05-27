@@ -66,7 +66,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** Setup /etc/hostapd/hostapd.conf *****${WHITE}"
 
-if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" = "$RPI0xREV" ]; then
+if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ] || [ "$REVISION" = "$RPI0xREV" ] || [ "$REVISION" = "$RPI0yREV" ]; then
 
 cat <<EOT > /etc/hostapd/hostapd-edimax.conf
 interface=$wifi_interface
