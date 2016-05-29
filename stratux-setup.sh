@@ -50,7 +50,7 @@ SCRIPTDIR="`pwd`"
 # Edimax WiFi check                                     - stratux-wifi.sh
 # Boot config settings                                  - rpi.sh
 # RPi 0/2 check to enable Edimax wifi dongle option     - rpi.sh
-
+#
 RPI0xREV=900092
 RPI0yREV=900093
 
@@ -69,10 +69,11 @@ RPIBPyREV=0013
 
 REVISION="$(cat /proc/cpuinfo | grep Revision | cut -d ':' -f 2 | xargs)"
 
+
 # Processor 
 # [Labeled Section]                                       [File]
 # Go bootstrap compiler installation                    - stratux-setup.sh
-
+#
 ARM6L=armv6l
 ARM7L=armv7l
 ARM64=aarch64
