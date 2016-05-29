@@ -497,13 +497,13 @@ echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 echo
 echo "${YELLOW}**** Copying the hostapd_manager.sh utility... *****${WHITE}"
 
-if [ -f /root/stratux/image/hostapd_manager.sh ]; then
-    chmod 755 /root/stratux/image/hostapd_manager.sh
-    cp /root/stratux/image/hostapd_manager.sh /usr/bin/hostapd_manager.sh
-else
-    chmod 755 ${SCRIPTDIR}/files/hostapd_manager.sh
-    cp ${SCRIPTDIR}/files/hostapd_manager.sh /usr/bin/hostapd_manager.sh
-fi
+#if [ -f /root/stratux/image/hostapd_manager.sh ]; then
+#    chmod 755 /root/stratux/image/hostapd_manager.sh
+#    cp /root/stratux/image/hostapd_manager.sh /usr/bin/hostapd_manager.sh
+#else
+chmod 755 ${SCRIPTDIR}/files/hostapd_manager.sh
+cp ${SCRIPTDIR}/files/hostapd_manager.sh /usr/bin/hostapd_manager.sh
+#fi
 
 echo "${GREEN}...done${WHITE}"
 
