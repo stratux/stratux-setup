@@ -440,7 +440,7 @@ echo "${YELLOW}**** Setup /root/.stxAliases *****${WHITE}"
 if [ -f "/root/stratux/image/stxAliases.txt" ]; then
     cp /root/stratux/image/stxAliases.txt /root/.stxAliases
 else
-    cp ${SCRIPTDIR}/stxAliases.txt /root/.stxAliases
+    cp ${SCRIPTDIR}/files/stxAliases.txt /root/.stxAliases
 fi
 
 if [ ! -f "/root/.stxAliases" ]; then
@@ -487,8 +487,8 @@ if [ -f /root/stratux/image/hostapd_manager.sh ]; then
     chmod 755 /root/stratux/image/hostapd_manager.sh
     cp /root/stratux/image/hostapd_manager.sh /usr/bin/hostapd_manager.sh
 else
-    chmod 755 ${SCRIPTDIR}/hostapd_manager.sh
-    cp ${SCRIPTDIR}/hostapd_manager.sh /usr/bin/hostapd_manager.sh
+    chmod 755 ${SCRIPTDIR}/files/hostapd_manager.sh
+    cp ${SCRIPTDIR}/files/hostapd_manager.sh /usr/bin/hostapd_manager.sh
 fi
 
 echo "${GREEN}...done${WHITE}"
