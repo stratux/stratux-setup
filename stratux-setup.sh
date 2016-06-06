@@ -306,9 +306,10 @@ rm -rf gobootstrap/
 if [ "$MACHINE" == "$ARM6L" ] || [ "$MACHINE" == "$ARM7L" ]; then
     #### For RPi-2/3, is there any disadvantage to using the armv6l compiler?
 
-    wget https://storage.googleapis.com/golang/go1.7beta1.linux-armv6l.tar.gz
-#    wget https://storage.googleapis.com/golang/go1.6.2.linux-armv6l.tar.gz
-    tar -zxvf go1.6.2.linux-armv6l.tar.gz
+    wget https://storage.googleapis.com/golang/go1.7beta1.linux-armv6l.tar.gz --no-check-certificate
+#    wget https://storage.googleapis.com/golang/go1.6.2.linux-armv6l.tar.gz --no-check-certificate
+    tar -zxvf go1.7beta1.linux-armv6l.tar.gz
+#    tar -zxvf go1.6.2.linux-armv6l.tar.gz
     if [ ! -d /root/go ]; then
         echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
         exit
@@ -318,7 +319,7 @@ elif [ "$MACHINE" == "$ARM64" ]; then
     # ulimit -s          # check that it worked
     # env GO_TEST_TIMEOUT_SCALE=10 GOROOT_BOOTSTRAP=/root/gobootstrap
 
-    wget https://github.com/jpoirier/GoAarch64Binaries/raw/master/go1.6.linux-armvAarch64.tar.gz
+    wget https://github.com/jpoirier/GoAarch64Binaries/raw/master/go1.6.linux-armvAarch64.tar.gz --no-check-certificate
     tar -zxvf go1.6.linux-armvAarch64.tar.gz
     if [ ! -d /root/go ]; then
         echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
@@ -329,7 +330,7 @@ else
     echo "${BOLD}${RED}ERROR - unsupported machine type: $MACHINE, exiting...${WHITE}${NORMAL}"
 fi
 
-rm -f go1.6.linux*
+rm -f go1.*.linux*
 rm -rf /root/gopath
 mkdir -p /root/gopath
 
