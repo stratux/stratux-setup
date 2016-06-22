@@ -174,6 +174,11 @@ elif [ "$REVISION" == "$ODROIDC2" ]; then
     echo "${MAGENTA}Odroid-C2 detected...${WHITE}"
 
     . ${SCRIPTDIR}/odroid.sh
+elif [ "$REVISION" == "$CHIP" ]; then
+    echo
+    echo "${MAGENTA}CHIP detected...${WHITE}"
+
+    . ${SCRIPTDIR}/chip.sh
 else
     echo
     echo "${BOLD}${RED}WARNING - unable to identify the board using /proc/cpuinfo...${WHITE}${NORMAL}"
