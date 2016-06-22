@@ -55,14 +55,14 @@ A: If the stratux-setup folder still exists, login in as root and
 cd to the stratux-setup folder, run "git pull" then "bash stratux-setup"
 and reboot, otherwsie follow the standard install instructions listed above.
 
-Raspberry Pi users also have the option of updating via the web ui.
+Raspberry Pi 2/3 users also have the option of updating via the web ui.
 From your device connect to the internet and go to github.com/cyoung/stratux/releases
 and download the desired update *.sh file. Connect to the stratux network,
 open the web ui in a browser (192.168.10.1) and go to the Settings page and
 select "Click to select System Update file" under the Commands section and follow
 the instructions to select the update file you downloaded from the internet.
 
-Non Raspberry Pi users - if your processor is an armv6l or arm7l you should be
+Non Raspberry Pi users - if your processor is an arm7l you should be
 able to use the web ui updater. Odroid-C4 users can update via the web ui
 but keep in mind that the updater installs arm7l 32bit binaries where as the
 stratux-setup builds arm8l 64 bit binaries.
