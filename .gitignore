@@ -32,5 +32,6 @@
 *.dSYM/
 
 archives/
+.vscode/
 
 *.db
