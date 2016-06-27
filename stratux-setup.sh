@@ -154,6 +154,7 @@ apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y pkg-config
+apt-get purge golang*
 
 echo "${GREEN}...done${WHITE}"
 
@@ -318,6 +319,12 @@ if [ "$MACHINE" == "$ARM6L" ] || [ "$MACHINE" == "$ARM7L" ]; then
         echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
         exit
     fi
+
+#    if [ "$MACHINE" == "$ARM6L" ]; then
+#        export GOARM=6
+#    else
+#        export GOARM=7
+#    then
 elif [ "$MACHINE" == "$ARM64" ]; then
     # ulimit -s 1024     # set the thread stack limit to 1mb
     # ulimit -s          # check that it worked
