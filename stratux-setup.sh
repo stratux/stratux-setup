@@ -383,24 +383,9 @@ git checkout $tag
 make all
 make install
 
-#### sanity checks
+#### minimal sanity checks
 if [ ! -f "/usr/bin/gen_gdl90" ]; then
     echo "${BOLD}${RED}ERROR - gen_gdl90 file missing, exiting...${WHITE}${NORMAL}"
-    exit
-fi
-
-if [ ! -f "/etc/init.d/stratux" ]; then
-    echo "${BOLD}${RED}ERROR - stratux file missing, exiting...${WHITE}${NORMAL}"
-    exit
-fi
-
-if [ ! -f "/etc/rc2.d/S01stratux" ]; then
-    echo "${BOLD}${RED}ERROR - S01stratux link file missing, exiting...${WHITE}${NORMAL}"
-    exit
-fi
-
-if [ ! -f "/etc/rc6.d/K01stratux" ]; then
-    echo "${BOLD}${RED}ERROR - K01stratux link file missing, exiting...${WHITE}${NORMAL}"
     exit
 fi
 
