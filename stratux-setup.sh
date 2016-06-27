@@ -211,7 +211,7 @@ echo "${GREEN}...done${WHITE}"
 echo
 echo "${YELLOW}**** SSH setup and config... *****${WHITE}"
 
-if [ ! -d "$DIRECTORY" ]; then
+if [ ! -d /etc/ssh/authorized_keys ]; then
     mkdir -p /etc/ssh/authorized_keys
 fi
 
