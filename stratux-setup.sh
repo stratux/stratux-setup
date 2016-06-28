@@ -492,18 +492,36 @@ echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 
 
 ##############################################################
+## Copying motd file
+##############################################################
+echo
+echo "${YELLOW}**** Copying motd file... *****${WHITE}"
+
+cp ${SCRIPTDIR}/files/motd /etc/motd
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
+## Copying fancontrol.py file
+##############################################################
+echo
+echo "${YELLOW}**** Copying fancontrol.py file... *****${WHITE}"
+
+chmod 755 ${SCRIPTDIR}/files/fancontrol.py
+cp ${SCRIPTDIR}/files/fancontrol.py /root/fancontrol.py
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
 ## Copying the hostapd_manager.sh utility
 ##############################################################
 echo
 echo "${YELLOW}**** Copying the hostapd_manager.sh utility... *****${WHITE}"
 
-#if [ -f /root/stratux/image/hostapd_manager.sh ]; then
-#    chmod 755 /root/stratux/image/hostapd_manager.sh
-#    cp /root/stratux/image/hostapd_manager.sh /usr/bin/hostapd_manager.sh
-#else
 chmod 755 ${SCRIPTDIR}/files/hostapd_manager.sh
 cp ${SCRIPTDIR}/files/hostapd_manager.sh /usr/bin/hostapd_manager.sh
-#fi
 
 echo "${GREEN}...done${WHITE}"
 
