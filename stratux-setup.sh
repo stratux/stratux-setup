@@ -154,6 +154,7 @@ apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y pkg-config
+apt-get purge golang*
 
 echo "${GREEN}...done${WHITE}"
 
@@ -318,6 +319,12 @@ if [ "$MACHINE" == "$ARM6L" ] || [ "$MACHINE" == "$ARM7L" ]; then
         echo "${BOLD}${RED}ERROR - go folder doesn't exist, exiting...${WHITE}${NORMAL}"
         exit
     fi
+
+#    if [ "$MACHINE" == "$ARM6L" ]; then
+#        export GOARM=6
+#    else
+#        export GOARM=7
+#    then
 elif [ "$MACHINE" == "$ARM64" ]; then
     # ulimit -s 1024     # set the thread stack limit to 1mb
     # ulimit -s          # check that it worked
@@ -485,18 +492,36 @@ echo "${YELLOW}**** WiFi Access Point setup... *****${WHITE}"
 
 
 ##############################################################
+## Copying motd file
+##############################################################
+echo
+echo "${YELLOW}**** Copying motd file... *****${WHITE}"
+
+cp ${SCRIPTDIR}/files/motd /etc/motd
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
+## Copying fancontrol.py file
+##############################################################
+echo
+echo "${YELLOW}**** Copying fancontrol.py file... *****${WHITE}"
+
+chmod 755 ${SCRIPTDIR}/files/fancontrol.py
+cp ${SCRIPTDIR}/files/fancontrol.py /usr/bin/fancontrol.py
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
 ## Copying the hostapd_manager.sh utility
 ##############################################################
 echo
 echo "${YELLOW}**** Copying the hostapd_manager.sh utility... *****${WHITE}"
 
-#if [ -f /root/stratux/image/hostapd_manager.sh ]; then
-#    chmod 755 /root/stratux/image/hostapd_manager.sh
-#    cp /root/stratux/image/hostapd_manager.sh /usr/bin/hostapd_manager.sh
-#else
 chmod 755 ${SCRIPTDIR}/files/hostapd_manager.sh
 cp ${SCRIPTDIR}/files/hostapd_manager.sh /usr/bin/hostapd_manager.sh
-#fi
 
 echo "${GREEN}...done${WHITE}"
 
