@@ -509,7 +509,7 @@ echo
 echo "${YELLOW}**** Copying fancontrol.py file... *****${WHITE}"
 
 chmod 755 ${SCRIPTDIR}/files/fancontrol.py
-cp ${SCRIPTDIR}/files/fancontrol.py /root/fancontrol.py
+cp ${SCRIPTDIR}/files/fancontrol.py /usr/bin/fancontrol.py
 
 echo "${GREEN}...done${WHITE}"
 
