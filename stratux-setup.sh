@@ -154,7 +154,7 @@ apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y pkg-config
-apt-get purge golang*
+#apt-get purge golang*
 
 echo "${GREEN}...done${WHITE}"
 
