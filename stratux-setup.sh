@@ -432,8 +432,8 @@ echo
 echo "${YELLOW}**** System tweaks... *****${WHITE}"
 
 ##### disable serial console
-if [ -f /etc/inittab ]; then
-    sed -i /etc/inittab -e "s|^.*:.*:respawn:.*ttyAMA0|#&|"
+if [ -f /boot/cmdline.txt ]; then
+    sed -i /boot/cmdline.txt -e "s/console=ttyAMA0,[0-9]\+ //"
 fi
 
 ##### Set the keyboard layout to US.
