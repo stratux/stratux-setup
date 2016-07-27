@@ -104,11 +104,12 @@ echo
 echo "${YELLOW}**** Stop exisiting services... *****${WHITE}"
 
 service stratux stop
+echo "${MAGENTA}stratux service found and stopped...${WHITE}"
 
 if [ -f "/etc/init.d/stratux" ]; then
     # remove old file
     rm -f /etc/init.d/stratux
-    echo "${MAGENTA}stratux service found and stopped...${WHITE}"
+    echo "/etc/init.d/stratux file found and deleted...${WHITE}"
 fi
 
 if [ -f "/etc/init.d/hostapd" ]; then
