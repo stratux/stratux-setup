@@ -288,19 +288,19 @@ if [[ ! "$PATH" =~ "/root/go/bin" ]]; then
     XPATH+=:/root/go/bin
 fi
 
-if [[ ! "$PATH" =~ "/root/gopath/bin" ]]; then
-    XPATH+=:/root/gopath/bin
+if [[ ! "$PATH" =~ "/root/go_path/bin" ]]; then
+    XPATH+=:/root/go_path/bin
 fi
 
 echo export GOROOT_BOOTSTRAP=/root/gobootstrap >>/root/.bashrc
-echo export GOPATH=/root/gopath >>/root/.bashrc
+echo export GOPATH=/root/go_path >>/root/.bashrc
 echo export GOROOT=/root/go >>/root/.bashrc
 echo export PATH=${XPATH} >>/root/.bashrc
 
 export GOROOT_BOOTSTRAP=/root/gobootstrap
-export GOPATH=/root/gopath
+export GOPATH=/root/go_path
 export GOROOT=/root/go
-export PATH=${PATH}:/root/go/bin:/root/gopath/bin
+export PATH=${PATH}:/root/go/bin:/root/go_path/bin
 
 source /root/.bashrc
 
@@ -350,8 +350,8 @@ else
 fi
 
 rm -f go1.*.linux*
-rm -rf /root/gopath
-mkdir -p /root/gopath
+rm -rf /root/go_path
+mkdir -p /root/go_path
 
 echo "${GREEN}...done${WHITE}"
 
