@@ -158,6 +158,14 @@ apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y pkg-config
+apt-get install -y i2c-tools 
+apt-get install -y python-smbus 
+apt-get install -y python-pip 
+apt-get install -y python-dev
+apt-get install -y python-pil
+apt-get install -y screen
+apt-get install -y libjpeg-dev
+
 #apt-get purge golang*
 
 echo "${GREEN}...done${WHITE}"
@@ -530,6 +538,18 @@ echo "${YELLOW}**** Copying the hostapd_manager.sh utility... *****${WHITE}"
 
 chmod 755 ${SCRIPTDIR}/files/hostapd_manager.sh
 cp ${SCRIPTDIR}/files/hostapd_manager.sh /usr/bin/hostapd_manager.sh
+
+echo "${GREEN}...done${WHITE}"
+
+
+##############################################################
+## Copying uavionix rules
+
+##############################################################
+echo
+echo "${YELLOW}**** Copying uavionix rules... *****${WHITE}"
+
+cp ${SCRIPTDIR}/files/99-uavionix.rules /etc/udev/99-uavionix.rules
 
 echo "${GREEN}...done${WHITE}"
 
