@@ -510,6 +510,17 @@ cp ${SCRIPTDIR}/files/motd /etc/motd
 
 echo "${GREEN}...done${WHITE}"
 
+##############################################################
+## Copying rc.local file
+##############################################################
+echo
+echo "${YELLOW}**** Copying rc.local file... *****${WHITE}"
+
+chmod 755 ${SCRIPTDIR}/files/rc.local
+cp ${SCRIPTDIR}/files/rc.local /usr/bin/rc.local
+
+echo "${GREEN}...done${WHITE}"
+
 
 ##############################################################
 ## Copying fancontrol.py file
