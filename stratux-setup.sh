@@ -158,6 +158,8 @@ apt-get install -y automake
 apt-get remove -y hostapd
 apt-get install -y hostapd
 apt-get install -y pkg-config
+apt-get install -y libjpeg-dev i2c-tools python-smbus python-pip python-dev python-pil python-daemon screen
+pip install wiringpi
 #apt-get purge golang*
 
 echo "${GREEN}...done${WHITE}"
