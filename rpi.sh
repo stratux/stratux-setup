@@ -46,6 +46,14 @@ if [ "$REVISION" == "$RPI3BxREV" ] || [ "$REVISION" == "$RPI3ByREV" ]; then
     fi
 fi
 
+if ! grep -q "dtparam=act_led_trigger=none" "/boot/config.txt"; then
+    echo "dtparam=act_led_trigger=none" >>/boot/config.txt
+fi
+
+if ! grep -q "dtparam=act_led_activelow=off" "/boot/config.txt"; then
+    echo "dtparam=act_led_activelow=off" >>/boot/config.txt
+fi
+
 #echo "arm_freq=900" >>boot/config.txt
 #echo "sdram_freq=450" >>boot/config.txt
 #echo "core_freq=450" >>boot/config.txt
