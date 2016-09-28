@@ -515,13 +515,13 @@ echo "${GREEN}...done${WHITE}"
 ##############################################################
 ## Copying rc.local file
 ##############################################################
-echo
-echo "${YELLOW}**** Copying rc.local file... *****${WHITE}"
+#echo
+#echo "${YELLOW}**** Copying rc.local file... *****${WHITE}"
 
-chmod 755 ${SCRIPTDIR}/files/rc.local
-cp ${SCRIPTDIR}/files/rc.local /usr/bin/rc.local
+#chmod 755 ${SCRIPTDIR}/files/rc.local
+#cp ${SCRIPTDIR}/files/rc.local /usr/bin/rc.local
 
-echo "${GREEN}...done${WHITE}"
+#echo "${GREEN}...done${WHITE}"
 
 
 ##############################################################
