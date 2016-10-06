@@ -137,6 +137,7 @@ if [ "$REVISION" == "$RPI2BxREV" ] || [ "$REVISION" == "$RPI2ByREV" ]  || [ "$RE
 fi
 
 apt-get update
+apt-mark hold plymouth
 apt-get dist-upgrade -y
 apt-get upgrade -y
 apt-get install -y git
