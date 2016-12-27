@@ -560,7 +560,7 @@ echo
 echo "${YELLOW}**** Disable ntpd autostart... *****${WHITE}"
 
 if which ntp >/dev/null; then
-    systemctl disbable ntp
+    systemctl disable ntp
 fi
 
 echo "${GREEN}...done${WHITE}"
