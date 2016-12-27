@@ -397,6 +397,10 @@ tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 # checkout the latest release
 git checkout $tag
 
+#### install go-sqlite3 (speeds up Stratux builds).
+go get github.com/mattn/go-sqlite3
+go install github.com/mattn/go-sqlite3
+
 make all
 make install
 
